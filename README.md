@@ -1,18 +1,61 @@
-## Getting Started
+# Compiler Project
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+This is a college compiler project for the Compiler and Interpreter course at ITCR (Instituto Tecnológico de Costa Rica).
 
-## Folder Structure
+## Table of Contents
 
-The workspace contains two folders by default, where:
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Contributors](#contributors)
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+## Introduction
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+This project is developed as part of the Compiler and Interpreter course at ITCR. The goal of the project is to build a simple compiler that can lexically analyze, parse, and generate intermediate code for a subset of the C programming language.
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+This first version just involved the scanner.
 
-## Dependency Management
+## Installation
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+To build and run the project, you need to have Java installed on your system. Follow these steps to set up the project:
+
+1. Clone the repository:
+```sh
+    git clone https://github.com/AlonsoNav/CCompilerJFlex.git
+    cd your-repo
+```
+
+2. Generate the CLexer file:
+```sh
+    java -jar lib/jflex-full-1.9.1.jar src/scanner/CLexer.flex
+```
+
+3. Compile the project:
+```sh
+    javac -d bin -sourcepath src src/app/Main.java src/scanner/CLexer.java src/scanner/Tokens.java
+```
+
+## Usage
+
+To run the compiler with an input file, use the following command:
+```sh
+java -cp bin app.Main input.c
+```
+
+## Project Structure
+
+This project is organized as follows:
+
+- **src/**: Contains the source code.
+  - **app/**: Contains the main application code.
+  - **scanner/**: Contains the lexer and token definitions.
+- **bin/**: Contains the compiled bytecode.
+- **docs/**: Here you can check more information about the project.
+- **input.c**: Example input file for testing the lexer.
+- **README.md**: This file, containing information about the project.
+
+## Contributors
+
+- [@ScarloVM](https://github.com/ScarloVM)
+- [@Rocket310](https://github.com/Rocket310)
