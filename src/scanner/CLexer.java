@@ -64,9 +64,11 @@ public class CLexer {
     "\11\0\1\1\1\2\2\3\1\2\22\0\1\1\7\0"+
     "\1\4\1\5\1\6\1\7\1\0\1\10\1\0\1\11"+
     "\12\12\1\0\1\13\5\0\32\14\4\0\1\14\1\0"+
-    "\1\15\3\14\1\16\1\17\2\14\1\20\2\14\1\21"+
-    "\1\14\1\22\1\23\3\14\1\24\1\25\6\14\1\26"+
-    "\1\0\1\27\7\0\1\3\u01a2\0\2\3\326\0\u0100\3";
+    "\1\15\1\16\1\17\1\20\1\21\1\22\1\23\1\24"+
+    "\1\25\1\14\1\26\1\27\1\30\1\31\1\32\1\33"+
+    "\1\14\1\34\1\35\1\36\1\37\1\40\1\41\1\42"+
+    "\1\43\1\44\1\45\1\0\1\46\7\0\1\3\u01a2\0"+
+    "\2\3\326\0\u0100\3";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[1024];
@@ -94,12 +96,12 @@ public class CLexer {
 
   private static final String ZZ_ACTION_PACKED_0 =
     "\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7"+
-    "\1\10\1\11\1\12\4\13\1\14\1\15\1\0\1\16"+
-    "\2\13\1\17\1\13\1\0\2\13\1\20\1\21\1\22"+
-    "\1\13\1\23";
+    "\1\10\1\11\1\12\20\13\1\14\1\15\1\0\1\2"+
+    "\6\13\1\16\4\13\1\16\13\13\1\0\30\13\1\2"+
+    "\27\13";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[31];
+    int [] result = new int[103];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -124,13 +126,22 @@ public class CLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\30\0\60\0\30\0\30\0\30\0\30\0\30"+
-    "\0\110\0\140\0\30\0\170\0\220\0\250\0\300\0\30"+
-    "\0\30\0\330\0\360\0\u0108\0\u0120\0\170\0\u0138\0\u0150"+
-    "\0\u0168\0\u0180\0\170\0\30\0\170\0\u0198\0\170";
+    "\0\0\0\47\0\116\0\47\0\47\0\47\0\47\0\47"+
+    "\0\165\0\234\0\47\0\303\0\352\0\u0111\0\u0138\0\u015f"+
+    "\0\u0186\0\u01ad\0\u01d4\0\u01fb\0\u0222\0\u0249\0\u0270\0\u0297"+
+    "\0\u02be\0\u02e5\0\u030c\0\47\0\47\0\u0333\0\u035a\0\u0381"+
+    "\0\u03a8\0\u03cf\0\u03f6\0\u041d\0\u0444\0\u046b\0\u0492\0\u04b9"+
+    "\0\u04e0\0\u0507\0\303\0\u052e\0\u0555\0\u057c\0\u05a3\0\u05ca"+
+    "\0\u05f1\0\u0618\0\u063f\0\u0666\0\u068d\0\u06b4\0\u06db\0\u0702"+
+    "\0\u0729\0\u0750\0\u0777\0\u079e\0\u07c5\0\u07ec\0\u0813\0\u083a"+
+    "\0\u0861\0\u0888\0\u08af\0\u08d6\0\u08fd\0\u0924\0\u094b\0\u0972"+
+    "\0\u0999\0\u09c0\0\u09e7\0\u0a0e\0\u0a35\0\u0a5c\0\u0a83\0\47"+
+    "\0\u0aaa\0\u0ad1\0\u0af8\0\u0b1f\0\u0b46\0\u0b6d\0\u0b94\0\u0bbb"+
+    "\0\u0be2\0\u0c09\0\u0c30\0\u0c57\0\u0c7e\0\u0ca5\0\u0ccc\0\u0cf3"+
+    "\0\u0d1a\0\u0d41\0\u0d68\0\u0d8f\0\u0db6\0\u0ddd\0\u0e04";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[31];
+    int [] result = new int[103];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -154,21 +165,82 @@ public class CLexer {
 
   private static final String ZZ_TRANS_PACKED_0 =
     "\1\2\2\3\1\0\1\4\1\5\1\6\1\7\1\10"+
-    "\1\11\1\12\1\13\2\14\1\15\1\16\1\17\5\14"+
-    "\1\20\1\21\31\0\2\3\33\0\1\22\2\0\1\23"+
-    "\30\0\1\12\27\0\1\14\1\0\12\14\14\0\1\14"+
-    "\1\0\5\14\1\24\4\14\14\0\1\14\1\0\5\14"+
-    "\1\25\4\14\14\0\1\14\1\0\3\14\1\26\2\14"+
-    "\1\27\3\14\2\0\6\22\1\30\21\22\2\23\2\0"+
-    "\24\23\12\0\1\14\1\0\10\14\1\31\1\14\14\0"+
-    "\1\14\1\0\7\14\1\32\2\14\14\0\1\14\1\0"+
-    "\11\14\1\33\2\0\6\22\1\30\2\22\1\34\16\22"+
-    "\12\0\1\14\1\0\2\14\1\35\7\14\14\0\1\14"+
-    "\1\0\1\14\1\36\10\14\14\0\1\14\1\0\11\14"+
-    "\1\37\2\0";
+    "\1\11\1\12\1\13\1\14\1\15\1\16\1\17\1\20"+
+    "\1\21\1\22\1\23\1\14\1\24\1\14\1\25\4\14"+
+    "\1\26\1\27\1\30\1\31\1\32\1\33\3\14\1\34"+
+    "\1\35\50\0\2\3\52\0\1\36\2\0\1\37\47\0"+
+    "\1\12\46\0\1\14\1\0\31\14\14\0\1\14\1\0"+
+    "\23\14\1\40\5\14\14\0\1\14\1\0\20\14\1\41"+
+    "\10\14\14\0\1\14\1\0\1\14\1\42\6\14\1\43"+
+    "\5\14\1\44\12\14\14\0\1\14\1\0\5\14\1\45"+
+    "\10\14\1\46\12\14\14\0\1\14\1\0\13\14\1\42"+
+    "\1\14\1\47\10\14\1\50\2\14\14\0\1\14\1\0"+
+    "\13\14\1\51\2\14\1\52\12\14\14\0\1\14\1\0"+
+    "\16\14\1\40\12\14\14\0\1\14\1\0\6\14\1\53"+
+    "\6\14\1\54\13\14\14\0\1\14\1\0\16\14\1\55"+
+    "\12\14\14\0\1\14\1\0\5\14\1\56\23\14\14\0"+
+    "\1\14\1\0\10\14\1\57\1\60\10\14\1\61\2\14"+
+    "\1\62\3\14\14\0\1\14\1\0\27\14\1\63\1\14"+
+    "\14\0\1\14\1\0\15\14\1\64\13\14\14\0\1\14"+
+    "\1\0\16\14\1\65\12\14\14\0\1\14\1\0\10\14"+
+    "\1\66\20\14\2\0\6\36\1\67\40\36\2\37\2\0"+
+    "\43\37\12\0\1\14\1\0\22\14\1\70\6\14\14\0"+
+    "\1\14\1\0\5\14\1\71\23\14\14\0\1\14\1\0"+
+    "\21\14\1\72\7\14\14\0\1\14\1\0\1\14\1\52"+
+    "\27\14\14\0\1\14\1\0\15\14\1\73\13\14\14\0"+
+    "\1\14\1\0\6\14\1\74\22\14\14\0\1\14\1\0"+
+    "\23\14\1\75\5\14\14\0\1\14\1\0\23\14\1\76"+
+    "\5\14\14\0\1\14\1\0\22\14\1\77\6\14\14\0"+
+    "\1\14\1\0\16\14\1\100\12\14\14\0\1\14\1\0"+
+    "\20\14\1\53\10\14\14\0\1\14\1\0\22\14\1\53"+
+    "\6\14\14\0\1\14\1\0\15\14\1\101\13\14\14\0"+
+    "\1\14\1\0\7\14\1\102\12\14\1\103\6\14\14\0"+
+    "\1\14\1\0\16\14\1\104\12\14\14\0\1\14\1\0"+
+    "\7\14\1\105\20\14\1\106\14\0\1\14\1\0\1\14"+
+    "\1\107\16\14\1\110\10\14\14\0\1\14\1\0\11\14"+
+    "\1\111\17\14\14\0\1\14\1\0\17\14\1\112\11\14"+
+    "\14\0\1\14\1\0\11\14\1\113\7\14\1\114\7\14"+
+    "\14\0\1\14\1\0\11\14\1\115\1\14\1\116\15\14"+
+    "\14\0\1\14\1\0\11\14\1\117\17\14\2\0\6\36"+
+    "\1\67\2\36\1\120\35\36\12\0\1\14\1\0\16\14"+
+    "\1\53\12\14\14\0\1\14\1\0\1\14\1\121\27\14"+
+    "\14\0\1\14\1\0\5\14\1\53\23\14\14\0\1\14"+
+    "\1\0\21\14\1\54\1\122\6\14\14\0\1\14\1\0"+
+    "\1\14\1\123\27\14\14\0\1\14\1\0\2\14\1\117"+
+    "\26\14\14\0\1\14\1\0\14\14\1\53\14\14\14\0"+
+    "\1\14\1\0\5\14\1\124\23\14\14\0\1\14\1\0"+
+    "\1\14\1\54\27\14\14\0\1\14\1\0\7\14\1\53"+
+    "\21\14\14\0\1\14\1\0\11\14\1\125\17\14\14\0"+
+    "\1\14\1\0\23\14\1\124\5\14\14\0\1\14\1\0"+
+    "\20\14\1\54\10\14\14\0\1\14\1\0\15\14\1\126"+
+    "\13\14\14\0\1\14\1\0\5\14\1\127\23\14\14\0"+
+    "\1\14\1\0\22\14\1\130\6\14\14\0\1\14\1\0"+
+    "\23\14\1\131\5\14\14\0\1\14\1\0\22\14\1\132"+
+    "\6\14\14\0\1\14\1\0\5\14\1\133\23\14\14\0"+
+    "\1\14\1\0\16\14\1\134\12\14\14\0\1\14\1\0"+
+    "\11\14\1\135\17\14\14\0\1\14\1\0\4\14\1\53"+
+    "\24\14\14\0\1\14\1\0\1\14\1\136\27\14\14\0"+
+    "\1\14\1\0\13\14\1\72\15\14\14\0\1\14\1\0"+
+    "\12\14\1\53\16\14\14\0\1\14\1\0\11\14\1\137"+
+    "\17\14\14\0\1\14\1\0\23\14\1\140\5\14\14\0"+
+    "\1\14\1\0\20\14\1\134\10\14\14\0\1\14\1\0"+
+    "\21\14\1\141\7\14\14\0\1\14\1\0\5\14\1\115"+
+    "\23\14\14\0\1\14\1\0\16\14\1\142\12\14\14\0"+
+    "\1\14\1\0\11\14\1\143\17\14\14\0\1\14\1\0"+
+    "\3\14\1\54\25\14\14\0\1\14\1\0\3\14\1\144"+
+    "\25\14\14\0\1\14\1\0\4\14\1\145\24\14\14\0"+
+    "\1\14\1\0\15\14\1\53\13\14\14\0\1\14\1\0"+
+    "\7\14\1\105\21\14\14\0\1\14\1\0\22\14\1\66"+
+    "\6\14\14\0\1\14\1\0\15\14\1\146\13\14\14\0"+
+    "\1\14\1\0\13\14\1\54\15\14\14\0\1\14\1\0"+
+    "\22\14\1\147\6\14\14\0\1\14\1\0\6\14\1\53"+
+    "\22\14\14\0\1\14\1\0\3\14\1\53\25\14\14\0"+
+    "\1\14\1\0\10\14\1\53\20\14\14\0\1\14\1\0"+
+    "\5\14\1\142\23\14\14\0\1\14\1\0\23\14\1\72"+
+    "\5\14\14\0\1\14\1\0\5\14\1\52\23\14\2\0";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[432];
+    int [] result = new int[3627];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -211,11 +283,11 @@ public class CLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\1\1\5\11\2\1\1\11\4\1\2\11"+
-    "\1\0\5\1\1\0\3\1\1\11\3\1";
+    "\1\0\1\11\1\1\5\11\2\1\1\11\20\1\2\11"+
+    "\1\0\30\1\1\0\30\1\1\11\27\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[31];
+    int [] result = new int[103];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -275,7 +347,6 @@ public class CLexer {
   private int zzFinalHighSurrogate = 0;
 
   /** Number of newlines encountered up to the start of the matched text. */
-  @SuppressWarnings("unused")
   private int yyline;
 
   /** Number of characters from the last newline up to the start of the matched text. */
@@ -595,10 +666,12 @@ public class CLexer {
         case '\u0085':  // fall through
         case '\u2028':  // fall through
         case '\u2029':
+          yyline++;
           yycolumn = 0;
           zzR = false;
           break;
         case '\r':
+          yyline++;
           yycolumn = 0;
           zzR = true;
           break;
@@ -606,6 +679,7 @@ public class CLexer {
           if (zzR)
             zzR = false;
           else {
+            yyline++;
             yycolumn = 0;
           }
           break;
@@ -615,6 +689,26 @@ public class CLexer {
         }
       }
 
+      if (zzR) {
+        // peek one character ahead if it is
+        // (if we have counted one line too much)
+        boolean zzPeek;
+        if (zzMarkedPosL < zzEndReadL)
+          zzPeek = zzBufferL[zzMarkedPosL] == '\n';
+        else if (zzAtEOF)
+          zzPeek = false;
+        else {
+          boolean eof = zzRefill();
+          zzEndReadL = zzEndRead;
+          zzMarkedPosL = zzMarkedPos;
+          zzBufferL = zzBuffer;
+          if (eof)
+            zzPeek = false;
+          else
+            zzPeek = zzBufferL[zzMarkedPosL] == '\n';
+        }
+        if (zzPeek) yyline--;
+      }
       zzAction = -1;
 
       zzCurrentPosL = zzCurrentPos = zzStartRead = zzMarkedPosL;
@@ -685,97 +779,72 @@ public class CLexer {
             { System.err.println("Caracter no reconocido: " + yytext());
             }
           // fall through
-          case 20: break;
+          case 15: break;
           case 2:
-            { /* Ignorar espacios en blanco */
+            { /* Ignore */
             }
           // fall through
-          case 21: break;
+          case 16: break;
           case 3:
             { return Tokens.LPAREN;
             }
           // fall through
-          case 22: break;
+          case 17: break;
           case 4:
             { return Tokens.RPAREN;
             }
           // fall through
-          case 23: break;
+          case 18: break;
           case 5:
             { return Tokens.MULT;
             }
           // fall through
-          case 24: break;
+          case 19: break;
           case 6:
             { return Tokens.PLUS;
             }
           // fall through
-          case 25: break;
+          case 20: break;
           case 7:
             { return Tokens.MINUS;
             }
           // fall through
-          case 26: break;
+          case 21: break;
           case 8:
             { return Tokens.DIV;
             }
           // fall through
-          case 27: break;
+          case 22: break;
           case 9:
             { return Tokens.NUM;
             }
           // fall through
-          case 28: break;
+          case 23: break;
           case 10:
             { return Tokens.SEMICOLON;
             }
           // fall through
-          case 29: break;
+          case 24: break;
           case 11:
             { return Tokens.ID;
             }
           // fall through
-          case 30: break;
+          case 25: break;
           case 12:
             { return Tokens.LBRACE;
             }
           // fall through
-          case 31: break;
+          case 26: break;
           case 13:
             { return Tokens.RBRACE;
             }
           // fall through
-          case 32: break;
+          case 27: break;
           case 14:
-            { /* Ignorar comentarios de una línea */
+            { return Tokens.KEYWORDS;
             }
           // fall through
-          case 33: break;
-          case 15:
-            { return Tokens.IF;
-            }
-          // fall through
-          case 34: break;
-          case 16:
-            { return Tokens.INT;
-            }
-          // fall through
-          case 35: break;
-          case 17:
-            { /* Ignorar comentarios de varias líneas */
-            }
-          // fall through
-          case 36: break;
-          case 18:
-            { return Tokens.ELSE;
-            }
-          // fall through
-          case 37: break;
-          case 19:
-            { return Tokens.FLOAT;
-            }
-          // fall through
-          case 38: break;
+          case 28: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

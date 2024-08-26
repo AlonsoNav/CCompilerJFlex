@@ -1,10 +1,46 @@
+#include <stdio.h>
+
 int main() {
-    int a = 10;
-    float b = 20.5;
-    if (a < b) {
-        a = a + 1;
-    } else {
-        a = a - 1;
+    auto int a = 0;
+    char b = 'c';
+    const double pi = 3.14;
+    enum { RED, GREEN, BLUE } color;
+    extern int externalVar;
+    float f = 1.23;
+    for (int i = 0; i < 10; i++) {
+        if (i % 2 == 0) {
+            continue;
+        } else {
+            break;
+        }
+    }
+    goto label;
+    label:
+    int x = sizeof(int);
+    static int y = 10;
+    struct Point {
+        int x;
+        int y;
+    };
+    switch (color) {
+        case RED:
+            return 0;
+        case GREEN:
+            return 1;
+        case BLUE:
+            return 2;
+        default:
+            return -1;
+    }
+    typedef unsigned long ulong;
+    union Data {
+        int i;
+        float f;
+        char str[20];
+    };
+    volatile int z = 0;
+    while (z < 10) {
+        z++;
     }
     return 0;
 }
