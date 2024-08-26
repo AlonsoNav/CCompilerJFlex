@@ -1,0 +1,76 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage{graphicx}   % Imágenes
+\usepackage{helvet}     % Fuente de letra
+\usepackage[hidelinks]{hyperref}   % Tabla de contenido
+
+\renewcommand{\familydefault}{\sfdefault}
+\renewcommand{\contentsname}{Tabla de contenidos}
+
+% Configuración de la portada
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{0.5cm}
+
+    % Logo de la universidad
+    \includegraphics[width=1\textwidth]{logo-tec.png}\par\vspace{1cm}
+
+    % Nombre de la universidad
+    {\scshape Instituto Tecnológico de Costa Rica\par}
+    \vspace{2cm}
+
+    % Título
+    {\Huge\bfseries Proyecto \#1: Scanner\par}
+    \vspace{2cm}
+
+    % Escuela
+    {\large Escuela de Ingeniería en Computación\par}
+    \vspace{0.5cm}
+
+    % Curso
+    {\large Compiladores e Intérpretes IC-5701\par}
+    \vspace{2cm}
+
+    % Autor
+    {\large Alonso Navarro Carrillo, c. 2022236435\par}
+    \vspace{0.25cm}
+    {\large Carlos, c. \par}
+    \vspace{0.25cm}
+    {\large Valeria, c. \par}
+    \vspace{2cm}
+
+    \vfill
+
+    % Profesor
+    {\large Ing. Ericka Marín Schumann\par}
+    \vspace{0.5cm}
+
+    % Semestre
+    {\small II Semestre 2024\par}
+\end{titlepage}
+
+\tableofcontents\newpage
+
+% Bitácora
+\section{Bitácora}
+
+\subsection*{Fecha: 26-08-2024}
+\begin{itemize}
+    \item 14:00 Se realizó la primera reunión del equipo de trabajo para discutir el proyecto. Se acordó que...
+\end{itemize}
+
+% Bibliografía
+\section{Bibliografía}
+\begin{thebibliography}{9}
+
+\bibitem{examplewebsite}
+Klein, G., Rowe, S., \& Décamps, R. (marzo de 2023).
+\emph{JFlex User’s Manual}.
+JFlex Team.
+En: \url{https://www.jflex.de/manual.html}.
+
+\end{thebibliography}
+
+\end{document}
