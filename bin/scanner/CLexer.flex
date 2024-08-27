@@ -1,67 +1,122 @@
 package scanner;
 
+import java.util.HashMap;
+import java.util.Map;
+
 %%
 %public
 %class CLexer
 %unicode
 %line
 %column
-%type Tokens
+%type Token
+
+%{
+private Map<String, Token> tokenTable = new HashMap<>();
+
+private void addToken(String token, TokenType type) {
+    Token tokenInfo = tokenTable.getOrDefault(token, new Token(token, type));
+    tokenInfo.addOccurrence(yyline + 1);
+    tokenTable.put(token, tokenInfo);
+}
+
+public Map<String, Token> getTokenTable() {
+    return tokenTable;
+}
+%}
 
 %%
 
+/* Spaces */
 [ \t\n\r]+                 { /* Ignore */ }
 
-/* Keywords */
-"auto"                  { return Tokens.KEYWORDS; }
-"break"                 { return Tokens.KEYWORDS; }
-"case"                  { return Tokens.KEYWORDS; }
-"char"                  { return Tokens.KEYWORDS; }
-"const"                 { return Tokens.KEYWORDS; }
-"continue"              { return Tokens.KEYWORDS; }
-"default"               { return Tokens.KEYWORDS; }
-"do"                    { return Tokens.KEYWORDS; }
-"double"                { return Tokens.KEYWORDS; }
-"else"                  { return Tokens.KEYWORDS; }
-"enum"                  { return Tokens.KEYWORDS; }
-"extern"                { return Tokens.KEYWORDS; }
-"float"                 { return Tokens.KEYWORDS; }
-"for"                   { return Tokens.KEYWORDS; }
-"goto"                  { return Tokens.KEYWORDS; }
-"if"                    { return Tokens.KEYWORDS; }
-"int"                   { return Tokens.KEYWORDS; }
-"long"                  { return Tokens.KEYWORDS; }
-"register"              { return Tokens.KEYWORDS; }
-"return"                { return Tokens.KEYWORDS; }
-"short"                 { return Tokens.KEYWORDS; }
-"signed"                { return Tokens.KEYWORDS; }
-"sizeof"                { return Tokens.KEYWORDS; }
-"static"                { return Tokens.KEYWORDS; }
-"struct"                { return Tokens.KEYWORDS; }
-"switch"                { return Tokens.KEYWORDS; }
-"typedef"               { return Tokens.KEYWORDS; }
-"union"                 { return Tokens.KEYWORDS; }
-"unsigned"              { return Tokens.KEYWORDS; }
-"void"                  { return Tokens.KEYWORDS; }
-"volatile"              { return Tokens.KEYWORDS; }
-"while"                 { return Tokens.KEYWORDS; }
-
-[a-zA-Z_][a-zA-Z0-9_]*     { return Tokens.ID; }
-
-[0-9]+                     { return Tokens.NUM; }
-
-"+"                        { return Tokens.PLUS; }
-"-"                        { return Tokens.MINUS; }
-"*"                        { return Tokens.MULT; }
-"/"                        { return Tokens.DIV; }
-
-"("                        { return Tokens.LPAREN; }
-")"                        { return Tokens.RPAREN; }
-"{"                        { return Tokens.LBRACE; }
-"}"                        { return Tokens.RBRACE; }
-";"                        { return Tokens.SEMICOLON; }
-
-"//".*                     { /* Ignore */ }
+/* Comments */
+"//".*                      { /* Ignore */ }
 "/*"([^*]|\*+[^*/])*\*+"/"  { /* Ignore */ }
 
-.                          { System.err.println("Caracter no reconocido: " + yytext()); }
+/* Keywords */
+"auto"                  { addToken(yytext(), TokenType.KEYWORD); }
+"break"                 { addToken(yytext(), TokenType.KEYWORD); }
+"case"                  { addToken(yytext(), TokenType.KEYWORD); }
+"char"                  { addToken(yytext(), TokenType.KEYWORD); }
+"const"                 { addToken(yytext(), TokenType.KEYWORD); }
+"continue"              { addToken(yytext(), TokenType.KEYWORD); }
+"default"               { addToken(yytext(), TokenType.KEYWORD); }
+"do"                    { addToken(yytext(), TokenType.KEYWORD); }
+"double"                { addToken(yytext(), TokenType.KEYWORD); }
+"else"                  { addToken(yytext(), TokenType.KEYWORD); }
+"enum"                  { addToken(yytext(), TokenType.KEYWORD); }
+"extern"                { addToken(yytext(), TokenType.KEYWORD); }
+"float"                 { addToken(yytext(), TokenType.KEYWORD); }
+"for"                   { addToken(yytext(), TokenType.KEYWORD); }
+"goto"                  { addToken(yytext(), TokenType.KEYWORD); }
+"if"                    { addToken(yytext(), TokenType.KEYWORD); }
+"int"                   { addToken(yytext(), TokenType.KEYWORD); }
+"long"                  { addToken(yytext(), TokenType.KEYWORD); }
+"register"              { addToken(yytext(), TokenType.KEYWORD); }
+"return"                { addToken(yytext(), TokenType.KEYWORD); }
+"short"                 { addToken(yytext(), TokenType.KEYWORD); }
+"signed"                { addToken(yytext(), TokenType.KEYWORD); }
+"sizeof"                { addToken(yytext(), TokenType.KEYWORD); }
+"static"                { addToken(yytext(), TokenType.KEYWORD); }
+"struct"                { addToken(yytext(), TokenType.KEYWORD); }
+"switch"                { addToken(yytext(), TokenType.KEYWORD); }
+"typedef"               { addToken(yytext(), TokenType.KEYWORD); }
+"union"                 { addToken(yytext(), TokenType.KEYWORD); }
+"unsigned"              { addToken(yytext(), TokenType.KEYWORD); }
+"void"                  { addToken(yytext(), TokenType.KEYWORD); }
+"volatile"              { addToken(yytext(), TokenType.KEYWORD); }
+"while"                 { addToken(yytext(), TokenType.KEYWORD); }
+
+/* Operators */
+"<<="                   { addToken(yytext(), TokenType.OPERATOR); }
+">>="                   { addToken(yytext(), TokenType.OPERATOR); }
+"+="                    { addToken(yytext(), TokenType.OPERATOR); }
+"-="                    { addToken(yytext(), TokenType.OPERATOR); }
+"*="                    { addToken(yytext(), TokenType.OPERATOR); }
+"/="                    { addToken(yytext(), TokenType.OPERATOR); }
+"&"                     { addToken(yytext(), TokenType.OPERATOR); }
+"^"                     { addToken(yytext(), TokenType.OPERATOR); }
+"|"                     { addToken(yytext(), TokenType.OPERATOR); }
+">>"                    { addToken(yytext(), TokenType.OPERATOR); }
+"<<"                    { addToken(yytext(), TokenType.OPERATOR); }
+"~"                     { addToken(yytext(), TokenType.OPERATOR); }
+"%="                    { addToken(yytext(), TokenType.OPERATOR); }
+"&="                    { addToken(yytext(), TokenType.OPERATOR); }
+"^="                    { addToken(yytext(), TokenType.OPERATOR); }
+"|="                    { addToken(yytext(), TokenType.OPERATOR); }
+"->"                    { addToken(yytext(), TokenType.OPERATOR); }
+"++"                    { addToken(yytext(), TokenType.OPERATOR); }
+"--"                    { addToken(yytext(), TokenType.OPERATOR); }
+"=="                    { addToken(yytext(), TokenType.OPERATOR); }
+">="                    { addToken(yytext(), TokenType.OPERATOR); }
+">"                     { addToken(yytext(), TokenType.OPERATOR); }
+"?"                     { addToken(yytext(), TokenType.OPERATOR); }
+"<="                    { addToken(yytext(), TokenType.OPERATOR); }
+"<"                     { addToken(yytext(), TokenType.OPERATOR); }
+"!="                    { addToken(yytext(), TokenType.OPERATOR); }
+"||"                    { addToken(yytext(), TokenType.OPERATOR); }
+"&&"                    { addToken(yytext(), TokenType.OPERATOR); }
+"!"                     { addToken(yytext(), TokenType.OPERATOR); }
+"="                     { addToken(yytext(), TokenType.OPERATOR); }
+"+"                     { addToken(yytext(), TokenType.OPERATOR); }
+"-"                     { addToken(yytext(), TokenType.OPERATOR); }
+"*"                     { addToken(yytext(), TokenType.OPERATOR); }
+"/"                     { addToken(yytext(), TokenType.OPERATOR); }
+"%"                     { addToken(yytext(), TokenType.OPERATOR); }
+"("                     { addToken(yytext(), TokenType.OPERATOR); }
+")"                     { addToken(yytext(), TokenType.OPERATOR); }
+"["                     { addToken(yytext(), TokenType.OPERATOR); }
+"]"                     { addToken(yytext(), TokenType.OPERATOR); }
+"{"                     { addToken(yytext(), TokenType.OPERATOR); }
+"}"                     { addToken(yytext(), TokenType.OPERATOR); }
+":"                     { addToken(yytext(), TokenType.OPERATOR); }
+"."                     { addToken(yytext(), TokenType.OPERATOR); }
+","                     { addToken(yytext(), TokenType.OPERATOR); }
+";"                     { addToken(yytext(), TokenType.OPERATOR); }
+
+/* Ids */
+[a-zA-Z_][a-zA-Z0-9_]*  { addToken(yytext(), TokenType.ID); }
+
+/* Errors */
+.                       { System.err.println("Character unknown: " + yytext()); }

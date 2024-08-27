@@ -33,7 +33,7 @@ To build and run the project, you need to have Java installed on your system. Fo
 
 3. Compile the project:
 ```sh
-    javac -d bin -sourcepath src src/app/Main.java src/scanner/CLexer.java src/scanner/Tokens.java
+   javac -d bin -sourcepath src src/app/Main.java src/scanner/CLexer.java .\src\scanner\Token.java .\src\scanner\TokenType.java 
 ```
 
 ## Usage
