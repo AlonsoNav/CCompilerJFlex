@@ -50,16 +50,54 @@ package scanner;
 
 [0-9]+                     { return Tokens.NUM; }
 
-"+"                        { return Tokens.PLUS; }
-"-"                        { return Tokens.MINUS; }
-"*"                        { return Tokens.MULT; }
-"/"                        { return Tokens.DIV; }
+/* Operadores */
 
-"("                        { return Tokens.LPAREN; }
-")"                        { return Tokens.RPAREN; }
-"{"                        { return Tokens.LBRACE; }
-"}"                        { return Tokens.RBRACE; }
-";"                        { return Tokens.SEMICOLON; }
+","                     { return Tokens.OPERATOR; }
+";"                     { return Tokens.OPERATOR; }
+"++"                    { return Tokens.OPERATOR; }
+"--"                    { return Tokens.OPERATOR; }
+"=="                    { return Tokens.OPERATOR; }
+">="                    { return Tokens.OPERATOR; }
+">"                     { return Tokens.OPERATOR; }
+"?"                     { return Tokens.OPERATOR; }
+"<="                    { return Tokens.OPERATOR; }
+"<"                     { return Tokens.OPERATOR; }
+"!="                    { return Tokens.OPERATOR; }
+"||"                    { return Tokens.OPERATOR; }
+"&&"                    { return Tokens.OPERATOR; }
+"!"                     { return Tokens.OPERATOR; }
+"="                     { return Tokens.OPERATOR; }
+"+"                     { return Tokens.OPERATOR; }
+"-"                     { return Tokens.OPERATOR; }
+"*"                     { return Tokens.OPERATOR; }
+"/"                     { return Tokens.OPERATOR; }
+"%"                     { return Tokens.OPERATOR; }
+"("                     { return Tokens.OPERATOR; }
+")"                     { return Tokens.OPERATOR; }
+"["                     { return Tokens.OPERATOR; }
+"]"                     { return Tokens.OPERATOR; }
+"{"                     { return Tokens.OPERATOR; }
+"}"                     { return Tokens.OPERATOR; }
+":"                     { return Tokens.OPERATOR; }
+"."                     { return Tokens.OPERATOR; }
+"+="                    { return Tokens.OPERATOR; }
+"-="                    { return Tokens.OPERATOR; }
+"*="                    { return Tokens.OPERATOR; }
+"/="                    { return Tokens.OPERATOR; }
+"&"                     { return Tokens.OPERATOR; }
+"^"                     { return Tokens.OPERATOR; }
+"|"                     { return Tokens.OPERATOR; }
+">>"                    { return Tokens.OPERATOR; }
+"<<"                    { return Tokens.OPERATOR; }
+"~"                     { return Tokens.OPERATOR; }
+"%="                    { return Tokens.OPERATOR; }
+"&="                    { return Tokens.OPERATOR; }
+"^="                    { return Tokens.OPERATOR; }
+"|="                    { return Tokens.OPERATOR; }
+"<<="                   { return Tokens.OPERATOR; }
+">>="                   { return Tokens.OPERATOR; }
+"->"                    { return Tokens.OPERATOR; }
+
 
 "//".*                     { /* Ignore */ }
 "/*"([^*]|\*+[^*/])*\*+"/"  { /* Ignore */ }
