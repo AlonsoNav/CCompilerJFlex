@@ -52,8 +52,23 @@ package scanner;
 
 /* Operadores */
 
-","                     { return Tokens.OPERATOR; }
-";"                     { return Tokens.OPERATOR; }
+"<<="                   { return Tokens.OPERATOR; }
+">>="                   { return Tokens.OPERATOR; }
+"+="                    { return Tokens.OPERATOR; }
+"-="                    { return Tokens.OPERATOR; }
+"*="                    { return Tokens.OPERATOR; }
+"/="                    { return Tokens.OPERATOR; }
+"&"                     { return Tokens.OPERATOR; }
+"^"                     { return Tokens.OPERATOR; }
+"|"                     { return Tokens.OPERATOR; }
+">>"                    { return Tokens.OPERATOR; }
+"<<"                    { return Tokens.OPERATOR; }
+"~"                     { return Tokens.OPERATOR; }
+"%="                    { return Tokens.OPERATOR; }
+"&="                    { return Tokens.OPERATOR; }
+"^="                    { return Tokens.OPERATOR; }
+"|="                    { return Tokens.OPERATOR; }
+"->"                    { return Tokens.OPERATOR; }
 "++"                    { return Tokens.OPERATOR; }
 "--"                    { return Tokens.OPERATOR; }
 "=="                    { return Tokens.OPERATOR; }
@@ -80,23 +95,8 @@ package scanner;
 "}"                     { return Tokens.OPERATOR; }
 ":"                     { return Tokens.OPERATOR; }
 "."                     { return Tokens.OPERATOR; }
-"+="                    { return Tokens.OPERATOR; }
-"-="                    { return Tokens.OPERATOR; }
-"*="                    { return Tokens.OPERATOR; }
-"/="                    { return Tokens.OPERATOR; }
-"&"                     { return Tokens.OPERATOR; }
-"^"                     { return Tokens.OPERATOR; }
-"|"                     { return Tokens.OPERATOR; }
-">>"                    { return Tokens.OPERATOR; }
-"<<"                    { return Tokens.OPERATOR; }
-"~"                     { return Tokens.OPERATOR; }
-"%="                    { return Tokens.OPERATOR; }
-"&="                    { return Tokens.OPERATOR; }
-"^="                    { return Tokens.OPERATOR; }
-"|="                    { return Tokens.OPERATOR; }
-"<<="                   { return Tokens.OPERATOR; }
-">>="                   { return Tokens.OPERATOR; }
-"->"                    { return Tokens.OPERATOR; }
+","                     { return Tokens.OPERATOR; }
+";"                     { return Tokens.OPERATOR; }
 
 
 "//".*                     { /* Ignore */ }

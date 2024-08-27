@@ -18,7 +18,7 @@ public class Main {
             CLexer lexer = new CLexer(new FileReader(inputFile));
             Tokens token;
             while ((token = lexer.yylex()) != null) {
-                System.out.println("Token: " + token);
+                System.out.println("Tipo Token: " + token + " - Token: " + lexer.yytext());
             }
         } catch (IOException e) {
             e.printStackTrace();
