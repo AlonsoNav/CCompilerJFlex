@@ -5,6 +5,7 @@ import scanner.Token;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class Main {
     public static void main(String[] args) {
@@ -22,17 +23,40 @@ public class Main {
             }
             Map<String, Token> tokenTable = lexer.getTokenTable();
             System.out.println("Si entró y " + tokenTable.size());
+
+            // Encabezado de la tabla
+            String format = "| %-10s | %-15s | %-40s |%n";
+            String separator = "+------------+-----------------+------------------------------------------+";
+
+            System.out.println(separator);
+            System.out.printf(format, "Token", "Tipo de Token", "Linea");
+            System.out.println(separator);
+
+            // Imprimir cada token
             for (Map.Entry<String, Token> entry : tokenTable.entrySet()) {
                 Token tokenInfo = entry.getValue();
-                System.out.print(entry.getKey() + " -> " + tokenInfo.type + " -> ");
-                for (Map.Entry<Integer, Integer> lineEntry : tokenInfo.lines.entrySet()) {
+
+                // Usar TreeMap para asegurar que las líneas estén ordenadas
+                Map<Integer, Integer> sortedLines = new TreeMap<>(tokenInfo.lines);
+                StringBuilder linesInfo = new StringBuilder();
+
+                for (Map.Entry<Integer, Integer> lineEntry : sortedLines.entrySet()) {
+                    int line = lineEntry.getKey();
                     int count = lineEntry.getValue();
-                    if (count == 1) 
-                        System.out.print(lineEntry.getKey() + ", ");
-                    else
-                        System.out.print(lineEntry.getKey() + "(" + lineEntry.getValue() + "), ");
+                    if (count == 1) {
+                        linesInfo.append(line).append(", ");
+                    } else {
+                        linesInfo.append(line).append("(").append(count).append("), ");
+                    }
                 }
-                System.out.println();
+
+                // Remover la última coma y espacio
+                if (linesInfo.length() > 0) {
+                    linesInfo.setLength(linesInfo.length() - 2);
+                }
+
+                // Imprimir la fila del token
+                System.out.printf(format, entry.getKey(), tokenInfo.type, linesInfo.toString());
             }
         } catch (IOException e) {
             e.printStackTrace();
