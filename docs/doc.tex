@@ -3,6 +3,14 @@
 \usepackage{graphicx}   % Imágenes
 \usepackage{helvet}     % Fuente de letra
 \usepackage[hidelinks]{hyperref}   % Tabla de contenido
+\usepackage{url}
+\usepackage{etoolbox}
+\usepackage{setspace}   % Interlineado
+
+% Eliminar título de la bibliografía
+\patchcmd{\thebibliography}{\section*{\refname}}{}{}{}
+
+\onehalfspacing
 
 \renewcommand{\familydefault}{\sfdefault}
 \renewcommand{\contentsname}{Tabla de contenidos}
@@ -27,7 +35,6 @@
 
     % Escuela
     {\large Escuela de Ingeniería en Computación\par}
-    \vspace{0.5cm}
 
     % Curso
     {\large Compiladores e Intérpretes IC-5701\par}
@@ -45,24 +52,68 @@
 
     % Profesor
     {\large Ing. Ericka Marín Schumann\par}
-    \vspace{0.5cm}
 
     % Semestre
-    {\small II Semestre 2024\par}
+    {II Semestre 2024\par}
 \end{titlepage}
 
 \tableofcontents\newpage
 
+% Introducción
+\section*{Introducción}
+\addcontentsline{toc}{section}{Introducción}
+
+% Estrategia de solución
+\section*{Estrategia de solución}
+\addcontentsline{toc}{section}{Estrategia de solución}
+\begin{flushleft}
+    \hspace*{2em} Después de leer extensamente la documentación 
+    de JFlex, se comenzó a diseñar las expresiones regulares 
+    de los tokens que el scanner debía reconocer. Aquí surgió 
+    el primer problema: el scanner reconoce tokens según la 
+    prioridad de orden. Es decir, si la primera expresión 
+    regular es un punto, no se reconocerá ningún otro token, 
+    ya que este metacaracter coincidiría con cualquier 
+    carácter, identificándolo como un error.
+\end{flushleft}
+
+% Análisis de resultados
+\section*{Análisis de resultados}
+\addcontentsline{toc}{section}{Análisis de resultados}
+
+% Lecciones aprendidas
+\section*{Lecciones aprendidas}
+\addcontentsline{toc}{section}{Lecciones aprendidas}
+
+% Casos de prueba
+\section*{Casos de prueba}
+\addcontentsline{toc}{section}{Casos de prueba}
+
+% Manual de usuario
+\section*{Manual de usuario}
+\addcontentsline{toc}{section}{Manual de usuario}
+
 % Bitácora
-\section{Bitácora}
+\section*{Bitácora}
+\addcontentsline{toc}{section}{Bitácora}
 
 \subsection*{Fecha: 26-08-2024}
-\begin{itemize}
-    \item 14:00 Se realizó la primera reunión del equipo de trabajo para discutir el proyecto. Se acordó que...
-\end{itemize}
+\begin{flushleft}
+    \hspace*{2em} En la primera reunión del equipo de trabajo,
+    se acordó que CV se encargará de los expresiones regulares
+    de los operadores y del formato de impresión de la tabla.
+    AN diseñará la estructura de los tokens y sus errores, 
+    así como las expresiones regulares de los identificadores
+    y palabras reservadas. VG se responsabilizará de los 
+    literales. Además, se decidió que la documentación se 
+    realizará en LaTeX y que GitHub será utilizado como 
+    sistema de control de versiones.
+\end{flushleft}
 
 % Bibliografía
-\section{Bibliografía}
+\newpage
+\section*{Bibliografía}
+\addcontentsline{toc}{section}{Bibliografía}
 \begin{thebibliography}{9}
 
 \bibitem{examplewebsite}
