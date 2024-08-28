@@ -18,12 +18,12 @@ public class Main {
 
         try {
             CLexer lexer = new CLexer(new FileReader(inputFile));
+            System.out.println("Errors: ");
             while (lexer.yylex() != null) { // proccess the tokens and terminate when eof
                 
             }
             Map<String, Token> tokenTable = lexer.getTokenTable();
-            System.out.println("Si entró y " + tokenTable.size());
-
+            
             // Encabezado de la tabla
             String format = "| %-10s | %-15s | %-40s |%n";
             String separator = "+------------+-----------------+------------------------------------------+";

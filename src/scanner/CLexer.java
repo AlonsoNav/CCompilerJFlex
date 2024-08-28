@@ -796,7 +796,7 @@ public Map<String, Token> getTokenTable() {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { System.err.println("Character unknown: " + yytext());
+            { System.err.println("Character unknown: " + yytext() + " in " + (yyline+1));
             }
           // fall through
           case 6: break;

@@ -119,4 +119,4 @@ public Map<String, Token> getTokenTable() {
 [a-zA-Z_][a-zA-Z0-9_]*  { addToken(yytext(), TokenType.ID); }
 
 /* Errors */
-.                       { System.err.println("Character unknown: " + yytext()); }
+.                       { System.err.println("Character unknown: " + yytext() + " in " + (yyline+1)); }
