@@ -6,6 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Comparator;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Main {
     public static void main(String[] args) {
@@ -23,6 +27,21 @@ public class Main {
                 
             }
             Map<String, Token> tokenTable = lexer.getTokenTable();
+
+            // Sort tokens by type and then by lexeme
+            List<Map.Entry<String, Token>> tokenList = new ArrayList<>(tokenTable.entrySet());
+            Comparator<Map.Entry<String, Token>> tokenComparator = new Comparator<Map.Entry<String, Token>>() {
+                @Override
+                public int compare(Map.Entry<String, Token> entry1, Map.Entry<String, Token> entry2) {
+                    int typeComparison = entry1.getValue().type.compareTo(entry2.getValue().type);
+                    if (typeComparison != 0) {
+                        return typeComparison;
+                    }
+                    return entry1.getKey().compareTo(entry2.getKey());
+                }
+            };
+
+            Collections.sort(tokenList, tokenComparator);
             
             // Encabezado de la tabla
             String format = "| %-10s | %-15s | %-40s |%n";
@@ -33,7 +52,7 @@ public class Main {
             System.out.println(separator);
 
             // Imprimir cada token
-            for (Map.Entry<String, Token> entry : tokenTable.entrySet()) {
+            for (Map.Entry<String, Token> entry : tokenList) {
                 Token tokenInfo = entry.getValue();
 
                 // Usar TreeMap para asegurar que las líneas estén ordenadas
