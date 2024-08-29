@@ -42,8 +42,8 @@ public class Main {
             };
 
             Collections.sort(tokenList, tokenComparator);
-            
-            // Encabezado de la tabla
+
+            // Table header
             String format = "| %-10s | %-15s | %-40s |%n";
             String separator = "+------------+-----------------+------------------------------------------+";
 
@@ -51,11 +51,14 @@ public class Main {
             System.out.printf(format, "Token", "Tipo de Token", "Linea");
             System.out.println(separator);
 
-            // Imprimir cada token
+
+            int maxLineLenght = 40; //max line lenght of the line column
+
+            // Print each token
             for (Map.Entry<String, Token> entry : tokenList) {
                 Token tokenInfo = entry.getValue();
 
-                // Usar TreeMap para asegurar que las líneas estén ordenadas
+                // Use TreeMap to ensure that lines are ordered
                 Map<Integer, Integer> sortedLines = new TreeMap<>(tokenInfo.lines);
                 StringBuilder linesInfo = new StringBuilder();
 
@@ -69,13 +72,28 @@ public class Main {
                     }
                 }
 
-                // Remover la última coma y espacio
+                // Remove the last comma and space
                 if (linesInfo.length() > 0) {
                     linesInfo.setLength(linesInfo.length() - 2);
                 }
 
-                // Imprimir la fila del token
-                System.out.printf(format, entry.getKey(), tokenInfo.type, linesInfo.toString());
+                // Split the line column in multiple lines if it is too long
+                String lineOutput = linesInfo.toString();
+                int start = 0; // Start index of the substring
+                boolean firstLine = true;
+                while (start < lineOutput.length()) {
+                    int end = Math.min(start + maxLineLenght, lineOutput.length());
+                    String linePart = lineOutput.substring(start, end);
+
+                    if (firstLine) {
+                        System.out.printf(format, entry.getKey(), tokenInfo.type, linePart);
+                        firstLine = false;
+                    } else {
+                        System.out.printf(format,"", "", linePart);
+                    }
+                    start = end;
+                }
+                System.out.println(separator);
             }
         } catch (IOException e) {
             e.printStackTrace();
