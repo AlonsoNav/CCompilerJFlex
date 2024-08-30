@@ -81,6 +81,8 @@ INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\tex\latex\rerunfilecheck\reru
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\tex\latex\rerunfilecheck\rerunfilecheck.sty
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\tex\generic\uniquecounter\uniquecounter.sty
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\tex\generic\uniquecounter\uniquecounter.sty
+INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\tex\latex\setspace\setspace.sty
+INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\tex\latex\setspace\setspace.sty
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\tex\latex\psnfss\ot1phv.fd
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\tex\latex\psnfss\ot1phv.fd
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\tex\latex\psnfss\ot1phv.fd
@@ -118,7 +120,6 @@ INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvr
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvr7t.tfm
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvb7t.tfm
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvr7t.tfm
-INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvr7t.tfm
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\helvetic\phvrc7t.vf
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvr8r.tfm
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvr8r.tfm
@@ -129,7 +130,6 @@ INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvb
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\helvetic\phvr7t.vf
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvr8r.tfm
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\helvetic\phvr7t.vf
-INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvr8r.tfm
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvr7t.tfm
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvb7t.tfm
 INPUT .\doc.toc
@@ -141,12 +141,9 @@ INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\helvetic\phvb7
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvb8r.tfm
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\helvetic\phvb7t.vf
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvb8r.tfm
-INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\helvetic\phvr7t.vf
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvb7t.tfm
-INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\tex\latex\psnfss\ts1phv.fd
-INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\tex\latex\psnfss\ts1phv.fd
-INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\tex\latex\psnfss\ts1phv.fd
-INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvr8c.tfm
+INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\helvetic\phvb7t.vf
+INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvb8r.tfm
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvro7t.tfm
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmtt12.tfm
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmr8.tfm
@@ -157,9 +154,6 @@ INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmmi6.tfm
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmsy10.tfm
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmsy8.tfm
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmsy6.tfm
-INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\helvetic\phvb7t.vf
-INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvb8r.tfm
-INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\helvetic\phvr8c.vf
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\vf\adobe\helvetic\phvro7t.vf
 INPUT C:\Users\alons\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\helvetic\phvro8r.tfm
 INPUT doc.aux
