@@ -1,7 +1,10 @@
 package scanner;
 
 public enum TokenType {
-    KEYWORD, ID, OPERATOR,NUMERIC_LITERAL,
+    KEYWORD, 
+    ID, 
+    OPERATOR,
+    NUMERIC_LITERAL,
     STRING_LITERAL,
     INTEGER_LITERAL,
     CHAR_LITERAL,
@@ -9,5 +12,4 @@ public enum TokenType {
     OCTAL_LITERAL,  
     HEX_LITERAL,
     DOUBLE_LITERAL;
-
 }

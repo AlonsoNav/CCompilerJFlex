@@ -8,7 +8,6 @@ import java.util.Map;
 %class CLexer
 %unicode
 %line
-%column
 %type Token
 
 %{
@@ -35,18 +34,16 @@ public Map<String, Token> getTokenTable() {
 "/*"([^*]|\*+[^*/])*\*+"/"  { /* Ignore */ }
 
 /* Literals */
-[-+]?[1-9][0-9]*        { addToken(yytext(), TokenType.INTEGER_LITERAL); }
-[-+]?0                  { addToken(yytext(), TokenType.INTEGER_LITERAL); }
+[-+]?(0|[1-9][0-9]*)         { addToken(yytext(), TokenType.INTEGER_LITERAL); }
 0[xX][0-9a-fA-F]+       { addToken(yytext(), TokenType.HEX_LITERAL); } 
 0[0-7]+                 { addToken(yytext(), TokenType.OCTAL_LITERAL); }
+0[bB][01]+              { addToken(yytext(), TokenType.BINARY_LITERAL); }
 [-+]?[0-9]+\.[0-9]+            { addToken(yytext(), TokenType.DOUBLE_LITERAL); } 
-"0\.[0-9]+"               { addToken(yytext(), TokenType.DOUBLE_LITERAL); } 
 [-+]?[0-9]+\.[0-9]*[eE][+-]?[0-9]+ { addToken(yytext(), TokenType.DOUBLE_LITERAL); }
 [-+]?[0-9]+[eE][+-]?[0-9]+     { addToken(yytext(), TokenType.DOUBLE_LITERAL); } 
 \"([^\"\\]|\\.)*\"        { addToken(yytext(), TokenType.STRING_LITERAL); }
 \'(\\.|[^\\'])\'        { addToken(yytext(), TokenType.CHAR_LITERAL); }
 "#"[0-9]+                 { addToken(yytext(), TokenType.CHAR_LITERAL); }
-
 
 /* Keywords */
 "auto"                  { addToken(yytext(), TokenType.KEYWORD); }
