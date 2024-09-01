@@ -45,6 +45,9 @@ public Map<String, Token> getTokenTable() {
 \'(\\.|[^\\'])\'        { addToken(yytext(), TokenType.CHAR_LITERAL); }
 "#"[0-9]+                 { addToken(yytext(), TokenType.CHAR_LITERAL); }
 
+/* Error decimal before id */
+[0-9]+[a-zA-Z_][a-zA-Z0-9_]* { System.err.println("Error: " + yytext() + " in " + (yyline+1)); }
+
 /* Keywords */
 "auto"                  { addToken(yytext(), TokenType.KEYWORD); }
 "break"                 { addToken(yytext(), TokenType.KEYWORD); }
