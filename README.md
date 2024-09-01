@@ -43,6 +43,11 @@ To run the compiler with an input file, use the following command:
 java -cp bin app.Main input.c
 ```
 
+You can also send the output to a .txt with
+```sh
+java -cp bin app.Main input.c > output.txt
+```
+
 ## Project Structure
 
 This project is organized as follows:
