@@ -35,9 +35,10 @@ public Map<String, Token> getTokenTable() {
 "/*"([^*]|\*+[^*/])*\*+"/"  { /* Ignore */ }
 
 /* Literals */
-[-+]?[0-9]+                     { addToken(yytext(), TokenType.INTEGER_LITERAL); }
-"0[xX][0-9a-fA-F]+"       { addToken(yytext(), TokenType.HEX_LITERAL); } 
-"0[0-7]+"                  { addToken(yytext(), TokenType.OCTAL_LITERAL); }
+[-+]?[1-9][0-9]*        { addToken(yytext(), TokenType.INTEGER_LITERAL); }
+[-+]?0                  { addToken(yytext(), TokenType.INTEGER_LITERAL); }
+0[xX][0-9a-fA-F]+       { addToken(yytext(), TokenType.HEX_LITERAL); } 
+0[0-7]+                 { addToken(yytext(), TokenType.OCTAL_LITERAL); }
 [-+]?[0-9]+\.[0-9]+            { addToken(yytext(), TokenType.DOUBLE_LITERAL); } 
 "0\.[0-9]+"               { addToken(yytext(), TokenType.DOUBLE_LITERAL); } 
 [-+]?[0-9]+\.[0-9]*[eE][+-]?[0-9]+ { addToken(yytext(), TokenType.DOUBLE_LITERAL); }
