@@ -51,17 +51,22 @@ public class Main {
             System.out.printf(format, "Token", "Tipo de Token", "Linea");
             System.out.println(separator);
 
-
+            int maxTokenLenght = 10; // max line lenght of the token column
+            int maxTypeLenght = 15; // max line lenght of the type column
             int maxLineLenght = 40; //max line lenght of the line column
+            
 
             // Print each token
             for (Map.Entry<String, Token> entry : tokenList) {
                 Token tokenInfo = entry.getValue();
 
-                // Use TreeMap to ensure that lines are ordered
-                Map<Integer, Integer> sortedLines = new TreeMap<>(tokenInfo.lines);
+                //Get the values of the columns
+                String tokenOutput = entry.getKey();
+                String typeOutput = tokenInfo.type.toString();
                 StringBuilder linesInfo = new StringBuilder();
 
+                // Use TreeMap to ensure that lines are ordered
+                Map<Integer, Integer> sortedLines = new TreeMap<>(tokenInfo.lines);
                 for (Map.Entry<Integer, Integer> lineEntry : sortedLines.entrySet()) {
                     int line = lineEntry.getKey();
                     int count = lineEntry.getValue();
@@ -79,19 +84,32 @@ public class Main {
 
                 // Split the line column in multiple lines if it is too long
                 String lineOutput = linesInfo.toString();
-                int start = 0; // Start index of the substring
+
+                int startToken = 0, startType = 0, startLine = 0;
                 boolean firstLine = true;
-                while (start < lineOutput.length()) {
-                    int end = Math.min(start + maxLineLenght, lineOutput.length());
-                    String linePart = lineOutput.substring(start, end);
+
+                //Print while there is content in any of the columns
+                while (startToken < tokenOutput.length() || startType < typeOutput.length() || startLine < lineOutput.length()) {
+                    int endToken = Math.min(startToken + maxTokenLenght, tokenOutput.length());
+                    int endType = Math.min(startType + maxTypeLenght, typeOutput.length());
+                    int endLine = Math.min(startLine + maxLineLenght, lineOutput.length());
+
+                    String tokenPart = startToken < tokenOutput.length() ? tokenOutput.substring(startToken, endToken): "";
+                    String typePart = startType < typeOutput.length() ? typeOutput.substring(startType, endType) : "";
+                    String linePart = startLine < lineOutput.length() ? lineOutput.substring(startLine, endLine) : "";
 
                     if (firstLine) {
-                        System.out.printf(format, entry.getKey(), tokenInfo.type, linePart);
+                        //Print the first line with all the columns
+                        System.out.printf(format, tokenPart, typePart, linePart);
                         firstLine = false;
                     } else {
-                        System.out.printf(format,"", "", linePart);
+                        //Print the following lines, leaving blank the columns that were already printed
+                        System.out.printf(format, tokenPart.isEmpty() ? "" : tokenPart, typePart.isEmpty() ? "" : typePart, linePart);
                     }
-                    start = end;
+
+                    startToken = endToken;
+                    startType = endType;
+                    startLine = endLine;
                 }
                 System.out.println(separator);
             }

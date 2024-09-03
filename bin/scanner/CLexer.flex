@@ -8,7 +8,6 @@ import java.util.Map;
 %class CLexer
 %unicode
 %line
-%column
 %type Token
 
 %{
@@ -33,6 +32,21 @@ public Map<String, Token> getTokenTable() {
 /* Comments */
 "//".*                      { /* Ignore */ }
 "/*"([^*]|\*+[^*/])*\*+"/"  { /* Ignore */ }
+
+/* Literals */
+[-+]?(0|[1-9][0-9]*)[uU]?[lL]?[lL]?             { addToken(yytext(), TokenType.LITERAL_INT); }
+0[xX][0-9a-fA-F]+[uU]?[lL]?[lL]?                { addToken(yytext(), TokenType.LITERAL_HEX); } 
+0[0-7]+[uU]?[lL]?[lL]?                          { addToken(yytext(), TokenType.LITERAL_OCTAL); }
+0[bB][01]+[uU]?[lL]?[lL]?                       { addToken(yytext(), TokenType.LITERAL_BINARY); }
+[-+]?[0-9]+\.[0-9]+[fF]?[lL]?                   { addToken(yytext(), TokenType.LITERAL_DOUBLE); } 
+[-+]?[0-9]+\.[0-9]*[eE][+-]?[0-9]+[fF]?[lL]?    { addToken(yytext(), TokenType.LITERAL_DOUBLE); }
+[-+]?[0-9]+[eE][+-]?[0-9]+[fF]?[lL]?            { addToken(yytext(), TokenType.LITERAL_DOUBLE); } 
+\"([^\"\\]|\\.)*\"                              { addToken(yytext(), TokenType.LITERAL_STR); }
+\'(\\.|[^\\'])\'                                { addToken(yytext(), TokenType.LITERAL_CHAR); }
+"#"[0-9]+                                       { addToken(yytext(), TokenType.LITERAL_CHAR); }
+
+/* Error decimal before id */
+[0-9]+[a-zA-Z_][a-zA-Z0-9_]* { System.err.println("Error: " + yytext() + " in " + (yyline+1)); }
 
 /* Keywords */
 "auto"                  { addToken(yytext(), TokenType.KEYWORD); }
@@ -69,48 +83,48 @@ public Map<String, Token> getTokenTable() {
 "while"                 { addToken(yytext(), TokenType.KEYWORD); }
 
 /* Operators */
-"<<="                   { addToken(yytext(), TokenType.OPERATOR); }
-">>="                   { addToken(yytext(), TokenType.OPERATOR); }
-"+="                    { addToken(yytext(), TokenType.OPERATOR); }
-"-="                    { addToken(yytext(), TokenType.OPERATOR); }
-"*="                    { addToken(yytext(), TokenType.OPERATOR); }
-"/="                    { addToken(yytext(), TokenType.OPERATOR); }
-"&"                     { addToken(yytext(), TokenType.OPERATOR); }
-"^"                     { addToken(yytext(), TokenType.OPERATOR); }
-"|"                     { addToken(yytext(), TokenType.OPERATOR); }
-">>"                    { addToken(yytext(), TokenType.OPERATOR); }
-"<<"                    { addToken(yytext(), TokenType.OPERATOR); }
-"~"                     { addToken(yytext(), TokenType.OPERATOR); }
-"%="                    { addToken(yytext(), TokenType.OPERATOR); }
-"&="                    { addToken(yytext(), TokenType.OPERATOR); }
-"^="                    { addToken(yytext(), TokenType.OPERATOR); }
-"|="                    { addToken(yytext(), TokenType.OPERATOR); }
+"<<="                   { addToken(yytext(), TokenType.OPERATOR_BITWISE); }
+">>="                   { addToken(yytext(), TokenType.OPERATOR_BITWISE); }
+"+="                    { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); }
+"-="                    { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); }
+"*="                    { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); }
+"/="                    { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); }
+"&"                     { addToken(yytext(), TokenType.OPERATOR_BITWISE); }
+"^"                     { addToken(yytext(), TokenType.OPERATOR_BITWISE); }
+"|"                     { addToken(yytext(), TokenType.OPERATOR_BITWISE); }
+">>"                    { addToken(yytext(), TokenType.OPERATOR_BITWISE); }
+"<<"                    { addToken(yytext(), TokenType.OPERATOR_BITWISE); }
+"~"                     { addToken(yytext(), TokenType.OPERATOR_BITWISE); }
+"%="                    { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); }
+"&="                    { addToken(yytext(), TokenType.OPERATOR_BITWISE); }
+"^="                    { addToken(yytext(), TokenType.OPERATOR_BITWISE); }
+"|="                    { addToken(yytext(), TokenType.OPERATOR_BITWISE); }
 "->"                    { addToken(yytext(), TokenType.OPERATOR); }
-"++"                    { addToken(yytext(), TokenType.OPERATOR); }
-"--"                    { addToken(yytext(), TokenType.OPERATOR); }
-"=="                    { addToken(yytext(), TokenType.OPERATOR); }
-">="                    { addToken(yytext(), TokenType.OPERATOR); }
-">"                     { addToken(yytext(), TokenType.OPERATOR); }
-"?"                     { addToken(yytext(), TokenType.OPERATOR); }
-"<="                    { addToken(yytext(), TokenType.OPERATOR); }
-"<"                     { addToken(yytext(), TokenType.OPERATOR); }
-"!="                    { addToken(yytext(), TokenType.OPERATOR); }
-"||"                    { addToken(yytext(), TokenType.OPERATOR); }
-"&&"                    { addToken(yytext(), TokenType.OPERATOR); }
-"!"                     { addToken(yytext(), TokenType.OPERATOR); }
+"++"                    { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); }
+"--"                    { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); }
+"=="                    { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); }
+">="                    { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); }
+">"                     { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); }
+"?"                     { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); }
+"<="                    { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); }
+"<"                     { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); }
+"!="                    { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); }
+"||"                    { addToken(yytext(), TokenType.OPERATOR_LOGICAL); }
+"&&"                    { addToken(yytext(), TokenType.OPERATOR_LOGICAL); }
+"!"                     { addToken(yytext(), TokenType.OPERATOR_LOGICAL); }
 "="                     { addToken(yytext(), TokenType.OPERATOR); }
-"+"                     { addToken(yytext(), TokenType.OPERATOR); }
-"-"                     { addToken(yytext(), TokenType.OPERATOR); }
-"*"                     { addToken(yytext(), TokenType.OPERATOR); }
-"/"                     { addToken(yytext(), TokenType.OPERATOR); }
-"%"                     { addToken(yytext(), TokenType.OPERATOR); }
+"+"                     { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); }
+"-"                     { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); }
+"*"                     { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); }
+"/"                     { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); }
+"%"                     { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); }
 "("                     { addToken(yytext(), TokenType.OPERATOR); }
 ")"                     { addToken(yytext(), TokenType.OPERATOR); }
 "["                     { addToken(yytext(), TokenType.OPERATOR); }
 "]"                     { addToken(yytext(), TokenType.OPERATOR); }
 "{"                     { addToken(yytext(), TokenType.OPERATOR); }
 "}"                     { addToken(yytext(), TokenType.OPERATOR); }
-":"                     { addToken(yytext(), TokenType.OPERATOR); }
+":"                     { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); }
 "."                     { addToken(yytext(), TokenType.OPERATOR); }
 ","                     { addToken(yytext(), TokenType.OPERATOR); }
 ";"                     { addToken(yytext(), TokenType.OPERATOR); }
