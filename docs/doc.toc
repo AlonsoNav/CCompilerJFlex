@@ -4,5 +4,5 @@
 \contentsline {section}{Lecciones aprendidas}{3}{section*.5}%
 \contentsline {section}{Casos de prueba}{3}{section*.6}%
 \contentsline {section}{Manual de usuario}{3}{section*.7}%
-\contentsline {section}{Bitácora}{3}{section*.8}%
-\contentsline {section}{Bibliografía}{4}{section*.10}%
+\contentsline {section}{Bitácora}{4}{section*.10}%
+\contentsline {section}{Bibliografía}{5}{section*.12}%
