@@ -6,6 +6,17 @@
 \usepackage{url}
 \usepackage{etoolbox}
 \usepackage{setspace}   % Interlineado
+\usepackage{geometry}   % Márgenes
+\usepackage{tabularx}   % Tablas
+
+% Márgenes
+\geometry{
+    a4paper,
+    left=25mm,
+    right=25mm,
+    top=25mm,
+    bottom=25mm
+}
 
 % Eliminar título de la bibliografía
 \patchcmd{\thebibliography}{\section*{\refname}}{}{}{}
@@ -80,6 +91,34 @@
 % Análisis de resultados
 \section*{Análisis de resultados}
 \addcontentsline{toc}{section}{Análisis de resultados}
+\begin{table}[h!]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|X|X|}
+        \hline
+        Actividad & Porcentaje realizado & Justificación \\ 
+        \hline
+        Desplegar lista de errores léxicos & 100\% & \\
+        \hline
+        Desplegar listado de tokens encontrados & 100\% & \\
+        \hline
+        Mostrar tipo de token, línea y cantidad de apariciones por cada token & 100\% & \\
+        \hline
+        Manejar 4 tipos grandes (operadores, literales, ids, palabras reservadas) de tokens & 100\% & \\
+        \hline
+        Ignorar comentarios en línea y bloque & 100\% & \\
+        \hline
+        Identificar todos los operadores válidos de C & 100\% & \\
+        \hline
+        Identificar todos los literales válidos de C & 100\% & \\
+        \hline
+        Identificar todos los identificadores válidos de C & 100\% & \\
+        \hline
+        Identificar todas las palabras reservadas de C & 100\% & \\
+        \hline
+        Definir errores léxicos & 100\% & \\
+        \hline
+    \end{tabularx}
+\end{table}
 
 % Lecciones aprendidas
 \section*{Lecciones aprendidas}
