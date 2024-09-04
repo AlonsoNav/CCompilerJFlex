@@ -57,5 +57,7 @@ int main() {
     double e = 2.71828;
     long double bigNum = 1.23E30L;
     char c = '\n';
-    string s = "\nHello, World!";
+    string s = "\nHello, 
+    World!";
+    double e = .5;
 }

@@ -41,12 +41,14 @@ public Map<String, Token> getTokenTable() {
 [-+]?[0-9]+\.[0-9]+[fF]?[lL]?                   { addToken(yytext(), TokenType.LITERAL_DOUBLE); } 
 [-+]?[0-9]+\.[0-9]*[eE][+-]?[0-9]+[fF]?[lL]?    { addToken(yytext(), TokenType.LITERAL_DOUBLE); }
 [-+]?[0-9]+[eE][+-]?[0-9]+[fF]?[lL]?            { addToken(yytext(), TokenType.LITERAL_DOUBLE); } 
-\"([^\"\\\n]|\\.)*\"                             { addToken(yytext(), TokenType.LITERAL_STR); }
+\"([^\"\\\n]|\\.)*\"                            { addToken(yytext(), TokenType.LITERAL_STR); }
 \'(\\.|[^\\'])\'                                { addToken(yytext(), TokenType.LITERAL_CHAR); }
 "#"[0-9]+                                       { addToken(yytext(), TokenType.LITERAL_CHAR); }
 
-/* Error decimal before id */
-[0-9]+[a-zA-Z_][a-zA-Z0-9_]* { System.err.println("Error: " + yytext() + " in " + (yyline+1)); }
+/* Defined errors */
+[0-9]+[a-zA-Z_][a-zA-Z0-9_]*    { System.err.println("Digit before id: " + yytext() + " in " + (yyline+1)); }
+\.[0-9]+                        { System.err.println("Invalid number format: " + yytext() + " in " + (yyline + 1)); }
+\"([^\"\\\n]|\\.)*\n.*\"        { System.err.println("Strings cannot span multiple lines: " + yytext() + " in " + (yyline+1)); }
 
 /* Keywords */
 "auto"                  { addToken(yytext(), TokenType.KEYWORD); }
@@ -133,6 +135,4 @@ public Map<String, Token> getTokenTable() {
 [a-zA-Z_][a-zA-Z0-9_]*  { addToken(yytext(), TokenType.ID); }
 
 /* Errors */
-.                       { System.err.println("Character unknown: " + yytext() + " in " + (yyline+1)); }
-\.[0-9]+                { System.err.println("Invalid number format: " + yytext() + " in " + (yyline + 1)); }
-\"([^\"\\\n]|\\.)*\n.*\"         { System.err.println("Error: Strings cannot span multiple lines."); }
+.                           { System.err.println("Character unknown: " + yytext() + " in " + (yyline+1)); }
