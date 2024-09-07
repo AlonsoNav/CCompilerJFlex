@@ -87,14 +87,33 @@ de los tokens a reconocer.
 \section*{Estrategia de solución}
 \addcontentsline{toc}{section}{Estrategia de solución}
 \begin{flushleft}
-    \hspace*{2em} Después de leer extensamente la documentación 
+    \hspace*{2em} Después de leer detenidamente la documentación 
     de JFlex, se comenzó a diseñar las expresiones regulares 
-    de los tokens que el scanner debía reconocer. Aquí surgió 
-    el primer problema: el scanner reconoce tokens según la 
-    prioridad de orden. Es decir, si la primera expresión 
-    regular es un punto, no se reconocerá ningún otro token, 
-    ya que este metacaracter coincidiría con cualquier 
-    carácter, identificándolo como un error.
+    para los tokens que debía reconocer el escáner. Aquí surgió 
+    el primer problema: el escáner reconoce los tokens según 
+    el orden de prioridad. Es decir, si la primera expresión 
+    regular es un punto, ningún otro token será reconocido, 
+    ya que este metacaracter coincide con cualquier carácter, 
+    interpretándolo como un error. Por lo tanto, fue crucial 
+    definir adecuadamente el orden de las expresiones regulares. \par
+    \vspace{1em}
+    \hspace*{2em} Una vez definido el orden de las expresiones 
+    regulares, procedimos a diseñar la estructura de los tokens 
+    y sus tipos. Para ello, decidimos crear un mapa que facilitara 
+    la búsqueda de tokens repetidos en el documento. De manera 
+    similar, cada token guarda las líneas en las que aparece 
+    en un mapa, lo que permite incrementar el contador de 
+    ocurrencias de un token en una misma línea. Finalmente, 
+    los tipos de tokens se almacenan en un enum. \par
+    \vspace{1em}
+    \hspace*{2em} Por último, se implementaron errores 
+    definidos, como un número seguido de un identificador 
+    o números flotantes que comienzan con un punto. Era 
+    necesario definir estos errores como tokens para que 
+    pudieran ser reconocidos por el escáner. Los errores no 
+    se almacenan en una estructura de datos; en su lugar, se 
+    imprimen directamente y no se agregan al mapa de tokens. \par
+    \vspace{1em}
 \end{flushleft}
 
 \newpage

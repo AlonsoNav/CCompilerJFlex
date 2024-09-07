@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1725748198.01346 "c:/Users/alons/OneDrive/Escritorio/2024/Compiladores e Intérpretes/Compiler/docs/doc.tex" "doc.pdf" "doc" 1725748198.83073 0
+["pdflatex"] 1725749972.72198 "c:/Users/alons/OneDrive/Escritorio/2024/Compiladores e Intérpretes/Compiler/docs/doc.tex" "doc.pdf" "doc" 1725749973.58879 0
   "C:/Users/alons/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1725413564 82794 3356c8c6c52528dda375b8aed03f628e ""
   "C:/Users/alons/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1723257787 24265332 37c6746bfdd13797134de3304ba979f6 ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc" 1458473887 4993 80dc9bab7f31fb78a000ccfed0e27cab ""
@@ -76,11 +76,11 @@
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/tex/latex/tools/array.sty" 1718356376 14067 1383bd6ee23ab18ae0e796155404deb7 ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/tex/latex/tools/tabularx.sty" 1718356376 7243 e5dac1240636811edb77568b81818372 ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
-  "c:/Users/alons/OneDrive/Escritorio/2024/Compiladores e Intérpretes/Compiler/docs/doc.tex" 1725748196 6487 aafba05743cfe1fc6972d1568e3ad974 ""
-  "doc.aux" 1725748198 989 c529dceff2970ce3d085169db7643007 "pdflatex"
-  "doc.out" 1725748198 1036 b486c330031f354b603804d5d64cb173 "pdflatex"
-  "doc.tex" 1725748196 6487 aafba05743cfe1fc6972d1568e3ad974 ""
-  "doc.toc" 1725748198 471 de1c493534b6f8a5a5db86cbd51cc3f4 "pdflatex"
+  "c:/Users/alons/OneDrive/Escritorio/2024/Compiladores e Intérpretes/Compiler/docs/doc.tex" 1725749972 7582 5742c851f006a73c7f9f81586003bd76 ""
+  "doc.aux" 1725749973 989 c529dceff2970ce3d085169db7643007 "pdflatex"
+  "doc.out" 1725749973 1036 b486c330031f354b603804d5d64cb173 "pdflatex"
+  "doc.tex" 1725749972 7582 5742c851f006a73c7f9f81586003bd76 ""
+  "doc.toc" 1725749973 471 de1c493534b6f8a5a5db86cbd51cc3f4 "pdflatex"
   "logo-tec.png" 1723305773 12388 65ff84ad277e787be553048cd1f3a9fa ""
   (generated)
   "doc.aux"
