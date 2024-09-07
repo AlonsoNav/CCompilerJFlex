@@ -97,10 +97,12 @@ de los tokens a reconocer.
     carácter, identificándolo como un error.
 \end{flushleft}
 
+\newpage
+
 % Análisis de resultados
 \section*{Análisis de resultados}
 \addcontentsline{toc}{section}{Análisis de resultados}
-\begin{table}[h!]
+\begin{table}[!ht]
     \centering
     \begin{tabularx}{\textwidth}{|X|X|X|}
         \hline
@@ -157,7 +159,9 @@ Para construir y ejecutar el proyecto, es necesario tener Java instalado en tu s
 
     \item Compila el proyecto:
     \begin{verbatim}
-    javac -d bin -sourcepath src src/app/Main.java src/scanner/CLexer.java .\src\scanner\Token.java .\src\scanner\TokenType.java 
+    javac -d bin -sourcepath src src/app/Main.java 
+    src/scanner/CLexer.java .\src\scanner\Token.java 
+    .\src\scanner\TokenType.java 
     \end{verbatim}
 \end{enumerate}
 
