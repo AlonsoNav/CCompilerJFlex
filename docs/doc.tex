@@ -206,9 +206,72 @@ También puedes enviar la salida a un archivo .txt con
     AN diseñará la estructura de los tokens y sus errores, 
     así como las expresiones regulares de los identificadores
     y palabras reservadas. VG se responsabilizará de los 
-    literales. Además, se decidió que la documentación se 
+    literales. Por último, se decidió que la documentación se 
     realizará en LaTeX y que GitHub será utilizado como 
     sistema de control de versiones.
+\end{flushleft}
+
+\subsection*{Fecha: 01-09-2024}
+\begin{flushleft}
+    La profesora responde las siguientes consultas:
+    \begin{itemize}
+        \item Nosotros ya manejamos los diferentes tipos de 
+        tokens en un enum. Queremos agregar subtipos pensando 
+        a futuro, pero no sé si sea mejor manejar cada 
+        subtipo de token como una clase aparte o si todo 
+        chorreado en un enum funciona. ¿Usted qué me recomienda?
+        \item ¿Qué hacemos con las directivas para el procesador 
+        como \texttt{\#include} o \texttt{\#define}?
+        \item Los literales de los booleanos son 0 (false) y 
+        todo lo contrario es true eso lo tomamos como un 
+        literal numérico no importa?
+        \item Manejamos también sufijos (U: unsigned, L: long...)?
+        \item Los errores es necesario guardarlos en una estructura de datos o solo con imprimirlos basta?
+    \end{itemize}
+    Lo siguiente son las respuestas de la profesora:\par\vspace{1em}
+    \centering
+    \includegraphics[width=0.5\textwidth]{respuestas-1.png}\par
+\end{flushleft}
+
+\subsection*{Fecha: 03-09-2024}
+\begin{flushleft}
+    La profesora responde la siguiente consulta:
+    \begin{quote}
+        Usted comentó que cosas como "1ejemplo", debería ser 
+        un error y no que los separe como "1": literal y 
+        "ejemplo": id. Hay otras cosas que se pegan, por 
+        ejemplo con las directivas:
+        
+        \#include \textless stdio.h \textgreater
+        
+        lo separa como\par
+        \#: error\par
+        include: id\par
+        \textless operador\par
+        stdio: id\par
+        . operador\par
+        h: id\par
+        \textgreater operador\par
+        
+        Entonces yo ya tengo definido el error genérico de 
+        "1ejemplo", pero con esto estaba pensando en meter más 
+        caracteres en ese mismo error, pero es que si fuera un 
+        "5\textless identificador" en algún condicional ya croma.
+    \end{quote}
+    La respuesta de la profesora es:\par\vspace{1em}
+    \centering
+    \includegraphics[width=0.5\textwidth]{respuestas-2.png}\par
+\end{flushleft}
+
+\subsection*{Fecha: 04-09-2024}
+\begin{flushleft}
+    \hspace*{2em} Luego de tener todo el scanner corriendo 
+    correctamente se decide que lo siguiente es finalizar la 
+    documentación. CV se encargará de la introducción, AN de 
+    la estrategia de solución y VG de las lecciones aprendidas.
+    Las demás secciones son redactadas en conjunto. Finalmente,
+    se acuerda que cada integrante hará dos casos de prueba y 
+    documentará lo encontrado.
 \end{flushleft}
 
 % Bibliografía
