@@ -27,11 +27,22 @@ int main() {
     // Números flotantes con notación hexadecimal (C99)
     double hexFloat = 0x1.1p3; // Equivalente a 8.5 en decimal
 
+    // Strings-caracteres
+    char *f = "Cadena válida";      // Cadena válida de caracteres
+    char g = 'a';                   // Caracter válido
+    char h = '#65';                 // Literal char válido
+    
+
     // Errores intencionales:
     int invalidHex = 0x1G; // Carácter inválido en número hexadecimal
     float invalidExp = 12.34e+; // Exponente no válido
     int invalidOctal = 089; // Dígitos no válidos en número octal
-    double invalidFloat = 1.23.45; Punto flotante mal formado
+    double invalidFloat = 1.23.45; // Punto flotante mal formado
+    double invalid = 5..38; // Punto flotante mal formado
+    int invalidInt = 123abc;         // Número entero inválido
+    char *s = "Esto es un
+    string inválido porque está
+    en múltiples líneas";            // String que se extiende en múltiples líneas
 
     return 0;
 }
