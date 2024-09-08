@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.9.6)  8 SEP 2024 09:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.9.6)  8 SEP 2024 12:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2529,792 +2529,900 @@ Overfull \hbox (20.23112pt too wide) in paragraph at lines 701--701
  []
 
 [17]
-Overfull \hbox (44.93114pt too wide) in paragraph at lines 747--747
+Overfull \hbox (44.93114pt too wide) in paragraph at lines 756--756
 []   \OT1/cmtt/m/n/12 int negativeOctal = -07654; // Octal negativo (equivalent
 e a -4012 en decimal)[] 
  []
 
 
-Overfull \hbox (7.88112pt too wide) in paragraph at lines 747--747
+Overfull \hbox (7.88112pt too wide) in paragraph at lines 756--756
 []   \OT1/cmtt/m/n/12 int hexadecimal = 0x1A3F; // Hexadecimal (equivalente a 6
 719 en decimal)[] 
  []
 
 
-Overfull \hbox (131.38118pt too wide) in paragraph at lines 747--747
+Overfull \hbox (131.38118pt too wide) in paragraph at lines 756--756
 []   \OT1/cmtt/m/n/12 int negativeHexadecimal = -0xDEAD; // Hexadecimal negativ
 o (equivalente a -57005 en decimal)[] 
  []
 
 
-Overfull \hbox (7.88112pt too wide) in paragraph at lines 747--747
+Overfull \hbox (7.88112pt too wide) in paragraph at lines 756--756
 []   \OT1/cmtt/m/n/12 int invalidHex = 0x1G; // Error: car^^Sacter inv^^Salido 
 en n^^Sumero hexadecimal[] 
  []
 
 [18]
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (199.30621pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 Strings cannot span multiple lines: "Esto es un \n string i
+nv^^Salido porque est^^Sa en m^^Sultiples l^^S^^Pneas" in 43[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | Token      | Tipo de Token   | Linea                     
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | double     | KEYWORD         | 24, 25, 28, 34            
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | char       | KEYWORD         | 31, 32, 33                
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | float      | KEYWORD         | 20, 21, 32                
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | double     | KEYWORD         | 24, 25, 28, 40, 41        
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | int        | KEYWORD         | 3, 5, 6, 9, 10, 13, 14, 17
-, 31, 33       |[] 
- []
-
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
----------------+[] 
- []
-
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | return     | KEYWORD         | 36                        
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | float      | KEYWORD         | 20, 21, 38                
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
----------------+[] 
- []
-
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | binary     | ID              | 17                        
-               |[] 
- []
-
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
----------------+[] 
- []
-
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | decimal    | ID              | 5                         
-               |[] 
- []
-
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
----------------+[] 
- []
-
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | e          | ID              | 32                        
-               |[] 
- []
-
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
----------------+[] 
- []
-
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | floatNum   | ID              | 20                        
-               |[] 
- []
-
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
----------------+[] 
- []
-
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | h          | ID              | 1                         
-               |[] 
- []
-
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
----------------+[] 
- []
-
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | hexFloat   | ID              | 28                        
-               |[] 
- []
-
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
----------------+[] 
- []
-
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | hexadecima | ID              | 13                        
-               |[] 
- []
-
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | l          |                 |                           
-               |[] 
- []
-
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 [19]
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | int        | KEYWORD         | 3, 5, 6, 9, 10, 13, 14, 17
+, 37, 39, 42   |[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
+---------------+[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | return     | KEYWORD         | 44                        
+               |[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
+---------------+[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | binary     | ID              | 17                        
+               |[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
+---------------+[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | decimal    | ID              | 5                         
+               |[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
+---------------+[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | e          | ID              | 38                        
+               |[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
+---------------+[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | f          | ID              | 31                        
+               |[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
+---------------+[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | floatNum   | ID              | 20                        
+               |[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
+---------------+[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | g          | ID              | 32                        
+               |[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
+---------------+[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | h          | ID              | 1, 33                     
+               |[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
+---------------+[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | hexFloat   | ID              | 28                        
+               |[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
+---------------+[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | hexadecima | ID              | 13                        
+               |[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | l          |                 |                           
+               |[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
+---------------+[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | include    | ID              | 1                         
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | invalidExp | ID              | 32                        
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | invalid    | ID              | 41                        
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | invalidFlo | ID              | 34                        
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | invalidExp | ID              | 38                        
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
+---------------+[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | invalidFlo | ID              | 40                        
+               |[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | at         |                 |                           
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | invalidHex | ID              | 31                        
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | invalidHex | ID              | 37                        
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | invalidOct | ID              | 33                        
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | invalidInt | ID              | 42                        
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
+---------------+[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | invalidOct | ID              | 39                        
+               |[] 
+ []
+
+[20]
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | al         |                 |                           
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | main       | ID              | 3                         
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | negativeDe | ID              | 6                         
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | cimal      |                 |                           
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | negativeFl | ID              | 21                        
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | oat        |                 |                           
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | negativeHe | ID              | 14                        
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | xadecimal  |                 |                           
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | negativeOc | ID              | 10                        
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | tal        |                 |                           
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | octal      | ID              | 9                         
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | p3         | ID              | 28                        
-               |[] 
- []
-
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
----------------+[] 
- []
-
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | scientific | ID              | 25                        
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | Neg        |                 |                           
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | scientific | ID              | 24                        
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | Pos        |                 |                           
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | stdio      | ID              | 1                         
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
-[20]
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | xDEAD      | ID              | 14                        
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | (          | OPERATOR        | 3                         
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | )          | OPERATOR        | 3                         
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | .          | OPERATOR        | 1                         
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | .          | OPERATOR        | 1, 28                     
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | ;          | OPERATOR        | 5, 6, 9, 10, 13, 14, 17, 2
 0, 21, 24, 25, |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 |            |                 |  28, 31, 32, 33, 34, 36   
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 |            |                 |  28, 31, 32, 33, 37, 38, 3
+9, 40, 41, 42, |[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 |            |                 |  44                       
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | =          | OPERATOR        | 5, 6, 9, 10, 13, 14, 17, 2
 0, 21, 24, 25, |[] 
  []
 
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 |            |                 |  28, 31, 32, 33, 34       
-               |[] 
+[21]
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 |            |                 |  28, 31, 32, 33, 37, 38, 3
+9, 40, 41, 42  |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | {          | OPERATOR        | 3                         
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | }          | OPERATOR        | 37                        
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | }          | OPERATOR        | 45                        
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | +          | OPERATOR_ARITHM | 32                        
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | *          | OPERATOR_ARITHM | 31                        
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 |            | ETIC            |                           
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | +          | OPERATOR_ARITHM | 38                        
+               |[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 |            | ETIC            |                           
+               |[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
+---------------+[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | <          | OPERATOR_RELATI | 1                         
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 |            | ONAL            |                           
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | >          | OPERATOR_RELATI | 1                         
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 |            | ONAL            |                           
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | -0         | LITERAL_INT     | 10, 14                    
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | -6789      | LITERAL_INT     | 6                         
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | 0          | LITERAL_INT     | 33, 36                    
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | 0          | LITERAL_INT     | 39, 44                    
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | 12345      | LITERAL_INT     | 5                         
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | 7654       | LITERAL_INT     | 10                        
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | 89         | LITERAL_INT     | 33                        
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | 89         | LITERAL_INT     | 39                        
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
-[21]
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | "Cadena v^^Sa | LITERAL_STR     | 31                     
+                  |[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | lida"      |                 |                           
+               |[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
+---------------+[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | #65        | LITERAL_CHAR    | 33                        
+               |[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
+---------------+[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | 'a'        | LITERAL_CHAR    | 32                        
+               |[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
+---------------+[] 
+ []
+
+
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | 0b1101     | LITERAL_BINARY  | 17                        
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+[22]
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | 0123       | LITERAL_OCTAL   | 9                         
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | 0x1        | LITERAL_HEX     | 28                        
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | 0x1A3F     | LITERAL_HEX     | 13                        
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | -0.9876    | LITERAL_DOUBLE  | 21                        
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | -5.67E-3   | LITERAL_DOUBLE  | 25                        
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | 1.23       | LITERAL_DOUBLE  | 34                        
-               |[] 
- []
-
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
----------------+[] 
- []
-
-
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | 1.23e4     | LITERAL_DOUBLE  | 24                        
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
-[] \OT1/cmtt/m/n/12 | 12.34      | LITERAL_DOUBLE  | 32                        
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
+[] \OT1/cmtt/m/n/12 | 12.34      | LITERAL_DOUBLE  | 38                        
                |[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
 ---------------+[] 
  []
 
 
-Overfull \hbox (14.05612pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 | 3.14159    | LITERAL_DOUBLE  | 20                        
                |[] 
  []
 
 
-Overfull \hbox (20.23112pt too wide) in paragraph at lines 885--885
+Overfull \hbox (14.05612pt too wide) in paragraph at lines 917--917
 [] \OT1/cmtt/m/n/12 +------------+-----------------+---------------------------
----------------+ [] 
+---------------+[] 
  []
 
-[22] [23]
-<respuestas-1.png, id=176, 345.29pt x 316.68312pt>
+[23] [24]
+<respuestas-1.png, id=181, 345.29pt x 316.68312pt>
 File: respuestas-1.png Graphic file (type png)
 <use respuestas-1.png>
-Package pdftex.def Info: respuestas-1.png  used on input line 961.
+Package pdftex.def Info: respuestas-1.png  used on input line 993.
 (pdftex.def)             Requested size: 227.62206pt x 208.76506pt.
-LaTeX Font Info:    Trying to load font information for OML+phv on input line 9
-73.
+LaTeX Font Info:    Trying to load font information for OML+phv on input line 1
+005.
  (E:\LATEX\tex/latex/psnfss\omlphv.fd
 File: omlphv.fd 
 )
 LaTeX Font Info:    Font shape `OML/phv/m/n' in size <12> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 973.
- [24 <./respuestas-1.png>]
-<respuestas-2.png, id=185, 356.83313pt x 134.5025pt>
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 1005.
+
+<respuestas-2.png, id=182, 356.83313pt x 134.5025pt>
 File: respuestas-2.png Graphic file (type png)
 <use respuestas-2.png>
-Package pdftex.def Info: respuestas-2.png  used on input line 991.
+Package pdftex.def Info: respuestas-2.png  used on input line 1023.
 (pdftex.def)             Requested size: 227.62206pt x 85.79807pt.
-
-[25 <./respuestas-2.png>]
+ [25 <./respuestas-1.png>]
+[26 <./respuestas-2.png>]
 LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <12> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 1013.
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 1045.
 
- [26] (doc.aux)
+ [27] (doc.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
@@ -3323,20 +3431,20 @@ Package rerunfilecheck Info: File `doc.out' has not changed.
 (rerunfilecheck)             Checksum: 4C467ED546BABBB84E0CBE3E979AA9E7;1943.
  ) 
 Here is how much of TeX's memory you used:
- 9258 strings out of 474485
- 141482 string characters out of 5760625
- 1963542 words of memory out of 5000000
+ 9259 strings out of 474485
+ 141489 string characters out of 5760625
+ 1962542 words of memory out of 5000000
  31379 multiletter control sequences out of 15000+600000
  576251 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,11n,79p,508b,679s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,11n,79p,508b,683s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <E:/LATEX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><E:/LATEX/fonts/type1/pub
 lic/amsfonts/cm/cmtt12.pfb><E:/LATEX/fonts/type1/urw/helvetic/uhvb8a.pfb><E:/LA
 TEX/fonts/type1/urw/helvetic/uhvr8a.pfb><E:/LATEX/fonts/type1/urw/helvetic/uhvr
 o8a.pfb>
-Output written on doc.pdf (27 pages, 228420 bytes).
+Output written on doc.pdf (28 pages, 229837 bytes).
 PDF statistics:
- 236 PDF objects out of 1000 (max. 8388607)
- 50 named destinations out of 1000 (max. 500000)
+ 240 PDF objects out of 1000 (max. 8388607)
+ 51 named destinations out of 1000 (max. 500000)
  112 words of extra memory for PDF output out of 10000 (max. 10000000)
 
