@@ -80,7 +80,14 @@ Análisis Léxico. El objetivo principal de esta etapa es diseñar y construir
 un scanner que sea capaz de identificar y clasificar los diferentes tokens
 que conforman un programa en C. Para lograr esto, se utilizó la herramienta
 JFlex, la cual permite definir expresiones regulares que describen los patrones
-de los tokens a reconocer.
+de los tokens a reconocer.\par
+\vspace{1em}
+\hspace*{2em} A lo largo de este documento se detalla el proceso de desarrollo 
+del scanner, desde la planificación hasta la implementación y evaluación de los
+resultados obtenidos. Se describen decisiones técnicas tomadas para garantizar el
+correcto funcionamiento del proyecto, así como las estrategias empleadas para la 
+solución de los problemas encontrados durante su desarrollo. 
+
 \end{flushleft}
 
 % Estrategia de solución
@@ -537,6 +544,347 @@ Character unknown: @ in 53
 
 \end{verbatim}
 \end{flushleft}
+
+\newpage
+
+\subsection*{Caso de prueba 3: Identificadores}
+\addcontentsline{toc}{subsection}{Caso de prueba 3: Identificadores}
+\begin{flushleft}
+	\begin{verbatim}
+		#include <stdio.h>
+		
+		
+		int 1invalidVar = 10; // Identificador comienza con un dígito
+		int validVar = 20; // Identificador válido
+		float 2anotherInvalid = 30.5; // Identificador comienza con un dígito
+		char special#CharVar = 'A'; // Identificador contiene un carácter especial '#'
+		int valid_var_123 = 50; // Identificador válido
+		
+		
+		void function() {
+			int invalid@Var = 100; // Identificador contiene un carácter especial '@'
+			int valid_var = 0; // Identificador válido
+			float invalid%percent = 40.2; // Identificador contiene un carácter especial '%'
+			double validDoubleVar = 123.456; // Identificador válido
+			double 3invalidStart = 987.654; // Identificador comienza con un dígito
+		}
+		
+		
+		int main() {
+			printf("Valor de validVar: %d\n", validVar); // Identificador válido
+			printf("Valor de valid_var_123: %d\n", valid_var_123); // Identificador válido
+			
+			return 0;
+		}
+	\end{verbatim}
+	Errores esperados:
+	\begin{itemize}
+		\item Error en la línea 1: Operador inválido '\#'.
+		\item Error en la línea 3: Dígito antes de id '1invalidVar'.
+		\item Error en la línea 3: Dígito antes de id '1invalidVar'.
+		\item Error en la línea 5: Dígito antes de id '2anotherInvalid'.
+		\item Error en la línea 6: Operador inválido '\#'.
+		\item Error en la línea 10: Operador inválido '@'.
+		\item Error en la línea 14: Dígito antes de id '3invalidStart'.
+	\end{itemize}
+	
+	Resultados:
+	\begin{verbatim}
+		Errors: 
+		Character unknown: # in 1
+		Digit before id: 1invalidVar in 3
+		Digit before id: 2anotherInvalid in 5
+		Character unknown: # in 6
+		Character unknown: @ in 10
+		Digit before id: 3invalidStart in 14
+		+------------+-----------------+------------------------------------------+
+		| Token      | Tipo de Token   | Linea                                    |
+		+------------+-----------------+------------------------------------------+
+		| char       | KEYWORD         | 6                                        |
+		+------------+-----------------+------------------------------------------+
+		| double     | KEYWORD         | 13, 14                                   |
+		+------------+-----------------+------------------------------------------+
+		| float      | KEYWORD         | 5, 12                                    |
+		+------------+-----------------+------------------------------------------+
+		| int        | KEYWORD         | 3, 4, 7, 10, 11, 17                      |
+		+------------+-----------------+------------------------------------------+
+		| return     | KEYWORD         | 21                                       |
+		+------------+-----------------+------------------------------------------+
+		| void       | KEYWORD         | 9                                        |
+		+------------+-----------------+------------------------------------------+
+		| CharVar    | ID              | 6                                        |
+		+------------+-----------------+------------------------------------------+
+		| Var        | ID              | 10                                       |
+		+------------+-----------------+------------------------------------------+
+		| function   | ID              | 9                                        |
+		+------------+-----------------+------------------------------------------+
+		| h          | ID              | 1                                        |
+		+------------+-----------------+------------------------------------------+
+		| include    | ID              | 1                                        |
+		+------------+-----------------+------------------------------------------+
+		| invalid    | ID              | 10, 12                                   |
+		+------------+-----------------+------------------------------------------+
+		| main       | ID              | 17                                       |
+		+------------+-----------------+------------------------------------------+
+		| percent    | ID              | 12                                       |
+		+------------+-----------------+------------------------------------------+
+		| printf     | ID              | 18, 19                                   |
+		+------------+-----------------+------------------------------------------+
+		| special    | ID              | 6                                        |
+		+------------+-----------------+------------------------------------------+
+		| stdio      | ID              | 1                                        |
+		+------------+-----------------+------------------------------------------+
+		| validDoubl | ID              | 13                                       |
+		| eVar       |                 |                                          |
+		+------------+-----------------+------------------------------------------+
+		| validVar   | ID              | 4, 18                                    |
+		+------------+-----------------+------------------------------------------+
+		| valid_var  | ID              | 11                                       |
+		+------------+-----------------+------------------------------------------+
+		| valid_var_ | ID              | 7, 19                                    |
+		| 123        |                 |                                          |
+		+------------+-----------------+------------------------------------------+
+		| (          | OPERATOR        | 9, 17, 18, 19                            |
+		+------------+-----------------+------------------------------------------+
+		| )          | OPERATOR        | 9, 17, 18, 19                            |
+		+------------+-----------------+------------------------------------------+
+		| ,          | OPERATOR        | 18, 19                                   |
+		+------------+-----------------+------------------------------------------+
+		| .          | OPERATOR        | 1                                        |
+		+------------+-----------------+------------------------------------------+
+		| ;          | OPERATOR        | 3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 18, 1 |
+		|            |                 | 9, 21                                    |
+		+------------+-----------------+------------------------------------------+
+		| =          | OPERATOR        | 3, 4, 5, 6, 7, 10, 11, 12, 13, 14        |
+		+------------+-----------------+------------------------------------------+
+		| {          | OPERATOR        | 9, 17                                    |
+		+------------+-----------------+------------------------------------------+
+		| }          | OPERATOR        | 15, 22                                   |
+		+------------+-----------------+------------------------------------------+
+		| %          | OPERATOR_ARITHM | 12                                       |
+		|            | ETIC            |                                          |
+		+------------+-----------------+------------------------------------------+
+		| <          | OPERATOR_RELATI | 1                                        |
+		|            | ONAL            |                                          |
+		+------------+-----------------+------------------------------------------+
+		| >          | OPERATOR_RELATI | 1                                        |
+		|            | ONAL            |                                          |
+		+------------+-----------------+------------------------------------------+
+		| 0          | LITERAL_INT     | 11, 21                                   |
+		+------------+-----------------+------------------------------------------+
+		| 10         | LITERAL_INT     | 3                                        |
+		+------------+-----------------+------------------------------------------+
+		| 100        | LITERAL_INT     | 10                                       |
+		+------------+-----------------+------------------------------------------+
+		| 20         | LITERAL_INT     | 4                                        |
+		+------------+-----------------+------------------------------------------+
+		| 50         | LITERAL_INT     | 7                                        |
+		+------------+-----------------+------------------------------------------+
+		| "Valor de  | LITERAL_STR     | 18                                       |
+		| validVar:  |                 |                                          |
+		| %d\n"      |                 |                                          |
+		+------------+-----------------+------------------------------------------+
+		| "Valor de  | LITERAL_STR     | 19                                       |
+		| valid_var_ |                 |                                          |
+		| 123: %d\n" |                 |                                          |
+		+------------+-----------------+------------------------------------------+
+		| 'A'        | LITERAL_CHAR    | 6                                        |
+		+------------+-----------------+------------------------------------------+
+		| 123.456    | LITERAL_DOUBLE  | 13                                       |
+		+------------+-----------------+------------------------------------------+
+		| 30.5       | LITERAL_DOUBLE  | 5                                        |
+		+------------+-----------------+------------------------------------------+
+		| 40.2       | LITERAL_DOUBLE  | 12                                       |
+		+------------+-----------------+------------------------------------------+
+		| 987.654    | LITERAL_DOUBLE  | 14                                       |
+		+------------+-----------------+------------------------------------------+
+	\end{verbatim}
+\end{flushleft}
+
+\newpage
+
+\subsection*{Caso de prueba 4: Formato Literales}
+\addcontentsline{toc}{subsection}{Caso de prueba 4: Formato Literales}
+\begin{flushleft}
+	\begin{verbatim}
+		#include <stdio.h>
+		
+		int main() {
+			// Números decimales
+			int decimal = 12345; // Decimal positivo
+			int negativeDecimal = -6789; // Decimal negativo
+			
+			// Números octales
+			int octal = 0123; // Octal (equivalente a 83 en decimal)
+			int negativeOctal = -07654; // Octal negativo (equivalente a -4012 en decimal)
+			
+			// Números hexadecimales
+			int hexadecimal = 0x1A3F; // Hexadecimal (equivalente a 6719 en decimal)
+			int negativeHexadecimal = -0xDEAD; // Hexadecimal negativo (equivalente a -57005 en decimal)
+			
+			// Números binarios (C11 en adelante)
+			int binary = 0b1101; // Binario (equivalente a 13 en decimal)
+			
+			// Números con punto flotante
+			float floatNum = 3.14159; // Flotante positivo
+			float negativeFloat = -0.9876; // Flotante negativo
+			
+			// Números en notación exponencial (notación científica)
+			double scientificPos = 1.23e4; // 1.23 * 10^4 = 12300
+			double scientificNeg = -5.67E-3; // -5.67 * 10^-3 = -0.00567
+			
+			// Números flotantes con notación hexadecimal (C99)
+			double hexFloat = 0x1.1p3; // Equivalente a 8.5 en decimal
+			
+			// Errores intencionales:
+			int invalidHex = 0x1G; // Error: carácter inválido en número hexadecimal
+			float invalidExp = 12.34e+; // Error: exponente no válido
+			int invalidOctal = 089; // Error: dígitos no válidos en número octal
+			double invalidFloat = 1.23.45; // Error: punto flotante mal formado
+			
+			return 0;
+		}
+	\end{verbatim}
+	Errores esperados:
+	\begin{itemize}
+		\item Error en la línea 1: Operador inválido '\#'.
+		\item Error en la línea 28: Formato de número no válido '.1'.
+		\item Error en la línea 31: Dígito antes de id '0x1G'.
+		\item Error en la línea 34: Formato de número no válido '.45'.
+	\end{itemize}
+	Resultados:
+	\begin{verbatim}
+	Errors: 
+	Character unknown: # in 1
+	Invalid number format: .1 in 28
+	Digit before id: 0x1G in 31
+	Invalid number format: .45 in 34
+	+------------+-----------------+------------------------------------------+
+	| Token      | Tipo de Token   | Linea                                    |
+	+------------+-----------------+------------------------------------------+
+	| double     | KEYWORD         | 24, 25, 28, 34                           |
+	+------------+-----------------+------------------------------------------+
+	| float      | KEYWORD         | 20, 21, 32                               |
+	+------------+-----------------+------------------------------------------+
+	| int        | KEYWORD         | 3, 5, 6, 9, 10, 13, 14, 17, 31, 33       |
+	+------------+-----------------+------------------------------------------+
+	| return     | KEYWORD         | 36                                       |
+	+------------+-----------------+------------------------------------------+
+	| binary     | ID              | 17                                       |
+	+------------+-----------------+------------------------------------------+
+	| decimal    | ID              | 5                                        |
+	+------------+-----------------+------------------------------------------+
+	| e          | ID              | 32                                       |
+	+------------+-----------------+------------------------------------------+
+	| floatNum   | ID              | 20                                       |
+	+------------+-----------------+------------------------------------------+
+	| h          | ID              | 1                                        |
+	+------------+-----------------+------------------------------------------+
+	| hexFloat   | ID              | 28                                       |
+	+------------+-----------------+------------------------------------------+
+	| hexadecima | ID              | 13                                       |
+	| l          |                 |                                          |
+	+------------+-----------------+------------------------------------------+
+	| include    | ID              | 1                                        |
+	+------------+-----------------+------------------------------------------+
+	| invalidExp | ID              | 32                                       |
+	+------------+-----------------+------------------------------------------+
+	| invalidFlo | ID              | 34                                       |
+	| at         |                 |                                          |
+	+------------+-----------------+------------------------------------------+
+	| invalidHex | ID              | 31                                       |
+	+------------+-----------------+------------------------------------------+
+	| invalidOct | ID              | 33                                       |
+	| al         |                 |                                          |
+	+------------+-----------------+------------------------------------------+
+	| main       | ID              | 3                                        |
+	+------------+-----------------+------------------------------------------+
+	| negativeDe | ID              | 6                                        |
+	| cimal      |                 |                                          |
+	+------------+-----------------+------------------------------------------+
+	| negativeFl | ID              | 21                                       |
+	| oat        |                 |                                          |
+	+------------+-----------------+------------------------------------------+
+	| negativeHe | ID              | 14                                       |
+	| xadecimal  |                 |                                          |
+	+------------+-----------------+------------------------------------------+
+	| negativeOc | ID              | 10                                       |
+	| tal        |                 |                                          |
+	+------------+-----------------+------------------------------------------+
+	| octal      | ID              | 9                                        |
+	+------------+-----------------+------------------------------------------+
+	| p3         | ID              | 28                                       |
+	+------------+-----------------+------------------------------------------+
+	| scientific | ID              | 25                                       |
+	| Neg        |                 |                                          |
+	+------------+-----------------+------------------------------------------+
+	| scientific | ID              | 24                                       |
+	| Pos        |                 |                                          |
+	+------------+-----------------+------------------------------------------+
+	| stdio      | ID              | 1                                        |
+	+------------+-----------------+------------------------------------------+
+	| xDEAD      | ID              | 14                                       |
+	+------------+-----------------+------------------------------------------+
+	| (          | OPERATOR        | 3                                        |
+	+------------+-----------------+------------------------------------------+
+	| )          | OPERATOR        | 3                                        |
+	+------------+-----------------+------------------------------------------+
+	| .          | OPERATOR        | 1                                        |
+	+------------+-----------------+------------------------------------------+
+	| ;          | OPERATOR        | 5, 6, 9, 10, 13, 14, 17, 20, 21, 24, 25, |
+	|            |                 |  28, 31, 32, 33, 34, 36                  |
+	+------------+-----------------+------------------------------------------+
+	| =          | OPERATOR        | 5, 6, 9, 10, 13, 14, 17, 20, 21, 24, 25, |
+	|            |                 |  28, 31, 32, 33, 34                      |
+	+------------+-----------------+------------------------------------------+
+	| {          | OPERATOR        | 3                                        |
+	+------------+-----------------+------------------------------------------+
+	| }          | OPERATOR        | 37                                       |
+	+------------+-----------------+------------------------------------------+
+	| +          | OPERATOR_ARITHM | 32                                       |
+	|            | ETIC            |                                          |
+	+------------+-----------------+------------------------------------------+
+	| <          | OPERATOR_RELATI | 1                                        |
+	|            | ONAL            |                                          |
+	+------------+-----------------+------------------------------------------+
+	| >          | OPERATOR_RELATI | 1                                        |
+	|            | ONAL            |                                          |
+	+------------+-----------------+------------------------------------------+
+	| -0         | LITERAL_INT     | 10, 14                                   |
+	+------------+-----------------+------------------------------------------+
+	| -6789      | LITERAL_INT     | 6                                        |
+	+------------+-----------------+------------------------------------------+
+	| 0          | LITERAL_INT     | 33, 36                                   |
+	+------------+-----------------+------------------------------------------+
+	| 12345      | LITERAL_INT     | 5                                        |
+	+------------+-----------------+------------------------------------------+
+	| 7654       | LITERAL_INT     | 10                                       |
+	+------------+-----------------+------------------------------------------+
+	| 89         | LITERAL_INT     | 33                                       |
+	+------------+-----------------+------------------------------------------+
+	| 0b1101     | LITERAL_BINARY  | 17                                       |
+	+------------+-----------------+------------------------------------------+
+	| 0123       | LITERAL_OCTAL   | 9                                        |
+	+------------+-----------------+------------------------------------------+
+	| 0x1        | LITERAL_HEX     | 28                                       |
+	+------------+-----------------+------------------------------------------+
+	| 0x1A3F     | LITERAL_HEX     | 13                                       |
+	+------------+-----------------+------------------------------------------+
+	| -0.9876    | LITERAL_DOUBLE  | 21                                       |
+	+------------+-----------------+------------------------------------------+
+	| -5.67E-3   | LITERAL_DOUBLE  | 25                                       |
+	+------------+-----------------+------------------------------------------+
+	| 1.23       | LITERAL_DOUBLE  | 34                                       |
+	+------------+-----------------+------------------------------------------+
+	| 1.23e4     | LITERAL_DOUBLE  | 24                                       |
+	+------------+-----------------+------------------------------------------+
+	| 12.34      | LITERAL_DOUBLE  | 32                                       |
+	+------------+-----------------+------------------------------------------+
+	| 3.14159    | LITERAL_DOUBLE  | 20                                       |
+	+------------+-----------------+------------------------------------------+	
+	\end{verbatim}
+\end{flushleft}
+
 
 % Manual de usuario
 \section*{Manual de usuario}

@@ -5,6 +5,8 @@
 \contentsline {section}{Casos de prueba}{3}{section*.6}%
 \contentsline {subsection}{Casos de prueba 1: Comentarios}{3}{section*.7}%
 \contentsline {subsection}{Casos de prueba 2: Operadores}{7}{section*.8}%
-\contentsline {section}{Manual de usuario}{13}{section*.9}%
-\contentsline {section}{Bitácora}{14}{section*.12}%
-\contentsline {section}{Bibliografía}{17}{section*.17}%
+\contentsline {subsection}{Caso de prueba 3: Identificadores}{14}{section*.9}%
+\contentsline {subsection}{Caso de prueba 4: Formato Literales}{18}{section*.10}%
+\contentsline {section}{Manual de usuario}{22}{section*.11}%
+\contentsline {section}{Bitácora}{23}{section*.14}%
+\contentsline {section}{Bibliografía}{26}{section*.19}%

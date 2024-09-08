@@ -1,0 +1,22 @@
+#include <stdio.h>
+
+int 1invalidVar = 10; // Identificador comienza con un dígito
+int validVar = 20; // Identificador válido
+float 2anotherInvalid = 30.5; // Identificador comienza con un dígito
+char special#CharVar = 'A'; // Identificador contiene un carácter especial '#'
+int valid_var_123 = 50; // Identificador válido
+
+void function() {
+    int invalid@Var = 100; // Identificador contiene un carácter especial '@'
+    int valid_var = 0; // Identificador válido
+    float invalid%percent = 40.2; // Identificador contiene un carácter especial '%'
+    double validDoubleVar = 123.456; // Identificador válido
+    double 3invalidStart = 987.654; // Identificador comienza con un dígito
+}
+
+int main() {
+    printf("Valor de validVar: %d\n", validVar); // Identificador válido
+    printf("Valor de valid_var_123: %d\n", valid_var_123); // Identificador válido
+
+    return 0;
+}
