@@ -45,8 +45,24 @@ public Map<String, Token> getTokenTable() {
 \'(\\.|[^\\'])\'                                { addToken(yytext(), TokenType.LITERAL_CHAR); }
 "#"[0-9]+                                       { addToken(yytext(), TokenType.LITERAL_CHAR); }
 
+<<<<<<< Updated upstream
 /* Error decimal before id */
 [0-9]+[a-zA-Z_][a-zA-Z0-9_]* { System.err.println("Error: " + yytext() + " in " + (yyline+1)); }
+=======
+/* Defined errors */
+[0-9]+[a-zA-Z_][a-zA-Z0-9_]*        { System.out.println("Digit before id: " + yytext() + " in " + (yyline+1)); }
+\.[0-9]+                            { System.out.println("Invalid number format: " + yytext() + " in " + (yyline + 1)); }
+\"([^\"\\\n]|\\.)*\n.*\"            { System.out.println("Strings cannot span multiple lines: " + yytext() + " in " + (yyline+1)); }
+[-+]?[0-9]+(\.[0-9]+)*\.+[0-9]+     { System.out.println("Invalid number format: " + yytext() + " in " + (yyline + 1)); }
+[0-9]+\.                            { System.out.println("Invalid number format: " + yytext() + " in " + (yyline + 1)); }
+\"([^\"\\]*(\\.)?)*[^\"\n]*         { System.out.println("Strings cannot span multiple lines: " + yytext() + " in " + (yyline + 1)); }
+
+
+
+
+
+
+>>>>>>> Stashed changes
 
 /* Keywords */
 "auto"                  { addToken(yytext(), TokenType.KEYWORD); }
@@ -134,5 +150,3 @@ public Map<String, Token> getTokenTable() {
 
 /* Errors */
 .                       { System.err.println("Character unknown: " + yytext() + " in " + (yyline+1)); }
-\.[0-9]+                { System.err.println("Invalid number format: " + yytext() + " in " + (yyline + 1)); }
-\"([^\"\\\n]|\\.)*\n.*\"         { System.err.println("Error: Strings cannot span multiple lines."); }
