@@ -3,6 +3,6 @@
 \contentsline {section}{Análisis de resultados}{3}{section*.4}%
 \contentsline {section}{Lecciones aprendidas}{3}{section*.5}%
 \contentsline {section}{Casos de prueba}{3}{section*.6}%
-\contentsline {section}{Manual de usuario}{3}{section*.7}%
-\contentsline {section}{Bitácora}{4}{section*.10}%
-\contentsline {section}{Bibliografía}{7}{section*.15}%
+\contentsline {section}{Manual de usuario}{7}{section*.8}%
+\contentsline {section}{Bitácora}{7}{section*.11}%
+\contentsline {section}{Bibliografía}{10}{section*.16}%

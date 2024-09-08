@@ -104,12 +104,12 @@ public class CLexer {
     "\1\0\1\1\1\2\1\3\2\1\1\4\1\5\1\1"+
     "\1\6\2\4\1\6\1\4\2\7\2\10\1\6\1\10"+
     "\1\11\1\5\17\11\2\5\2\0\1\12\1\0\1\13"+
-    "\1\4\1\3\2\0\2\7\1\14\1\0\1\2\1\0"+
-    "\1\15\1\0\3\16\2\7\1\16\6\11\1\17\4\11"+
-    "\1\17\13\11\1\20\1\13\2\0\2\7\1\0\1\21"+
-    "\2\15\1\22\1\0\1\21\1\7\1\23\30\11\1\21"+
-    "\1\7\1\2\2\21\1\15\2\22\2\21\2\23\16\11"+
-    "\1\22\1\23\11\11";
+    "\1\4\1\3\2\0\2\7\1\14\1\15\1\2\1\0"+
+    "\1\16\1\0\3\17\2\7\1\17\6\11\1\20\4\11"+
+    "\1\20\13\11\1\21\1\13\2\0\2\7\1\0\1\22"+
+    "\2\16\1\23\1\0\1\22\1\7\1\24\30\11\1\22"+
+    "\1\7\1\2\2\22\1\16\2\23\2\22\2\24\16\11"+
+    "\1\23\1\24\11\11";
 
   private static int [] zzUnpackAction() {
     int [] result = new int[161];
@@ -374,9 +374,9 @@ public class CLexer {
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
     "\1\0\1\11\7\1\1\11\6\1\1\11\25\1\1\11"+
-    "\2\0\1\11\1\0\1\1\2\11\2\0\3\1\1\0"+
-    "\1\1\1\0\1\1\1\0\36\1\1\11\2\0\2\1"+
-    "\1\0\4\1\1\0\34\1\2\11\1\1\1\11\40\1";
+    "\2\0\1\11\1\0\1\1\2\11\2\0\5\1\1\0"+
+    "\1\1\1\0\36\1\1\11\2\0\2\1\1\0\4\1"+
+    "\1\0\34\1\2\11\1\1\1\11\40\1";
 
   private static int [] zzUnpackAttribute() {
     int [] result = new int[161];
@@ -878,100 +878,105 @@ public Map<String, Token> getTokenTable() {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { System.err.println("Character unknown: " + yytext() + " in " + (yyline+1));
+            { System.out.println("Character unknown: " + yytext() + " in " + (yyline+1));
             }
           // fall through
-          case 20: break;
+          case 21: break;
           case 2:
             { /* Ignore */
             }
           // fall through
-          case 21: break;
+          case 22: break;
           case 3:
             { addToken(yytext(), TokenType.OPERATOR_LOGICAL);
             }
           // fall through
-          case 22: break;
+          case 23: break;
           case 4:
             { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC);
             }
           // fall through
-          case 23: break;
+          case 24: break;
           case 5:
             { addToken(yytext(), TokenType.OPERATOR_BITWISE);
             }
           // fall through
-          case 24: break;
+          case 25: break;
           case 6:
             { addToken(yytext(), TokenType.OPERATOR);
             }
           // fall through
-          case 25: break;
+          case 26: break;
           case 7:
             { addToken(yytext(), TokenType.LITERAL_INT);
             }
           // fall through
-          case 26: break;
+          case 27: break;
           case 8:
             { addToken(yytext(), TokenType.OPERATOR_RELATIONAL);
             }
           // fall through
-          case 27: break;
+          case 28: break;
           case 9:
             { addToken(yytext(), TokenType.ID);
             }
           // fall through
-          case 28: break;
+          case 29: break;
           case 10:
             { addToken(yytext(), TokenType.LITERAL_STR);
             }
           // fall through
-          case 29: break;
+          case 30: break;
           case 11:
             { addToken(yytext(), TokenType.LITERAL_CHAR);
             }
           // fall through
-          case 30: break;
-          case 12:
-            { System.err.println("Invalid number format: " + yytext() + " in " + (yyline + 1));
-            }
-          // fall through
           case 31: break;
-          case 13:
-            { addToken(yytext(), TokenType.LITERAL_OCTAL);
+          case 12:
+            { System.out.println("Invalid number format: " + yytext() + " in " + (yyline + 1));
             }
           // fall through
           case 32: break;
-          case 14:
-            { System.err.println("Digit before id: " + yytext() + " in " + (yyline+1));
+          case 13:
+            { System.out.println("Block comment without closure: "+ yytext() + " in " + (yyline+1));
             }
           // fall through
           case 33: break;
-          case 15:
-            { addToken(yytext(), TokenType.KEYWORD);
+          case 14:
+            { addToken(yytext(), TokenType.LITERAL_OCTAL);
             }
           // fall through
           case 34: break;
-          case 16:
-            { System.err.println("Strings cannot span multiple lines: " + yytext() + " in " + (yyline+1));
+          case 15:
+            { System.out.println("Digit before id: " + yytext() + " in " + (yyline+1));
             }
           // fall through
           case 35: break;
-          case 17:
-            { addToken(yytext(), TokenType.LITERAL_DOUBLE);
+          case 16:
+            { addToken(yytext(), TokenType.KEYWORD);
             }
           // fall through
           case 36: break;
-          case 18:
-            { addToken(yytext(), TokenType.LITERAL_BINARY);
+          case 17:
+            { System.out.println("Strings cannot span multiple lines: " + yytext() + " in " + (yyline+1));
             }
           // fall through
           case 37: break;
-          case 19:
-            { addToken(yytext(), TokenType.LITERAL_HEX);
+          case 18:
+            { addToken(yytext(), TokenType.LITERAL_DOUBLE);
             }
           // fall through
           case 38: break;
+          case 19:
+            { addToken(yytext(), TokenType.LITERAL_BINARY);
+            }
+          // fall through
+          case 39: break;
+          case 20:
+            { addToken(yytext(), TokenType.LITERAL_HEX);
+            }
+          // fall through
+          case 40: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

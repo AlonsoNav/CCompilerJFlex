@@ -1,0 +1,23 @@
+#include <stdio.h> // Comentario después de directiva de preprocesador
+#define MAX(a, b) ((a) > (b) ? (a) : (b)) // Macro con comentario en línea 
+
+// Este es un comentario en línea
+int main() {
+    // Comentario con caracteres especiales: !@#$%^&*()
+    /* Comentario en bloque con caracteres especiales: !@#$%^&*() */
+    // Comentario con código incorrecto: int x = ;
+    /* Comentario en bloque con código incorrecto: int y = ; */
+    // Comentario con    espacios
+    /*  Comentario en     bloque con espacios */
+    //      Comentario con tabulaciones
+    int a = 10; // Comentario al final de una línea de código
+    int b = 20; /* Comentario en bloque
+                   que se extiende en varias líneas */ int d = a + b;
+    int c = a + b; // Comentario después de una expresión 
+    char *str = "Este es un string con // comentario en línea";
+    char *str2 = "Este es otro string con /* comentario en bloque */";
+    b = 20;
+    /* Comentario en bloque sin cerrar
+    b = 20; // Comentario en línea anidado
+    return 0;
+}

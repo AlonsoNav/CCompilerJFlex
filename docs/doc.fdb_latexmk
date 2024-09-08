@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1725752014.70228 "c:/Users/alons/OneDrive/Escritorio/2024/Compiladores e Intérpretes/Compiler/docs/doc.tex" "doc.pdf" "doc" 1725752015.5676 0
-  "C:/Users/alons/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1725413564 82794 3356c8c6c52528dda375b8aed03f628e ""
+["pdflatex"] 1725762834.43821 "c:/Users/alons/OneDrive/Escritorio/2024/Compiladores e Intérpretes/Compiler/docs/doc.tex" "doc.pdf" "doc" 1725762835.6165 0
+  "C:/Users/alons/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1725755836 82794 3356c8c6c52528dda375b8aed03f628e ""
   "C:/Users/alons/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1723257787 24265332 37c6746bfdd13797134de3304ba979f6 ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc" 1458473887 4993 80dc9bab7f31fb78a000ccfed0e27cab ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/fonts/tfm/adobe/helvetic/phvb7t.tfm" 1136793854 2240 eb56c13537f4d8a0bd3fafc25572b1bd ""
@@ -81,11 +81,11 @@
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/tex/latex/tools/array.sty" 1718356376 14067 1383bd6ee23ab18ae0e796155404deb7 ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/tex/latex/tools/tabularx.sty" 1718356376 7243 e5dac1240636811edb77568b81818372 ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
-  "c:/Users/alons/OneDrive/Escritorio/2024/Compiladores e Intérpretes/Compiler/docs/doc.tex" 1725752014 10226 fa1654506a71e54ad7944d6207d3c2fd ""
-  "doc.aux" 1725752015 989 94cfd4be4d2e1f0e4015df1b82cede17 "pdflatex"
-  "doc.out" 1725752015 1036 0de9f5d22d5597469d15f3e3a18f1183 "pdflatex"
-  "doc.tex" 1725752014 10226 fa1654506a71e54ad7944d6207d3c2fd ""
-  "doc.toc" 1725752015 471 2982f97dd1303904f53ca5cc0080a01c "pdflatex"
+  "c:/Users/alons/OneDrive/Escritorio/2024/Compiladores e Intérpretes/Compiler/docs/doc.tex" 1725762833 18476 7463b32c2211eff6419347f2b97f36b1 ""
+  "doc.aux" 1725762835 991 c735e04335df0c195aca804db37ad685 "pdflatex"
+  "doc.out" 1725762835 1036 39141ad854a4a568cf6ad0cad7c252e4 "pdflatex"
+  "doc.tex" 1725762833 18476 7463b32c2211eff6419347f2b97f36b1 ""
+  "doc.toc" 1725762835 472 186b869778be88190d98ed4e00bacf26 "pdflatex"
   "logo-tec.png" 1723305773 12388 65ff84ad277e787be553048cd1f3a9fa ""
   "respuestas-1.png" 1725751105 96816 cba65528af42075b57052a27c648b1dc ""
   "respuestas-2.png" 1725752009 67365 c8fcf4120bc845e3c3ed5fc249d164ec ""

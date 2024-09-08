@@ -157,6 +157,134 @@ de los tokens a reconocer.
 % Casos de prueba
 \section*{Casos de prueba}
 \addcontentsline{toc}{section}{Casos de prueba}
+\subsection*{Caso de prueba 1: Comentarios}
+\begin{flushleft}
+    \begin{verbatim}
+    #include <stdio.h> // Comentario después de directiva de preprocesador
+    #define MAX(a, b) ((a) > (b) ? (a) : (b)) // Macro con comentario en línea 
+        
+    // Este es un comentario en línea
+    int main() {
+        // Comentario con caracteres especiales: !@#$%^&*()
+        /* Comentario en bloque con caracteres especiales: !@#$%^&*() */
+        // Comentario con código incorrecto: int x = ;
+        /* Comentario en bloque con código incorrecto: int y = ; */
+        // Comentario con    espacios
+        /*  Comentario en     bloque con espacios */
+        //      Comentario con tabulaciones
+        int a = 10; // Comentario al final de una línea de código
+        int b = 20; /* Comentario en bloque
+                        que se extiende en varias líneas */ 
+        int d = a + b;
+        int c = a + b; // Comentario después de una expresión 
+        char *str = "Este es un string con // comentario en línea";
+        char *str2 = "Este es otro string con /* comentario en bloque */";
+        b = 20;
+        /* Comentario en bloque sin cerrar
+        b = 20; // Comentario en línea anidado
+        return 0;
+    }
+    \end{verbatim}
+    Errores esperados:
+    \begin{itemize}
+        \item Error en la línea 1: \# es un token inválido.
+        \item Error en la línea 2: \# es un token inválido.
+        \item Error en cáscada en línea 20: Comentario de bloque sin cerrar.
+    \end{itemize}
+    \hspace*{2em} Es importante resaltar que aunque el proyecto indique que no se pueden 
+    tener errores en cáscada, al encontrar un comentario de bloque sin cerrar el comportamiento
+    usual será seguir buscando hasta encontrar un "*/".\par\vspace{1em}
+    Resultados:
+    \begin{verbatim}
+Errors: 
+Character unknown: # in 1
+Character unknown: # in 2
+Block comment without closure: /* Comentario en bloque sin cerrar
+    b = 20; // Comentario en linea anidado
+    return 0;
+} in 20
++------------+-----------------+------------------------------------------+
+| Token      | Tipo de Token   | Linea                                    |
++------------+-----------------+------------------------------------------+
+| char       | KEYWORD         | 17, 18                                   |
++------------+-----------------+------------------------------------------+
+| int        | KEYWORD         | 5, 13, 14, 15, 16                        |
++------------+-----------------+------------------------------------------+
+| MAX        | ID              | 2                                        |
++------------+-----------------+------------------------------------------+
+| a          | ID              | 2(3), 13, 15, 16                         |
++------------+-----------------+------------------------------------------+
+| b          | ID              | 2(3), 14, 15, 16, 19                     |
++------------+-----------------+------------------------------------------+
+| c          | ID              | 16                                       |
++------------+-----------------+------------------------------------------+
+| d          | ID              | 15                                       |
++------------+-----------------+------------------------------------------+
+| define     | ID              | 2                                        |
++------------+-----------------+------------------------------------------+
+| h          | ID              | 1                                        |
++------------+-----------------+------------------------------------------+
+| include    | ID              | 1                                        |
++------------+-----------------+------------------------------------------+
+| main       | ID              | 5                                        |
++------------+-----------------+------------------------------------------+
+| stdio      | ID              | 1                                        |
++------------+-----------------+------------------------------------------+
+| str        | ID              | 17                                       |
++------------+-----------------+------------------------------------------+
+| str2       | ID              | 18                                       |
++------------+-----------------+------------------------------------------+
+| (          | OPERATOR        | 2(6), 5                                  |
++------------+-----------------+------------------------------------------+
+| )          | OPERATOR        | 2(6), 5                                  |
++------------+-----------------+------------------------------------------+
+| ,          | OPERATOR        | 2                                        |
++------------+-----------------+------------------------------------------+
+| .          | OPERATOR        | 1                                        |
++------------+-----------------+------------------------------------------+
+| ;          | OPERATOR        | 13, 14, 15, 16, 17, 18, 19               |
++------------+-----------------+------------------------------------------+
+| =          | OPERATOR        | 13, 14, 15, 16, 17, 18, 19               |
++------------+-----------------+------------------------------------------+
+| {          | OPERATOR        | 5                                        |
++------------+-----------------+------------------------------------------+
+| *          | OPERATOR_ARITHM | 17, 18                                   |
+|            | ETIC            |                                          |
++------------+-----------------+------------------------------------------+
+| +          | OPERATOR_ARITHM | 15, 16                                   |
+|            | ETIC            |                                          |
++------------+-----------------+------------------------------------------+
+| :          | OPERATOR_RELATI | 2                                        |
+|            | ONAL            |                                          |
++------------+-----------------+------------------------------------------+
+| <          | OPERATOR_RELATI | 1                                        |
+|            | ONAL            |                                          |
++------------+-----------------+------------------------------------------+
+| >          | OPERATOR_RELATI | 1, 2                                     |
+|            | ONAL            |                                          |
++------------+-----------------+------------------------------------------+
+| ?          | OPERATOR_RELATI | 2                                        |
+|            | ONAL            |                                          |
++------------+-----------------+------------------------------------------+
+| 10         | LITERAL_INT     | 13                                       |
++------------+-----------------+------------------------------------------+
+| 20         | LITERAL_INT     | 14, 19                                   |
++------------+-----------------+------------------------------------------+
+| "Este es o | LITERAL_STR     | 18                                       |
+| tro string |                 |                                          |
+|  con /* co |                 |                                          |
+| mentario e |                 |                                          |
+| n bloque * |                 |                                          |
+| /"         |                 |                                          |
++------------+-----------------+------------------------------------------+
+| "Este es u | LITERAL_STR     | 17                                       |
+| n string c |                 |                                          |
+| on // come |                 |                                          |
+| ntario en  |                 |                                          |
+| linea"     |                 |                                          |
++------------+-----------------+------------------------------------------+
+    \end{verbatim}
+\end{flushleft}
 
 % Manual de usuario
 \section*{Manual de usuario}
