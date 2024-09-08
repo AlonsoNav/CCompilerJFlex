@@ -30,7 +30,7 @@ int main() {
     // Strings-caracteres
     char *f = "Cadena válida";      // Cadena válida de caracteres
     char g = 'a';                   // Caracter válido
-    char h = '#65';                 // Literal char válido
+    char h = #65;                 // Literal char válido
     
 
     // Errores intencionales:
@@ -40,9 +40,8 @@ int main() {
     double invalidFloat = 1.23.45; // Punto flotante mal formado
     double invalid = 5..38; // Punto flotante mal formado
     int invalidInt = 123abc;         // Número entero inválido
-    char *s = "Esto es un
-    string inválido porque está
-    en múltiples líneas";            // String que se extiende en múltiples líneas
+    char *s = "Esto es un \n
+    string inválido porque está en múltiples líneas";            // String que se extiende en múltiples líneas
 
     return 0;
 }

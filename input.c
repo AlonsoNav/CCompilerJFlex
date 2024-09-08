@@ -1,63 +1,48 @@
 #include <stdio.h>
 
 int main() {
-    auto int a = 0;
-    char b = 'c';
-    const double pi = 3.14;
-    enum { RED, GREEN, BLUE } color;
-    extern int externalVar;
-    float f = 1.23;
-    for (int i = 0; i < 10; i++) {
-        if (i % 2 == 0) {
-            continue;
-        } else {
-            break;
-        }
-    }
-    goto label;
-    label:
-    int x = sizeof(int);
-    static int y = 10;
-    struct Point {
-        int x;
-        int y;
-    };
-    switch (color) {
-        case RED:
-            return 0;
-        case GREEN:
-            return 1;
-        case BLUE:
-            return 2;
-        default:
-            return -1;
-    }
-    typedef unsigned long ulong;
-    union Data {
-        int i;
-        float f;
-        char str[20];
-    };
-    volatile int z = 0;
-    while (z < 10) {
-        z++;
-    }
+    // Números decimales
+    int decimal = 12345; // Decimal positivo
+    int negativeDecimal = -6789; // Decimal negativo
+
+    // Números octales
+    int octal = 0123; // Octal (equivalente a 83 en decimal)
+    int negativeOctal = -07654; // Octal negativo (equivalente a -4012 en decimal)
+
+    // Números hexadecimales
+    int hexadecimal = 0x1A3F; // Hexadecimal (equivalente a 6719 en decimal)
+    int negativeHexadecimal = -0xDEAD; // Hexadecimal negativo (equivalente a -57005 en decimal)
+
+    // Números binarios (C11 en adelante)
+    int binary = 0b1101; // Binario (equivalente a 13 en decimal)
+
+    // Números con punto flotante
+    float floatNum = 3.14159; // Flotante positivo
+    float negativeFloat = -0.9876; // Flotante negativo
+
+    // Números en notación exponencial (notación científica)
+    double scientificPos = 1.23e4; // 1.23 * 10^4 = 12300
+    double scientificNeg = -5.67E-3; // -5.67 * 10^-3 = -0.00567
+
+    // Números flotantes con notación hexadecimal (C99)
+    double hexFloat = 0x1.1p3; // Equivalente a 8.5 en decimal
+
+    // Strings-caracteres
+    char *f = "Cadena válida";      // Cadena válida de caracteres
+    char g = 'a';                   // Caracter válido
+    char h = '#65';                 // Literal char válido
+    
+
+    // Errores intencionales:
+    int invalidHex = 0x1G; // Carácter inválido en número hexadecimal
+    float invalidExp = 12.34e+; // Exponente no válido
+    int invalidOctal = 089; // Dígitos no válidos en número octal
+    double invalidFloat = 1.23.45; // Punto flotante mal formado
+    double invalid = 5..38; // Punto flotante mal formado
+    int invalidInt = 123abc;         // Número entero inválido
+    char *s = "Esto es un \n
+    string inválido porque está
+    en múltiples líneas";       
+
     return 0;
-    int decimal = 42;
-    int octal = 052; // 42 en octal
-    int hexadecimal = 0X2A; // 42 en hexadecimal
-    int binario = 0b101010; // 42 en binario (si se soporta)
-    float f = 0.23; /*
-    *
-    
-    *
-    
-    comments*/
-    float pi = 3.14F;
-    double e = 2.71828;
-    long double bigNum = 1.23E30L;
-    char c = '\n';
-    string s = "\nHello, 
-    World!";
-    double e = .5;
 }

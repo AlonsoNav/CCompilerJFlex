@@ -49,16 +49,9 @@ public Map<String, Token> getTokenTable() {
 
 /* Defined errors */
 [0-9]+[a-zA-Z_][a-zA-Z0-9_]*        { System.out.println("Digit before id: " + yytext() + " in " + (yyline+1)); }
-\.[0-9]+                            { System.out.println("Invalid number format: " + yytext() + " in " + (yyline + 1)); }
 \"([^\"\\\n]|\\.)*\n.*\"            { System.out.println("Strings cannot span multiple lines: " + yytext() + " in " + (yyline+1)); }
 [-+]?[0-9]+(\.[0-9]+)*\.+[0-9]+     { System.out.println("Invalid number format: " + yytext() + " in " + (yyline + 1)); }
-[0-9]+\.                            { System.out.println("Invalid number format: " + yytext() + " in " + (yyline + 1)); }
 \"([^\"\\]*(\\.)?)*[^\"\n]*         { System.out.println("Strings cannot span multiple lines: " + yytext() + " in " + (yyline + 1)); }
-
-
-
-
-
 
 
 
