@@ -1,0 +1,37 @@
+#include <stdio.h>
+
+int main() {
+    // Números decimales
+    int decimal = 12345; // Decimal positivo
+    int negativeDecimal = -6789; // Decimal negativo
+
+    // Números octales
+    int octal = 0123; // Octal (equivalente a 83 en decimal)
+    int negativeOctal = -07654; // Octal negativo (equivalente a -4012 en decimal)
+
+    // Números hexadecimales
+    int hexadecimal = 0x1A3F; // Hexadecimal (equivalente a 6719 en decimal)
+    int negativeHexadecimal = -0xDEAD; // Hexadecimal negativo (equivalente a -57005 en decimal)
+
+    // Números binarios (C11 en adelante)
+    int binary = 0b1101; // Binario (equivalente a 13 en decimal)
+
+    // Números con punto flotante
+    float floatNum = 3.14159; // Flotante positivo
+    float negativeFloat = -0.9876; // Flotante negativo
+
+    // Números en notación exponencial (notación científica)
+    double scientificPos = 1.23e4; // 1.23 * 10^4 = 12300
+    double scientificNeg = -5.67E-3; // -5.67 * 10^-3 = -0.00567
+
+    // Números flotantes con notación hexadecimal (C99)
+    double hexFloat = 0x1.1p3; // Equivalente a 8.5 en decimal
+
+    // Errores intencionales:
+    int invalidHex = 0x1G; // Carácter inválido en número hexadecimal
+    float invalidExp = 12.34e+; // Exponente no válido
+    int invalidOctal = 089; // Dígitos no válidos en número octal
+    double invalidFloat = 1.23.45; Punto flotante mal formado
+
+    return 0;
+}

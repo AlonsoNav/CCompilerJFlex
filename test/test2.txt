@@ -1,0 +1,59 @@
+#include <stdio.h>
+
+int main() {
+    int a = 5 + 3;          // Suma
+    int b = a - 2;          // Resta
+    int c = a * b;          // Multiplicación
+    int d = c / 2;          // División
+    int e = c % 2;          // Módulo
+    int f = a & b;          // AND bit a bit
+    int g = a | b;          // OR bit a bit
+    int h = a ^ b;          // XOR bit a bit
+    int i = ~a;             // NOT bit a bit
+    int j = a << 2;         // Desplazamiento a la izquierda
+    int k = b >> 1;         // Desplazamiento a la derecha
+
+    if (a == b) {           // Igualdad
+        printf("a es igual a b\n");
+    }
+
+    if (a != b) {           // Desigualdad
+        printf("a no es igual a b\n");
+    }
+
+    if (a < b) {            // Menor que
+        printf("a es menor que b\n");
+    }
+
+    if (a > b) {            // Mayor que
+        printf("a es mayor que b\n");
+    }
+
+    if (a <= b) {           // Menor o igual que
+        printf("a es menor o igual que b\n");
+    }
+
+    if (a >= b) {           // Mayor o igual que
+        printf("a es mayor o igual que b\n");
+    }
+
+    if (a && b) {           // AND lógico
+        printf("a y b son verdaderos\n");
+    }
+
+    if (a || b) {           // OR lógico
+        printf("a o b es verdadero\n");
+    }
+
+    if (!a) {               // NOT lógico
+        printf("a es falso\n");
+    }
+
+    // Errores intencionales
+    int l = a @ b;          // Operador inválido
+    int n = a // b;         // Comentario mal formado
+    int p = a +;            // Operador sin operando
+    int q = ;               // Declaración sin inicialización
+
+    return 0;
+}

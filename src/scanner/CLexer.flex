@@ -32,6 +32,7 @@ public Map<String, Token> getTokenTable() {
 /* Comments */
 "//".*                      { /* Ignore */ }
 "/*"([^*]|\*+[^*/])*\*+"/"  { /* Ignore */ }
+"/*"([^*]|\*+[^*/])* { System.out.println("Block comment without closure: "+ yytext() + " in " + (yyline+1)); }
 
 /* Literals */
 [-+]?(0|[1-9][0-9]*)[uU]?[lL]?[lL]?             { addToken(yytext(), TokenType.LITERAL_INT); }
@@ -41,14 +42,11 @@ public Map<String, Token> getTokenTable() {
 [-+]?[0-9]+\.[0-9]+[fF]?[lL]?                   { addToken(yytext(), TokenType.LITERAL_DOUBLE); } 
 [-+]?[0-9]+\.[0-9]*[eE][+-]?[0-9]+[fF]?[lL]?    { addToken(yytext(), TokenType.LITERAL_DOUBLE); }
 [-+]?[0-9]+[eE][+-]?[0-9]+[fF]?[lL]?            { addToken(yytext(), TokenType.LITERAL_DOUBLE); } 
-\"([^\"\\\n]|\\.)*\"                             { addToken(yytext(), TokenType.LITERAL_STR); }
+\"([^\"\\\n]|\\.)*\"                            { addToken(yytext(), TokenType.LITERAL_STR); }
 \'(\\.|[^\\'])\'                                { addToken(yytext(), TokenType.LITERAL_CHAR); }
 "#"[0-9]+                                       { addToken(yytext(), TokenType.LITERAL_CHAR); }
 
-<<<<<<< Updated upstream
-/* Error decimal before id */
-[0-9]+[a-zA-Z_][a-zA-Z0-9_]* { System.err.println("Error: " + yytext() + " in " + (yyline+1)); }
-=======
+
 /* Defined errors */
 [0-9]+[a-zA-Z_][a-zA-Z0-9_]*        { System.out.println("Digit before id: " + yytext() + " in " + (yyline+1)); }
 \.[0-9]+                            { System.out.println("Invalid number format: " + yytext() + " in " + (yyline + 1)); }
@@ -62,7 +60,7 @@ public Map<String, Token> getTokenTable() {
 
 
 
->>>>>>> Stashed changes
+
 
 /* Keywords */
 "auto"                  { addToken(yytext(), TokenType.KEYWORD); }
@@ -149,4 +147,4 @@ public Map<String, Token> getTokenTable() {
 [a-zA-Z_][a-zA-Z0-9_]*  { addToken(yytext(), TokenType.ID); }
 
 /* Errors */
-.                       { System.err.println("Character unknown: " + yytext() + " in " + (yyline+1)); }
+.                           { System.out.println("Character unknown: " + yytext() + " in " + (yyline+1)); }
