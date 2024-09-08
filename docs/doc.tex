@@ -160,6 +160,25 @@ solución de los problemas encontrados durante su desarrollo.
 % Lecciones aprendidas
 \section*{Lecciones aprendidas}
 \addcontentsline{toc}{section}{Lecciones aprendidas}
+\begin{flushleft}
+	\hspace*{2em} Durante el desarrollo del proyecto el grupo 
+	pudo observar que en el scanner es muy importante el orden 
+	de las expresiones regulares porque, si el orden es incorrecto 
+	se pueden capturar tokens no deseados antes que los tokens 
+	válidos lo cual provoca errores. Además, identificar y clasificar 
+	errores como números o cadenas de caracteres con mal formato 
+	e identificadores que no siguen las reglas, permitió al grupo 
+	detectar mejor los errores y mostrar mensajes de salida útiles, 
+	brindando robustez al scanner gracias al manejo de errores léxicos.\par
+	\vspace{1em}
+	\hspace*{2em} Evitar la separación incorrecta de tokens compuestos 
+	fue un reto porque, en algunas casos los errores no se trataban como 
+	un único token con mal formato sino que, se separaban en varios 
+	elementos válidos, esto hacía que en ocasiones se interpretara 
+	incorrectamente el código. Por lo tanto, para mejorar la precisión 
+	del scanner se definieron expresiones regulares más claras.   \par
+	\vspace{1em}
+\end{flushleft}
 
 % Casos de prueba
 \section*{Casos de prueba}
@@ -916,6 +935,8 @@ Character unknown: @ in 53
 	+------------+-----------------+------------------------------------------+
 	\end{verbatim}
 \end{flushleft}
+
+
 
 
 % Manual de usuario
