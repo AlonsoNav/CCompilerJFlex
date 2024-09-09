@@ -1,0 +1,26 @@
+int main() {
+    auto intVar = 5;          // auto
+    int b = intVar + 3;       // int
+    char c = 'A';             // char
+    const int d = 10;         // const
+    unsgned long g = 100L;   
+    signed shrt h = -10;      
+    statc int counter = 0;    
+    float e = 3.14f;          // float
+    double f = 5.0;           // double
+    unsigned long g = 100L;   // unsigned long
+    signed short h = -10;     // signed y short
+    enum days { Mon, Tue };   // enum
+    struct point {            // struct
+        int x, y;
+    };
+    typedef int entero;       // typedef'
+    extern int i;             // extern'
+    static int counter = 0;   // static'
+    void function() {         // void
+        continue;             // continue
+    }
+    
+
+    return 0;
+}

@@ -1,0 +1,44 @@
+int main() {
+    // Palabras reservadas
+    int x = 10;                // int
+    float y = 5.5f;           // float
+    char z = 'c';             // char
+    const int max = 100;      // const
+    double pi = 3.14159;      // double
+    unsigned int u = 5;       // unsigned
+    signed int s = -3;        // signed
+    enum colors { RED, GREEN, BLUE }; // enum
+    struct Point {            // struct
+        int x, y;
+    };
+    
+    // Usando typedef
+    typedef int entero;       // typedef
+    entero a = 5;             // usando typedef
+    
+    // Operaciones
+    int sum = x + 20;         // Suma
+    int product = x * 2;      // Multiplicación
+    double division = (double)x / 4; // División
+    int modulo = x % 3;       // Módulo
+    
+    // Operadores bit a bit
+    int andBit = x & 1;       // AND bit a bit
+    int orBit = x | 1;        // OR bit a bit
+    int xorBit = x ^ 1;       // XOR bit a bit
+    int notBit = ~x;          // NOT bit a bit
+
+    // Strings-caracteres
+    char *f = "Cadena válida";      // Cadena válida de caracteres
+    char g = 'a';                   // Caracter válido
+    char h = #65;                 // Literal char válido
+    
+    // Errores intencionales
+    floaat wrongFloat = 2.5;   // Error: debería ser 'float'
+    int 2ndVar = 10;           // Error: no puede comenzar con un dígito
+    const float pi = 3.14;      // Error: redeclaración de 'const'
+    int l = a @ b;          // Operador inválido
+    int n = a // b;         // Comentario mal formado
+
+    return 0;
+}
