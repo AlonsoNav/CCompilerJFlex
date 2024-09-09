@@ -3,7 +3,7 @@
 int main() {
     auto int a = 0;
     char b = 'c';
-    const double pi = 3.14;
+    const double pi = .14;
     enum { RED, GREEN, BLUE } color;
     extern int externalVar;
     float f = 1.23;
