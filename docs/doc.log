@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.9.8)  8 SEP 2024 19:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.9.8)  9 SEP 2024 18:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -336,7 +336,7 @@ Package hyperref Info: Link coloring OFF on input line 30.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-<logo-tec.png, id=51, 451.6875pt x 85.82062pt>
+<logo-tec.png, id=59, 451.6875pt x 85.82062pt>
 File: logo-tec.png Graphic file (type png)
 <use logo-tec.png>
 Package pdftex.def Info: logo-tec.png  used on input line 37.
@@ -5195,7 +5195,7 @@ Overfull \hbox (20.23112pt too wide) in paragraph at lines 1323--1323
 
 
 [33]
-<respuestas-1.png, id=217, 345.29pt x 316.68312pt>
+<respuestas-1.png, id=226, 345.29pt x 316.68312pt>
 File: respuestas-1.png Graphic file (type png)
 <use respuestas-1.png>
 Package pdftex.def Info: respuestas-1.png  used on input line 1399.
@@ -5211,7 +5211,7 @@ File: omlphv.fd
 LaTeX Font Info:    Font shape `OML/phv/m/n' in size <12> not available
 (Font)              Font shape `OML/cmm/m/it' tried instead on input line 1411.
 
-<respuestas-2.png, id=225, 356.83313pt x 134.5025pt>
+<respuestas-2.png, id=233, 356.83313pt x 134.5025pt>
 File: respuestas-2.png Graphic file (type png)
 <use respuestas-2.png>
 Package pdftex.def Info: respuestas-2.png  used on input line 1429.
@@ -5231,21 +5231,14 @@ LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <12> not available
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-08-16>
  ***********
-
-
-Package rerunfilecheck Warning: File `doc.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `doc.out':
-(rerunfilecheck)             Before: 4C467ED546BABBB84E0CBE3E979AA9E7;1943
-(rerunfilecheck)             After:  2E50872F346621FB8CF62ABEC231E2A7;2392.
+Package rerunfilecheck Info: File `doc.out' has not changed.
+(rerunfilecheck)             Checksum: 2E50872F346621FB8CF62ABEC231E2A7;2392.
  ) 
 Here is how much of TeX's memory you used:
- 9367 strings out of 473899
- 147734 string characters out of 5726501
+ 9369 strings out of 473899
+ 147760 string characters out of 5726501
  1963960 words of memory out of 5000000
- 32065 multiletter control sequences out of 15000+600000
+ 32067 multiletter control sequences out of 15000+600000
  576251 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,11n,79p,508b,641s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -5255,9 +5248,9 @@ fonts/cm/cmtt12.pfb><C:/Users/gomez/AppData/Local/Programs/MiKTeX/fonts/type1/u
 rw/helvetic/uhvb8a.pfb><C:/Users/gomez/AppData/Local/Programs/MiKTeX/fonts/type
 1/urw/helvetic/uhvr8a.pfb><C:/Users/gomez/AppData/Local/Programs/MiKTeX/fonts/t
 ype1/urw/helvetic/uhvro8a.pfb>
-Output written on doc.pdf (38 pages, 241955 bytes).
+Output written on doc.pdf (38 pages, 243200 bytes).
 PDF statistics:
- 288 PDF objects out of 1000 (max. 8388607)
+ 296 PDF objects out of 1000 (max. 8388607)
  63 named destinations out of 1000 (max. 500000)
- 112 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 128 words of extra memory for PDF output out of 10000 (max. 10000000)
 
