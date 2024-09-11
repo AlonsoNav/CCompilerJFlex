@@ -27,12 +27,14 @@ public Map<String, Token> getTokenTable() {
 %%
 
 /* Spaces */
-[ \t\n\r]+                 { /* Ignore */ }
+[ \t\n\r]+                  { /* Ignore */ }
 
 /* Comments */
 "//".*                      { /* Ignore */ }
 "/*"([^*]|\*+[^*/])*\*+"/"  { /* Ignore */ }
-"/*"([^*]|\*+[^*/])* { System.out.println("Block comment without closure: "+ yytext() + " in " + (yyline+1)); }
+"/*"([^*\n]|\*+[^*/\n])*\n      { System.out.println("Block comment without closure: " + yytext() + " in " + (yyline + 1)); }
+
+\"([^\"\\\n]|\\.)*          { System.out.println("String without closure " + yytext() + " in " + (yyline + 1)); }
 
 /* Literals */
 [-+]?(0|[1-9][0-9]*)[uU]?[lL]?[lL]?             { addToken(yytext(), TokenType.LITERAL_INT); }
@@ -46,10 +48,12 @@ public Map<String, Token> getTokenTable() {
 \'(\\.|[^\\'])\'                                { addToken(yytext(), TokenType.LITERAL_CHAR); }
 "#"[0-9]+                                       { addToken(yytext(), TokenType.LITERAL_CHAR); }
 
+
 /* Defined errors */
-[0-9]+[a-zA-Z_][a-zA-Z0-9_]*    { System.out.println("Digit before id: " + yytext() + " in " + (yyline+1)); }
-\.[0-9]+                        { System.out.println("Invalid number format: " + yytext() + " in " + (yyline + 1)); }
-\"([^\"\\\n]|\\.)*\n.*\"        { System.out.println("Strings cannot span multiple lines: " + yytext() + " in " + (yyline+1)); }
+[0-9]+[a-zA-Z_][a-zA-Z0-9_]*        { System.out.println("Digit before id: " + yytext() + " in " + (yyline+1)); }
+\"([^\"\\\n]|\\.)*\n.*\"            { System.out.println("Strings cannot span multiple lines: " + yytext() + " in " + (yyline+1)); }
+[-+]?[0-9]+(\.[0-9]+)*\.+[0-9]+     { System.out.println("Invalid number format: " + yytext() + " in " + (yyline + 1)); }
+\.[0-9]+                            { System.out.println("Invalid number format: " + yytext() + " in " + (yyline + 1)); }
 
 /* Keywords */
 "auto"                  { addToken(yytext(), TokenType.KEYWORD); }
@@ -136,4 +140,4 @@ public Map<String, Token> getTokenTable() {
 [a-zA-Z_][a-zA-Z0-9_]*  { addToken(yytext(), TokenType.ID); }
 
 /* Errors */
-.                           { System.out.println("Character unknown: " + yytext() + " in " + (yyline+1)); }
+.                       { System.out.println("Character unknown: " + yytext() + " in " + (yyline+1)); }
