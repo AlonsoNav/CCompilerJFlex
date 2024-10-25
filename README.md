@@ -38,14 +38,11 @@ java -jar lib/java-cup-11b.jar -parser Parser -symbols Sym -destdir src/parser s
 
 3. Compile the project:
 ```sh
-   javac -d bin -sourcepath src src/app/Main.java src/scanner/CLexer.java .\src\scanner\Token.java .\src\scanner\TokenType.java 
+  javac -d bin -sourcepath src -cp lib/java-cup-11b.jar src/app/Main.java src/scanner/CLexer.java src/scanner/Token.java src/scanner/TokenType.java src/parser/Parser.java src/parser/Sym.java
 
-   javac -d bin -sourcepath src -cp lib/java-cup-11b.jar src/app/Main.java src/scanner/CLexer.java src/scanner/Token.java src/scanner/TokenType.java src/parser/Parser.java src/parser/Sym.java
-
+  javac -d bin -sourcepath src -cp lib/java-cup-11b.jar src/app/PruebaParser.java src/scanner/CLexer.java src/scanner/Token.java src/scanner/TokenType.java src/parser/Parser.java src/parser/Sym.java
 
 ```
-
-
 
 ## Usage
 
@@ -54,6 +51,8 @@ To run the compiler with an input file, use the following command:
 java -cp bin app.Main input.c
 
 java -cp bin;lib/java-cup-11b.jar app.Main input.c
+
+java -cp "bin;lib/java-cup-11b.jar" app.PruebaParser parser.c
 
 ```
 

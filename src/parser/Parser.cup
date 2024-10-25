@@ -18,17 +18,37 @@ terminal PLUS, TIMES, LPAREN, RPAREN, MINUS, DIVIDE, MOD, NOT_OP,
          UNSIGNED, VOID, VOLATILE, WHILE;
 
 // Define los no terminales (estructuras sintácticas)
-nonterminal Integer expr;
+nonterminal ParseNode expr;
 
-precedence left PLUS;
-precedence left TIMES;
-precedence left MINUS, DIVIDE;
+precedence left PLUS, MINUS;
+precedence left TIMES, DIVIDE;
 
 start with expr;
 
-expr ::= expr:e1 PLUS expr:e2   {: RESULT = ((Integer)e1) + ((Integer)e2); :}
-      | expr:e1 MINUS expr:e2   {: RESULT = ((Integer)e1) - ((Integer)e2); :}
-      | expr:e1 TIMES expr:e2   {: RESULT = ((Integer)e1) * ((Integer)e2); :}
-      | expr:e1 DIVIDE expr:e2  {: RESULT = ((Integer)e1) / ((Integer)e2); :}
-      | LPAREN expr:e RPAREN    {: RESULT = ((Integer)e); :}
-      | NUMBER:n                {: RESULT = ((Integer)n); :};
+expr ::= expr:e1 PLUS expr:e2   {: 
+            ParseNode node = new ParseNode("+");
+            node.addChild(e1);  // Convierte e1 a ParseNode
+            node.addChild(e2);  // Convierte e2 a ParseNode
+            RESULT = node;
+        :}
+      | expr:e1 MINUS expr:e2   {: 
+            ParseNode node = new ParseNode("-");
+            node.addChild(e1);  // Convierte e1 a ParseNode
+            node.addChild(e2);  // Convierte e2 a ParseNode
+            RESULT = node;
+        :}
+      | expr:e1 TIMES expr:e2   {: 
+            ParseNode node = new ParseNode("*");
+            node.addChild(e1);  // Convierte e1 a ParseNode
+            node.addChild(e2);  // Convierte e2 a ParseNode
+            RESULT = node;
+        :}
+      | expr:e1 DIVIDE expr:e2  {: 
+            ParseNode node = new ParseNode("/");
+            node.addChild(e1);  // Convierte e1 a ParseNode
+            node.addChild(e2);  // Convierte e2 a ParseNode
+            RESULT = node;
+        :}
+      | LPAREN expr:e RPAREN    {: RESULT = e; :}
+      | NUMBER:n                {: RESULT = new ParseNode(n.toString()); :};
+
