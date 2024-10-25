@@ -1,0 +1,34 @@
+// Define el paquete del parser
+package parser;
+
+import java_cup.runtime.*;
+
+// Define las terminales (tokens) que provienen de JFlex
+terminal PLUS, TIMES, LPAREN, RPAREN, MINUS, DIVIDE, MOD, NOT_OP, 
+         BIT_AND, COMMA, DOT, LT_OP, GT_OP, ASSIGN, QUESTION, COLON, 
+         SEMICOLON, LBRACKET, RBRACKET, LCURLY, RCURLY, 
+         BIT_OR, BIT_NOT, BIT_XOR, AND_OP, OR_OP, INC_OP, DEC_OP,
+         PLUS_ASSIGN, MINUS_ASSIGN, TIMES_ASSIGN, DIV_ASSIGN, MOD_ASSIGN, 
+         LSHIFT, RSHIFT, LSHIFT_ASSIGN, RSHIFT_ASSIGN, BIT_AND_ASSIGN, BIT_OR_ASSIGN, 
+         BIT_XOR_ASSIGN, NE_OP, EQ_OP, LE_OP, GE_OP, PTR_OP, NUMBER, IDENTIFIER,
+         STRING_LITERAL, CHAR_LITERAL, HEX_LITERAL, OCTAL_LITERAL, BINARY_LITERAL, 
+         DOUBLE_LITERAL, AUTO, BREAK, CASE, CHAR, CONST, CONTINUE, DEFAULT, DO, 
+         DOUBLE, ELSE, ENUM, EXTERN, FLOAT, FOR, GOTO, IF, INT, LONG, REGISTER, 
+         RETURN, SHORT, SIGNED, SIZEOF, STATIC, STRUCT, SWITCH, TYPEDEF, UNION, 
+         UNSIGNED, VOID, VOLATILE, WHILE;
+
+// Define los no terminales (estructuras sintácticas)
+nonterminal Integer expr;
+
+precedence left PLUS;
+precedence left TIMES;
+precedence left MINUS, DIVIDE;
+
+start with expr;
+
+expr ::= expr:e1 PLUS expr:e2   {: RESULT = ((Integer)e1) + ((Integer)e2); :}
+      | expr:e1 MINUS expr:e2   {: RESULT = ((Integer)e1) - ((Integer)e2); :}
+      | expr:e1 TIMES expr:e2   {: RESULT = ((Integer)e1) * ((Integer)e2); :}
+      | expr:e1 DIVIDE expr:e2  {: RESULT = ((Integer)e1) / ((Integer)e2); :}
+      | LPAREN expr:e RPAREN    {: RESULT = ((Integer)e); :}
+      | NUMBER:n                {: RESULT = ((Integer)n); :};

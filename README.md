@@ -31,16 +31,30 @@ To build and run the project, you need to have Java installed on your system. Fo
     java -jar lib/jflex-full-1.9.1.jar src/scanner/CLexer.flex
 ```
 
+3. Generate the Cup File:
+```sh
+java -jar lib/java-cup-11b.jar -parser Parser -symbols Sym -destdir src/parser src/parser/Parser.cup
+```
+
 3. Compile the project:
 ```sh
    javac -d bin -sourcepath src src/app/Main.java src/scanner/CLexer.java .\src\scanner\Token.java .\src\scanner\TokenType.java 
+
+   javac -d bin -sourcepath src -cp lib/java-cup-11b.jar src/app/Main.java src/scanner/CLexer.java src/scanner/Token.java src/scanner/TokenType.java src/parser/Parser.java src/parser/Sym.java
+
+
 ```
+
+
 
 ## Usage
 
 To run the compiler with an input file, use the following command:
 ```sh
 java -cp bin app.Main input.c
+
+java -cp bin;lib/java-cup-11b.jar app.Main input.c
+
 ```
 
 You can also send the output to a .txt with
