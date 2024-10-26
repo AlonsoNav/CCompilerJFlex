@@ -2,6 +2,12 @@
 package parser;
 
 import java_cup.runtime.*;
+import parser.ParseNode;
+
+// Sección de funciones auxiliares para construir nodos
+parser code {:
+    ParseNode Arbol = new ParseNode("Arbol");
+:};
 
 // Define las terminales (tokens) que provienen de JFlex
 terminal PLUS, TIMES, LPAREN, RPAREN, MINUS, DIVIDE, MOD, NOT_OP, 
@@ -18,13 +24,52 @@ terminal PLUS, TIMES, LPAREN, RPAREN, MINUS, DIVIDE, MOD, NOT_OP,
          UNSIGNED, VOID, VOLATILE, WHILE;
 
 // Define los no terminales (estructuras sintácticas)
-nonterminal ParseNode expr;
+nonterminal ParseNode program, declaration, typeSpec, declarator, expr;
 
 precedence left PLUS, MINUS;
 precedence left TIMES, DIVIDE;
 
-start with expr;
+// Producción de inicio
+start with program;
 
+// Producción para manejar expresiones con punto y coma al final
+program ::= program declaration:d
+                    {: 
+                      if (RESULT == null) {
+                        RESULT = Arbol; // Asegura que RESULT apunte al nodo raíz "Arbol"
+                      }
+                      ((ParseNode) Arbol).addChild(d); // Agrega la declaración como hijo de Arbol
+                    :}
+                    | declaration:d
+                    {:
+                      RESULT = Arbol; // Asegura que el resultado esté en el árbol global
+                      ((ParseNode) Arbol).addChild(d); // Primera declaración agregada al árbol
+                    :};
+
+// Producción para una declaración de variable con asignación
+declaration ::= typeSpec:t declarator:d ASSIGN expr:e SEMICOLON
+                {:
+                    ParseNode node = new ParseNode("declaration");
+                    node.addChild(t);    // Añade el tipo como ParseNode
+                    node.addChild(d);    // Añade el identificador como ParseNode
+                    node.addChild(e);    // Añade la expresión de asignación como ParseNode
+                    RESULT = node;
+                :};
+
+// Definiciones de tipos de datos
+typeSpec ::= INT {: RESULT = new ParseNode("int"); :}
+           | CHAR {: RESULT = new ParseNode("char"); :}
+           | FLOAT {: RESULT = new ParseNode("float"); :}
+           | DOUBLE {: RESULT = new ParseNode("double"); :}
+           | VOID {: RESULT = new ParseNode("void"); :};
+
+// Definición del declarador (identificador de variable)
+declarator ::= IDENTIFIER:id
+                {:
+                    RESULT = new ParseNode(id.toString());
+                :};
+
+// Producción para expresiones aritméticas
 expr ::= expr:e1 PLUS expr:e2   {: 
             ParseNode node = new ParseNode("+");
             node.addChild(e1);  // Convierte e1 a ParseNode
@@ -50,5 +95,5 @@ expr ::= expr:e1 PLUS expr:e2   {:
             RESULT = node;
         :}
       | LPAREN expr:e RPAREN    {: RESULT = e; :}
-      | NUMBER:n                {: RESULT = new ParseNode(n.toString()); :};
-
+      | NUMBER:n                {: RESULT = new ParseNode(n.toString()); :}
+      | DOUBLE_LITERAL:d         {: RESULT = new ParseNode(d.toString()); :};
