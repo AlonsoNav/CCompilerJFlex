@@ -28,7 +28,7 @@ public class PruebaParser {
             
             ParseNode parseTree = (ParseNode) parser.parse().value;
             System.out.println("Árbol de Parseo:");
-            parseTree.printTree("");
+            parseTree.printTree("", true);
             
             /*
             Symbol parseTreeSymbol = parser.parse();  // Realiza el análisis y obtiene el símbolo del árbol de parsing

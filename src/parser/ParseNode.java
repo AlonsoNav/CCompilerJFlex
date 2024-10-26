@@ -17,10 +17,11 @@ public class ParseNode {
     }
 
     // Método para imprimir el árbol con identación
-    public void printTree(String prefix) {
-        System.out.println(prefix + value);
-        for (ParseNode child : children) {
-            child.printTree(prefix + "  ");
-        }
+    public void printTree(String prefix, boolean isLast) {
+    System.out.println(prefix + (isLast ? "└── " : "├── ") + value);
+    for (int i = 0; i < children.size(); i++) {
+        children.get(i).printTree(prefix + (isLast ? "    " : "│   "), i == children.size() - 1);
     }
+}
+
 }
