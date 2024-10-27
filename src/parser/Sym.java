@@ -22,6 +22,7 @@ public class Sym {
   public static final int SIZEOF = 77;
   public static final int INC_OP = 28;
   public static final int COMMA = 11;
+  public static final int RBRACE = 88;
   public static final int DOUBLE_LITERAL = 54;
   public static final int GE_OP = 45;
   public static final int BIT_AND = 10;
@@ -31,6 +32,7 @@ public class Sym {
   public static final int NOT_OP = 9;
   public static final int BIT_XOR = 25;
   public static final int DOUBLE = 63;
+  public static final int LBRACE = 87;
   public static final int STRUCT = 79;
   public static final int LE_OP = 44;
   public static final int LPAREN = 4;
@@ -41,6 +43,7 @@ public class Sym {
   public static final int MOD = 8;
   public static final int BIT_XOR_ASSIGN = 41;
   public static final int NUMBER = 47;
+  public static final int PRINTF = 89;
   public static final int LONG = 72;
   public static final int PLUS = 2;
   public static final int DIVIDE = 7;
@@ -76,6 +79,7 @@ public class Sym {
   public static final int CONTINUE = 60;
   public static final int IF = 70;
   public static final int UNSIGNED = 83;
+  public static final int ID = 90;
   public static final int LSHIFT_ASSIGN = 37;
   public static final int DIV_ASSIGN = 33;
   public static final int PLUS_ASSIGN = 30;
@@ -182,7 +186,11 @@ public class Sym {
   "UNSIGNED",
   "VOID",
   "VOLATILE",
-  "WHILE"
+  "WHILE",
+  "LBRACE",
+  "RBRACE",
+  "PRINTF",
+  "ID"
   };
 }
 

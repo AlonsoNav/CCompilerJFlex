@@ -7,6 +7,15 @@ import parser.ParseNode;
 // Sección de funciones auxiliares para construir nodos
 parser code {:
     ParseNode Arbol = new ParseNode("Arbol");
+
+    //algunos errores
+    public void syntax_error(Symbol s){
+      System.out.println("Error sintáctico en la línea " + s.left + " columna " + s.right);
+    }
+
+    public void fatal_error(Symbol s) {
+        System.out.println("Error fatal en la línea " + s.left + " columna " + s.right);
+    }
 :};
 
 // Define las terminales (tokens) que provienen de JFlex
@@ -21,13 +30,23 @@ terminal PLUS, TIMES, LPAREN, RPAREN, MINUS, DIVIDE, MOD, NOT_OP,
          DOUBLE_LITERAL, AUTO, BREAK, CASE, CHAR, CONST, CONTINUE, DEFAULT, DO, 
          DOUBLE, ELSE, ENUM, EXTERN, FLOAT, FOR, GOTO, IF, INT, LONG, REGISTER, 
          RETURN, SHORT, SIGNED, SIZEOF, STATIC, STRUCT, SWITCH, TYPEDEF, UNION, 
-         UNSIGNED, VOID, VOLATILE, WHILE;
+         UNSIGNED, VOID, VOLATILE, WHILE, LBRACE, RBRACE, PRINTF;
 
 // Define los no terminales (estructuras sintácticas)
-nonterminal ParseNode program, declaration, typeSpec, declarator, expr;
+nonterminal ParseNode program, declaration, typeSpec, declarator, stmt, stmt_list, expr;
 
-precedence left PLUS, MINUS;
-precedence left TIMES, DIVIDE;
+// Define terminales
+terminal ID;
+
+// Sección de declaraciones de precedencia
+precedence left OR_OP;          // "||"
+precedence left AND_OP;         // "&&"
+precedence left EQ_OP, NE_OP;   // "==" y "!="
+precedence left LT_OP, GT_OP, LE_OP, GE_OP; // "<", ">", "<=", ">="
+precedence left PLUS, MINUS;    // "+" y "-"
+precedence left TIMES, DIVIDE;  // "*", "/", "%"
+precedence left ELSE;           // "!"
+
 
 // Producción de inicio
 start with program;
@@ -55,6 +74,18 @@ declaration ::= typeSpec:t declarator:d ASSIGN expr:e SEMICOLON
                     node.addChild(e);    // Añade la expresión de asignación como ParseNode
                     RESULT = node;
                 :};
+
+stmt_list ::= stmt_list stmt 
+            | stmt;
+
+stmt ::= IF LPAREN expr RPAREN stmt ELSE stmt
+       | IF LPAREN expr RPAREN stmt
+       | ID LPAREN RPAREN LBRACE stmt_list RBRACE
+       | ID LPAREN RPAREN LBRACE RBRACE
+       | INT ID SEMICOLON
+       | FLOAT ID SEMICOLON
+       | PRINTF LPAREN expr RPAREN SEMICOLON
+       | expr SEMICOLON;
 
 // Definiciones de tipos de datos
 typeSpec ::= INT {: RESULT = new ParseNode("int"); :}
@@ -96,4 +127,20 @@ expr ::= expr:e1 PLUS expr:e2   {:
         :}
       | LPAREN expr:e RPAREN    {: RESULT = e; :}
       | NUMBER:n                {: RESULT = new ParseNode(n.toString()); :}
-      | DOUBLE_LITERAL:d         {: RESULT = new ParseNode(d.toString()); :};
+      | DOUBLE_LITERAL:d        {: RESULT = new ParseNode(d.toString()); :}
+      | IF LPAREN expr:cond RPAREN expr:thenStmt ELSE expr:elseStmt
+        {: 
+            ParseNode node = new ParseNode("if");
+            node.addChild(cond);      
+            node.addChild(thenStmt);  
+            node.addChild(elseStmt);  
+            RESULT = node;
+        :}
+      | IF LPAREN expr:cond RPAREN expr:thenStmt
+        {: 
+            ParseNode node = new ParseNode("if");
+            node.addChild(cond);      
+            node.addChild(thenStmt);  
+            RESULT = node;
+        :}
+      ;
