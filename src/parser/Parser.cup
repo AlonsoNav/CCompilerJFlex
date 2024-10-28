@@ -24,7 +24,7 @@ terminal PLUS, TIMES, LPAREN, RPAREN, MINUS, DIVIDE, MOD, NOT_OP,
          UNSIGNED, VOID, VOLATILE, WHILE;
 
 // Define los no terminales (estructuras sintácticas)
-nonterminal ParseNode program, declaration, typeSpec, declarator, expr;
+nonterminal ParseNode program, declaration, typeSpec, declarator, expr, struct;
 
 precedence left PLUS, MINUS;
 precedence left TIMES, DIVIDE;
@@ -40,11 +40,7 @@ program ::= program declaration:d
                       }
                       ((ParseNode) Arbol).addChild(d); // Agrega la declaración como hijo de Arbol
                     :}
-                    | declaration:d
-                    {:
-                      RESULT = Arbol; // Asegura que el resultado esté en el árbol global
-                      ((ParseNode) Arbol).addChild(d); // Primera declaración agregada al árbol
-                    :};
+                    |;
 
 // Producción para una declaración de variable con asignación
 declaration ::= typeSpec:t declarator:d ASSIGN expr:e SEMICOLON
@@ -54,10 +50,33 @@ declaration ::= typeSpec:t declarator:d ASSIGN expr:e SEMICOLON
                     node.addChild(d);    // Añade el identificador como ParseNode
                     node.addChild(e);    // Añade la expresión de asignación como ParseNode
                     RESULT = node;
-                :};
+                :}
+                | typeSpec:t declarator:d SEMICOLON
+                {:
+                    ParseNode node = new ParseNode("declaration");
+                    node.addChild(t);    // Añade el tipo como ParseNode
+                    node.addChild(d);    // Añade el identificador como ParseNode
+                    RESULT = node;
+                :}
+                | struct:s SEMICOLON
+                  {:
+                    ParseNode node = new ParseNode("declaration");
+                    node.addChild(s);    // Añade la estructura como ParseNode
+                    RESULT = node;
+                  :};
+
+// Producción para definir una estructura - solo funciona con una declaración tipo: struct Point { int x;};
+struct ::= STRUCT IDENTIFIER:id LCURLY declaration:d RCURLY 
+            {:
+                ParseNode node = new ParseNode("struct " + id.toString());
+                node.addChild(new ParseNode(id.toString())); // Añade el identificador de la estructura
+                node.addChild(d); // Añade las declaraciones de la estructura
+                RESULT = node;
+            :};
 
 // Definiciones de tipos de datos
-typeSpec ::= INT {: RESULT = new ParseNode("int"); :}
+typeSpec ::= CONST typeSpec:t {: RESULT = new ParseNode("const"); RESULT.addChild(t); :}
+           |INT {: RESULT = new ParseNode("int"); :}
            | CHAR {: RESULT = new ParseNode("char"); :}
            | FLOAT {: RESULT = new ParseNode("float"); :}
            | DOUBLE {: RESULT = new ParseNode("double"); :}
@@ -96,4 +115,7 @@ expr ::= expr:e1 PLUS expr:e2   {:
         :}
       | LPAREN expr:e RPAREN    {: RESULT = e; :}
       | NUMBER:n                {: RESULT = new ParseNode(n.toString()); :}
-      | DOUBLE_LITERAL:d         {: RESULT = new ParseNode(d.toString()); :};
+      | DOUBLE_LITERAL:d         {: RESULT = new ParseNode(d.toString()); :}
+      | STRING_LITERAL:s         {: RESULT = new ParseNode(s.toString()); :}
+      | CHAR_LITERAL:c           {: RESULT = new ParseNode(c.toString()); :}
+      | IDENTIFIER:id            {: RESULT = new ParseNode(id.toString()); :};

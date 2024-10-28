@@ -48,7 +48,7 @@ java -jar lib/java-cup-11b.jar -parser Parser -symbols Sym -destdir src/parser s
 
 To run the compiler with an input file, use the following command:
 ```sh
-java -cp bin app.Main input.c
+java -cp "bin;lib/java-cup-11b.jar" app.Main input.c
 
 java -cp "bin;lib/java-cup-11b.jar" app.PruebaParser parser.c
 
