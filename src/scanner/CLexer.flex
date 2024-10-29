@@ -97,6 +97,9 @@ public Map<String, Token> getTokenTable() {
 "void"                  { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.VOID, yyline, yycolumn, yytext()); }
 "volatile"              { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.VOLATILE, yyline, yycolumn, yytext()); }
 "while"                 { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.WHILE, yyline, yycolumn, yytext()); }
+"read"                  { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.READ, yyline, yycolumn, yytext()); }
+"write"                 { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.WRITE, yyline, yycolumn, yytext()); }
+
 
 /* Operators */
 "<<="                   { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.LSHIFT_ASSIGN, yyline, yycolumn, yytext()); }

@@ -21,26 +21,53 @@ terminal PLUS, TIMES, LPAREN, RPAREN, MINUS, DIVIDE, MOD, NOT_OP,
          DOUBLE_LITERAL, AUTO, BREAK, CASE, CHAR, CONST, CONTINUE, DEFAULT, DO, 
          DOUBLE, ELSE, ENUM, EXTERN, FLOAT, FOR, GOTO, IF, INT, LONG, REGISTER, 
          RETURN, SHORT, SIGNED, SIZEOF, STATIC, STRUCT, SWITCH, TYPEDEF, UNION, 
-         UNSIGNED, VOID, VOLATILE, WHILE;
+         UNSIGNED, VOID, VOLATILE, WHILE, READ, WRITE;
 
 // Define los no terminales (estructuras sintácticas)
-nonterminal ParseNode program, declaration, typeSpec, declarator, expr, struct;
+nonterminal ParseNode program, declaration, typeSpec, declarator, expr, struct, stmt, stmt_list, main_function;
 
-precedence left PLUS, MINUS;
-precedence left TIMES, DIVIDE;
+// Declaraciones de precedencia
+precedence left OR_OP;          // "||"
+precedence left AND_OP;         // "&&"
+precedence left EQ_OP, NE_OP;   // "==" y "!="
+precedence left LT_OP, GT_OP, LE_OP, GE_OP; // "<", ">", "<=", ">="
+precedence left PLUS, MINUS;    // "+" y "-"
+precedence left TIMES, DIVIDE;  // "*", "/", "%"
+precedence left ELSE;           // "!"
 
 // Producción de inicio
 start with program;
 
-// Producción para manejar expresiones con punto y coma al final
 program ::= program declaration:d
-                    {: 
-                      if (RESULT == null) {
-                        RESULT = Arbol; // Asegura que RESULT apunte al nodo raíz "Arbol"
-                      }
-                      ((ParseNode) Arbol).addChild(d); // Agrega la declaración como hijo de Arbol
-                    :}
-                    |;
+            {:
+              if (RESULT == null) {
+                RESULT = Arbol; // Asegura que RESULT apunte al nodo raíz "Arbol"
+              }
+              ((ParseNode) Arbol).addChild(d); // Agrega la declaración como hijo de Arbol
+            :}
+          | program stmt:s
+            {:
+              if (RESULT == null) {
+                RESULT = Arbol;
+              }
+              ((ParseNode) Arbol).addChild(s);
+            :}
+          | declaration:d
+            {:
+              RESULT = Arbol; // Asegura que el resultado esté en el árbol global
+              ((ParseNode) Arbol).addChild(d); // Primera declaración agregada al árbol
+            :}
+          | stmt:s
+            {:
+              RESULT = Arbol;
+              ((ParseNode) Arbol).addChild(s);
+            :};
+
+
+stmt_list ::= stmt_list stmt
+            | stmt;
+
+
 
 // Producción para una declaración de variable con asignación
 declaration ::= typeSpec:t declarator:d ASSIGN expr:e SEMICOLON
@@ -119,3 +146,23 @@ expr ::= expr:e1 PLUS expr:e2   {:
       | STRING_LITERAL:s         {: RESULT = new ParseNode(s.toString()); :}
       | CHAR_LITERAL:c           {: RESULT = new ParseNode(c.toString()); :}
       | IDENTIFIER:id            {: RESULT = new ParseNode(id.toString()); :};
+
+
+// se declara read y write
+stmt ::= READ LPAREN RPAREN SEMICOLON
+        {:
+            ParseNode node = new ParseNode("read");
+            RESULT = node;
+        :}
+      | READ LPAREN IDENTIFIER:id RPAREN SEMICOLON
+        {:
+            ParseNode node = new ParseNode("read");
+            node.addChild(new ParseNode(id.toString())); // Agrega el identificador como hijo
+            RESULT = node;
+        :}
+      | WRITE LPAREN expr:e RPAREN SEMICOLON
+        {:
+            ParseNode node = new ParseNode("write");
+            node.addChild(e); // Agrega la expresión como hijo
+            RESULT = node;
+        :};
