@@ -16,6 +16,7 @@ public class Sym {
   public static final int OR_OP = 27;
   public static final int LCURLY = 21;
   public static final int AND_OP = 26;
+  public static final int READ = 87;
   public static final int CONST = 59;
   public static final int REGISTER = 73;
   public static final int ENUM = 65;
@@ -41,6 +42,7 @@ public class Sym {
   public static final int MOD = 8;
   public static final int BIT_XOR_ASSIGN = 41;
   public static final int NUMBER = 47;
+  public static final int WRITE = 88;
   public static final int LONG = 72;
   public static final int PLUS = 2;
   public static final int DIVIDE = 7;
@@ -182,7 +184,9 @@ public class Sym {
   "UNSIGNED",
   "VOID",
   "VOLATILE",
-  "WHILE"
+  "WHILE",
+  "READ",
+  "WRITE"
   };
 }
 

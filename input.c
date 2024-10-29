@@ -3,6 +3,7 @@
 int main() {
     auto int a = 0;
     char b = 'c';
+    read(b);
     const double pi = .14;
     enum { RED, GREEN, BLUE } color;
     extern int externalVar;
@@ -57,4 +58,5 @@ int main() {
     string s = "\nHello, 
     World!";
     double e = .5;
+    write(e);
 }
