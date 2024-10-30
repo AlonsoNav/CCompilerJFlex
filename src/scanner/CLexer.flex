@@ -103,6 +103,7 @@ public Map<String, Token> getTokenTable() {
 "while"                 { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.WHILE, yyline, yycolumn, yytext()); }
 "read"                  { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.READ, yyline, yycolumn, yytext()); }
 "write"                 { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.WRITE, yyline, yycolumn, yytext()); }
+"main"                 { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.MAIN, yyline, yycolumn, yytext()); }
 
 
 /* Operators */
