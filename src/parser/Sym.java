@@ -73,6 +73,7 @@ public class Sym {
   public static final int SEMICOLON = 18;
   public static final int LT_OP = 13;
   public static final int DEFAULT = 61;
+  public static final int MAIN = 89;
   public static final int MINUS = 6;
   public static final int error = 1;
   public static final int CONTINUE = 60;
@@ -186,7 +187,8 @@ public class Sym {
   "VOLATILE",
   "WHILE",
   "READ",
-  "WRITE"
+  "WRITE",
+  "MAIN"
   };
 }
 

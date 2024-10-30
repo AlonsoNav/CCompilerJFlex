@@ -67,8 +67,6 @@ program ::= program declaration:d
 stmt_list ::= stmt_list stmt
             | stmt;
 
-
-
 // Producción para una declaración de variable con asignación
 declaration ::= typeSpec:t declarator:d ASSIGN expr:e SEMICOLON
                 {:
@@ -99,7 +97,8 @@ struct ::= STRUCT IDENTIFIER:id LCURLY declaration:d RCURLY
                 node.addChild(new ParseNode(id.toString())); // Añade el identificador de la estructura
                 node.addChild(d); // Añade las declaraciones de la estructura
                 RESULT = node;
-            :};
+            :}
+            | ;
 
 // Definiciones de tipos de datos
 typeSpec ::= CONST typeSpec:t {: RESULT = new ParseNode("const"); RESULT.addChild(t); :}
@@ -145,7 +144,8 @@ expr ::= expr:e1 PLUS expr:e2   {:
       | DOUBLE_LITERAL:d         {: RESULT = new ParseNode(d.toString()); :}
       | STRING_LITERAL:s         {: RESULT = new ParseNode(s.toString()); :}
       | CHAR_LITERAL:c           {: RESULT = new ParseNode(c.toString()); :}
-      | IDENTIFIER:id            {: RESULT = new ParseNode(id.toString()); :};
+      | IDENTIFIER:id            {: RESULT = new ParseNode(id.toString()); :}
+      |;
 
 
 // se declara read y write
