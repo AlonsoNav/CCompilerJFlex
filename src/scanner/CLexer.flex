@@ -20,7 +20,11 @@ private Map<String, Token> tokenTable = new HashMap<>();
 // Implementa la interfaz Scanner de CUP
 @Override
 public Symbol next_token() throws java.io.IOException {
-    return yylex();  // Devuelve el siguiente token desde el método yylex()
+    Symbol symbol = yylex();
+    if (symbol != null) {
+        System.out.println("Token: " + symbol.sym + ", Valor: " + symbol.value + ", Linea: " + yyline + ", Columna: " + yycolumn);
+    }
+    return symbol;
 }
 
 private void addToken(String token, TokenType type) {

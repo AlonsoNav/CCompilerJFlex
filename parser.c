@@ -4,7 +4,13 @@ int b = 4 + 5;
 float c = 3.14;
 int d = 3 / 4;
 char s = "Hello, World!";
+read(number);
+write(number);
 
 struct Point {
     int x;
 };
+
+int main() {
+    int a = 3;
+}
