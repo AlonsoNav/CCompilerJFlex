@@ -9,23 +9,73 @@ parser code {:
     ParseNode Arbol = new ParseNode("Arbol");
 :};
 
+//-----Simbolos no terminales------
 // Define las terminales (tokens) que provienen de JFlex
-terminal PLUS, TIMES, LPAREN, RPAREN, MINUS, DIVIDE, MOD, NOT_OP, 
-         BIT_AND, COMMA, DOT, LT_OP, GT_OP, ASSIGN, QUESTION, COLON, 
-         SEMICOLON, LBRACKET, RBRACKET, LCURLY, RCURLY, 
-         BIT_OR, BIT_NOT, BIT_XOR, AND_OP, OR_OP, INC_OP, DEC_OP,
-         PLUS_ASSIGN, MINUS_ASSIGN, TIMES_ASSIGN, DIV_ASSIGN, MOD_ASSIGN, 
-         LSHIFT, RSHIFT, LSHIFT_ASSIGN, RSHIFT_ASSIGN, BIT_AND_ASSIGN, BIT_OR_ASSIGN, 
-         BIT_XOR_ASSIGN, NE_OP, EQ_OP, LE_OP, GE_OP, PTR_OP, NUMBER, IDENTIFIER,
-         STRING_LITERAL, CHAR_LITERAL, HEX_LITERAL, OCTAL_LITERAL, BINARY_LITERAL, 
-         DOUBLE_LITERAL, AUTO, BREAK, CASE, CHAR, CONST, CONTINUE, DEFAULT, DO, 
-         DOUBLE, ELSE, ENUM, EXTERN, FLOAT, FOR, GOTO, IF, INT, LONG, REGISTER, 
-         RETURN, SHORT, SIGNED, SIZEOF, STATIC, STRUCT, SWITCH, TYPEDEF, UNION, 
-         UNSIGNED, VOID, VOLATILE, WHILE, READ, WRITE, MAIN;
 
+// Operadores aritmeticos
+terminal PLUS, MINUS, DIVIDE, MOD, PLUS_ASSIGN, MINUS_ASSIGN, 
+         DIV_ASSIGN, MOD_ASSIGN, TIMES_ASSIGN, TIMES, INC_OP, DEC_OP;
+
+// Operadores relacionales
+terminal EQ_OP, GE_OP, GT_OP, QUESTION, LE_OP, LT_OP, NE_OP, COLON;
+
+// Operadores logicos
+terminal OR_OP, AND_OP, NOT_OP;
+
+// Operadores binarios
+terminal LSHIFT_ASSIGN, RSHIFT_ASSIGN, BIT_AND_ASSIGN, BIT_XOR_ASSIGN, 
+         BIT_OR_ASSIGN, BIT_AND, BIT_XOR, BIT_OR, RSHIFT, LSHIFT, BIT_NOT;
+
+// Otros Operadores
+terminal PTR_OP, ASSIGN, DOT, COMMA, SEMICOLON, LPAREN, RPAREN, LCURLY,
+         RCURLY, LBRACKET, RBRACKET;    
+
+// literales
+terminal NUMBER, HEX_LITERAL, OCTAL_LITERAL, BINARY_LITERAL, DOUBLE_LITERAL,
+         STRING_LITERAL, CHAR_LITERAL;
+
+// Estructuras de control
+terminal IF, ELSE, WHILE, FOR, SWITCH, CASE, DEFAULT, DO;
+
+
+// Final de expresiones o Estructuras
+terminal BREAK, RETURN;
+
+// Intruccion de flujo
+terminal CONTINUE, GOTO;
+
+// tipos
+terminal VOID, INT, CHAR, FLOAT, DOUBLE, SHORT, LONG, SIGNED, UNSIGNED,
+         CONST, ENUM;
+
+// Palabras clave
+terminal AUTO, REGISTER, STATIC, EXTERN, RESTRICT, VOLATILE;
+
+// Palabras reservadas
+terminal UNION, STRUCT, SIZEOF, TYPEDEF, READ, WRITE, MAIN, IDENTIFIER;
+
+
+
+//-----Simbolos no terminales------
 non terminal INICIO, SENTENCIA, DECLARACION, DECLARACION_FOR, IFs, IF_ELSE,
     WHILEs, DO_WHILE, FORs, SENTENCIA_BOOLEANA, SENTENCIA_FOR, T_DATO, OP_RELACIONALES, 
     OP_LOGICOS, OP_ARITMETICOS, OP_BIT, READ_WRITE;
+
+
+//-----Precedencias------
+precedence left OR_OP;                // ||
+precedence left AND_OP;               // &&
+precedence nonassoc EQ_OP, NE_OP;     // ==, !=
+precedence nonassoc LT_OP, LE_OP, GT_OP, GE_OP; // <, <=, >, >=
+precedence left BIT_OR;               // |
+precedence left BIT_XOR;              // ^
+precedence left BIT_AND;              // &
+precedence left LSHIFT, RSHIFT;       // <<, >>
+precedence left PLUS, MINUS;          // +, -
+precedence left TIMES, DIVIDE, MOD;   // *, /, %
+precedence right NOT_OP, BIT_NOT, INC_OP, DEC_OP; // !, ~, ++, --
+precedence left DOT, PTR_OP;          // ., ->
+
 
 start with INICIO;
 
