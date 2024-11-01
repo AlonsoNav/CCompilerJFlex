@@ -1,10 +1,10 @@
-#include <stdio.h> // Eliminar para probar el parser
+ // Eliminar para probar el parser
 
 int main() {
     auto int a = 0;
     char b = 'c';
     read(b);
-    const double pi = .14;
+    const double pi = 3.14;
     enum { RED, GREEN, BLUE } color;
     extern int externalVar;
     float f = 1.23;
