@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <stdio.h> // Eliminar para probar el parser
 
 int main() {
     auto int a = 0;

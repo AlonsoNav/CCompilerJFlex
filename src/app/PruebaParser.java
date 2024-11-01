@@ -27,7 +27,7 @@ public class PruebaParser {
             System.out.println("Starting parsing process...");
             
             ParseNode parseTree = (ParseNode) parser.parse().value;
-            System.out.println("Árbol de Parseo:");
+            System.out.println("Arbol de Parseo:");
             parseTree.printTree("", true);
             
             /*
