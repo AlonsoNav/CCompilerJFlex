@@ -5,6 +5,12 @@ int short e = 6;
 
 void PruebaSinParametro(int a) {
     int a = 0;
+    if (a + b > c && b - a < c) {
+        return;
+    }
+    if (a + b > c && b - a) {
+        return;
+    }
 }
 
 int PruebaConParametro(int a) {
@@ -14,5 +20,5 @@ int PruebaConParametro(int a) {
 int main() {
     long bigNum = 1.23E30L;
     short int a = 0;
-
+    return;
 }
