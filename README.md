@@ -33,7 +33,7 @@ To build and run the project, you need to have Java installed on your system. Fo
 
 3. Generate the Cup File:
 ```sh
-java -jar lib/java-cup-11b.jar -parser Parser -symbols Sym -destdir src/parser src/parser/Parser.cup
+java -jar lib/java-cup-11b.jar -parser Parser -symbols Sym -destdir src/parser src/parser/ParserOrdenado.cup
 ```
 
 3. Compile the project:
@@ -41,6 +41,7 @@ java -jar lib/java-cup-11b.jar -parser Parser -symbols Sym -destdir src/parser s
   javac -d bin -sourcepath src -cp lib/java-cup-11b.jar src/app/Main.java src/scanner/CLexer.java src/scanner/Token.java src/scanner/TokenType.java src/parser/Parser.java src/parser/Sym.java
 
   javac -d bin -sourcepath src -cp lib/java-cup-11b.jar src/app/PruebaParser.java src/scanner/CLexer.java src/scanner/Token.java src/scanner/TokenType.java src/parser/Parser.java src/parser/Sym.java
+
 
 ```
 

@@ -1,9 +1,13 @@
+void PruebaSinParametro() {
+    int a = 0;
+}
+
+int PruebaConParametro(int a) {
+    return a;
+}
+
 int main() {
-    int a;
-    a = 1;
-    if (a > 1) {
-        a = 2;
-    } else {
-        a = 3;
-    }
+    long double bigNum = 1.23E30L;
+    short int a = 0;
+
 }
