@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Main {
+public class ScannerMain {
     public static void main(String[] args) {
         if (args.length < 1) {
             System.err.println("Usage: java app.Main <input-file>");
