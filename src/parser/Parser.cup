@@ -1,13 +1,6 @@
-// Define el paquete del parser
 package parser;
 
 import java_cup.runtime.*;
-import parser.ParseNode;
-
-// Sección de funciones auxiliares para construir nodos
-parser code {:
-    ParseNode Arbol = new ParseNode("Arbol");
-:};
 
 // Define las terminales (tokens) que provienen de JFlex
 terminal PLUS, TIMES, LPAREN, RPAREN, MINUS, DIVIDE, MOD, NOT_OP, 

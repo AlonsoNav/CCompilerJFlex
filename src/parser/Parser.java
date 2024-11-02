@@ -6,7 +6,6 @@
 package parser;
 
 import java_cup.runtime.*;
-import parser.ParseNode;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -478,10 +477,6 @@ public class Parser extends java_cup.runtime.lr_parser {
 
   /** <code>error</code> Symbol index. */
   public int error_sym() {return 1;}
-
-
-
-    ParseNode Arbol = new ParseNode("Arbol");
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
