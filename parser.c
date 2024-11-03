@@ -2,6 +2,7 @@ int a = ( 6 + 7 ) * 8, ba, ca = 2+ 3;
 const long c = (5 < 6) && (6 > 5);
 long int d = 5 * 8;
 int short e = 6;
+int i = 0;
 
 void PruebaSinParametro(int a) {
     int a = suma();
@@ -21,6 +22,10 @@ void PruebaSinParametro(int a) {
     do {
         return;
     } while (a < b);
+
+    for (; ++a < 5;) {
+        return;
+    }
 }
 
 int PruebaConParametro(int a) {
