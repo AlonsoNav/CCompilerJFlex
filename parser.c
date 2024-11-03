@@ -16,6 +16,10 @@ void PruebaSinParametro(int a) {
     while (a < b) {
         return;
     }
+
+    do {
+        return;
+    } while (a < b);
 }
 
 int PruebaConParametro(int a) {
