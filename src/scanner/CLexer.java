@@ -529,22 +529,6 @@ private StringBuilder lineTokens = new StringBuilder();
 @Override
 public Symbol next_token() throws java.io.IOException {
     Symbol symbol = yylex();
-    if (symbol != null) {
-        
-        System.out.println("Token: " + symbol.sym + ", Valor: " + symbol.value + ", Linea: " + yyline + ", Columna: " + yycolumn);
-
-        /*if (currentLine != (yyline + 1)) {
-            System.out.println("Linea: " + currentLine + ":" + lineTokens.toString().trim());
-            lineTokens.setLength(0);
-            currentLine = yyline + 1;
-        }
-
-        lineTokens.append(symbol.value).append(" ");*/
-    }
-    /*
-    if (symbol == null && lineTokens.length() > 0) {
-        System.out.println("Linea: " + currentLine + ":" + lineTokens.toString().trim());
-    }*/
     return symbol;
 }
 
@@ -976,7 +960,7 @@ public Map<String, Token> getTokenTable() {
           // fall through
           case 96: break;
           case 3:
-            { addToken(yytext(), TokenType.OPERATOR_LOGICAL); return new Symbol(Sym.NOT_OP, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_LOGICAL); return new Symbol(Sym.NOT_OP, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 97: break;
@@ -986,187 +970,187 @@ public Map<String, Token> getTokenTable() {
           // fall through
           case 98: break;
           case 5:
-            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.MOD, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.MOD, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 99: break;
           case 6:
-            { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_AND, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_AND, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 100: break;
           case 7:
-            { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.LPAREN, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.LPAREN, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 101: break;
           case 8:
-            { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.RPAREN, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.RPAREN, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 102: break;
           case 9:
-            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.TIMES, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.TIMES, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 103: break;
           case 10:
-            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.PLUS, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.PLUS, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 104: break;
           case 11:
-            { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.COMMA, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.COMMA, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 105: break;
           case 12:
-            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.MINUS, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.MINUS, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 106: break;
           case 13:
-            { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.DOT, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.DOT, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 107: break;
           case 14:
-            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.DIVIDE, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.DIVIDE, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 108: break;
           case 15:
-            { addToken(yytext(), TokenType.LITERAL_INT); return new Symbol(Sym.NUMBER, yyline, yycolumn, Integer.valueOf(yytext()));
+            { addToken(yytext(), TokenType.LITERAL_INT); return new Symbol(Sym.NUMBER, yyline + 1, yycolumn, Integer.valueOf(yytext()));
             }
           // fall through
           case 109: break;
           case 16:
-            { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.COLON, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.COLON, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 110: break;
           case 17:
-            { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.SEMICOLON, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.SEMICOLON, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 111: break;
           case 18:
-            { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.LT_OP, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.LT_OP, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 112: break;
           case 19:
-            { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.ASSIGN, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.ASSIGN, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 113: break;
           case 20:
-            { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.GT_OP, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.GT_OP, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 114: break;
           case 21:
-            { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.QUESTION, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.QUESTION, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 115: break;
           case 22:
-            { addToken(yytext(), TokenType.ID); return new Symbol(Sym.IDENTIFIER, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.ID); return new Symbol(Sym.IDENTIFIER, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 116: break;
           case 23:
-            { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.LBRACKET, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.LBRACKET, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 117: break;
           case 24:
-            { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.RBRACKET, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.RBRACKET, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 118: break;
           case 25:
-            { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_XOR, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_XOR, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 119: break;
           case 26:
-            { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.LCURLY, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.LCURLY, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 120: break;
           case 27:
-            { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_OR, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_OR, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 121: break;
           case 28:
-            { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.RCURLY, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.RCURLY, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 122: break;
           case 29:
-            { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_NOT, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_NOT, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 123: break;
           case 30:
-            { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.NE_OP, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.NE_OP, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 124: break;
           case 31:
-            { addToken(yytext(), TokenType.LITERAL_STR); return new Symbol(Sym.STRING_LITERAL, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.LITERAL_STR); return new Symbol(Sym.STRING_LITERAL, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 125: break;
           case 32:
-            { addToken(yytext(), TokenType.LITERAL_CHAR); return new Symbol(Sym.CHAR_LITERAL, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.LITERAL_CHAR); return new Symbol(Sym.CHAR_LITERAL, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 126: break;
           case 33:
-            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.MOD_ASSIGN, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.MOD_ASSIGN, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 127: break;
           case 34:
-            { addToken(yytext(), TokenType.OPERATOR_LOGICAL); return new Symbol(Sym.AND_OP, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_LOGICAL); return new Symbol(Sym.AND_OP, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 128: break;
           case 35:
-            { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_AND_ASSIGN, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_AND_ASSIGN, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 129: break;
           case 36:
-            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.TIMES_ASSIGN, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.TIMES_ASSIGN, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 130: break;
           case 37:
-            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.INC_OP, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.INC_OP, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 131: break;
           case 38:
-            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.PLUS_ASSIGN, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.PLUS_ASSIGN, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 132: break;
           case 39:
-            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.DEC_OP, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.DEC_OP, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 133: break;
           case 40:
-            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.MINUS_ASSIGN, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.MINUS_ASSIGN, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 134: break;
           case 41:
-            { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.PTR_OP, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.PTR_OP, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 135: break;
@@ -1176,12 +1160,12 @@ public Map<String, Token> getTokenTable() {
           // fall through
           case 136: break;
           case 43:
-            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.DIV_ASSIGN, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.DIV_ASSIGN, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 137: break;
           case 44:
-            { addToken(yytext(), TokenType.LITERAL_OCTAL); return new Symbol(Sym.OCTAL_LITERAL, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.LITERAL_OCTAL); return new Symbol(Sym.OCTAL_LITERAL, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 138: break;
@@ -1191,52 +1175,52 @@ public Map<String, Token> getTokenTable() {
           // fall through
           case 139: break;
           case 46:
-            { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.LSHIFT, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.LSHIFT, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 140: break;
           case 47:
-            { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.LE_OP, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.LE_OP, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 141: break;
           case 48:
-            { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.EQ_OP, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.EQ_OP, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 142: break;
           case 49:
-            { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.GE_OP, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.GE_OP, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 143: break;
           case 50:
-            { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.RSHIFT, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.RSHIFT, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 144: break;
           case 51:
-            { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_XOR_ASSIGN, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_XOR_ASSIGN, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 145: break;
           case 52:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.DO, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.DO, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 146: break;
           case 53:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.IF, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.IF, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 147: break;
           case 54:
-            { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_OR_ASSIGN, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_OR_ASSIGN, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 148: break;
           case 55:
-            { addToken(yytext(), TokenType.OPERATOR_LOGICAL); return new Symbol(Sym.OR_OP, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_LOGICAL); return new Symbol(Sym.OR_OP, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 149: break;
@@ -1251,187 +1235,187 @@ public Map<String, Token> getTokenTable() {
           // fall through
           case 151: break;
           case 58:
-            { addToken(yytext(), TokenType.LITERAL_DOUBLE); return new Symbol(Sym.DOUBLE_LITERAL, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.LITERAL_DOUBLE); return new Symbol(Sym.DOUBLE_LITERAL, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 152: break;
           case 59:
-            { addToken(yytext(), TokenType.LITERAL_BINARY); return new Symbol(Sym.BINARY_LITERAL, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.LITERAL_BINARY); return new Symbol(Sym.BINARY_LITERAL, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 153: break;
           case 60:
-            { addToken(yytext(), TokenType.LITERAL_HEX); return new Symbol(Sym.HEX_LITERAL, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.LITERAL_HEX); return new Symbol(Sym.HEX_LITERAL, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 154: break;
           case 61:
-            { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.LSHIFT_ASSIGN, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.LSHIFT_ASSIGN, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 155: break;
           case 62:
-            { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.RSHIFT_ASSIGN, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.RSHIFT_ASSIGN, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 156: break;
           case 63:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.FOR, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.FOR, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 157: break;
           case 64:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.INT, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.INT, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 158: break;
           case 65:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.AUTO, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.AUTO, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 159: break;
           case 66:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.CASE, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.CASE, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 160: break;
           case 67:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.CHAR, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.CHAR, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 161: break;
           case 68:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.ELSE, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.ELSE, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 162: break;
           case 69:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.ENUM, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.ENUM, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 163: break;
           case 70:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.GOTO, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.GOTO, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 164: break;
           case 71:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.LONG, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.LONG, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 165: break;
           case 72:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.READ, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.READ, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 166: break;
           case 73:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.VOID, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.VOID, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 167: break;
           case 74:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.BREAK, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.BREAK, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 168: break;
           case 75:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.CONST, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.CONST, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 169: break;
           case 76:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.FLOAT, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.FLOAT, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 170: break;
           case 77:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.SHORT, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.SHORT, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 171: break;
           case 78:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.UNION, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.UNION, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 172: break;
           case 79:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.WHILE, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.WHILE, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 173: break;
           case 80:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.WRITE, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.WRITE, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 174: break;
           case 81:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.DOUBLE, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.DOUBLE, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 175: break;
           case 82:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.EXTERN, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.EXTERN, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 176: break;
           case 83:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.RETURN, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.RETURN, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 177: break;
           case 84:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.SIGNED, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.SIGNED, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 178: break;
           case 85:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.SIZEOF, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.SIZEOF, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 179: break;
           case 86:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.STATIC, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.STATIC, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 180: break;
           case 87:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.STRUCT, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.STRUCT, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 181: break;
           case 88:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.SWITCH, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.SWITCH, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 182: break;
           case 89:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.DEFAULT, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.DEFAULT, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 183: break;
           case 90:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.TYPEDEF, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.TYPEDEF, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 184: break;
           case 91:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.CONTINUE, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.CONTINUE, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 185: break;
           case 92:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.REGISTER, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.REGISTER, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 186: break;
           case 93:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.UNSIGNED, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.UNSIGNED, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 187: break;
           case 94:
-            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.VOLATILE, yyline, yycolumn, yytext());
+            { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.VOLATILE, yyline + 1, yycolumn, yytext());
             }
           // fall through
           case 188: break;

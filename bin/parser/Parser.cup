@@ -2,6 +2,25 @@ package parser;
 
 import java_cup.runtime.*;
 
+parser code {:
+    void syntaxError(Symbol sym, String message) {
+        System.err.println("Error de sintaxis en línea " + sym.left + ": " + message);
+    }
+    @Override
+    public void report_error(String message, Object info) {
+    }
+
+    @Override
+    public void report_fatal_error(String message, Object info) {
+        report_error(message, info);
+        throw new RuntimeException("Fatal error in parser.");
+    }
+
+    @Override
+    public void syntax_error(Symbol cur_token) {
+    }
+:};
+
 // Define las terminales (tokens) que provienen de JFlex
 terminal PLUS, TIMES, LPAREN, RPAREN, MINUS, DIVIDE, MOD, NOT_OP, 
          BIT_AND, COMMA, DOT, LT_OP, GT_OP, ASSIGN, QUESTION, COLON, 
@@ -38,11 +57,14 @@ precedence right ASSIGN, PLUS_ASSIGN, MINUS_ASSIGN, TIMES_ASSIGN, DIV_ASSIGN;
 start with INICIO;
 
 INICIO ::= GLOBAL_DECLARACIONES FUNCIONES |
-           FUNCIONES
+           FUNCIONES |
+           GLOBAL_DECLARACIONES {: syntaxError(((Symbol) stack.peek()), "El programa debe tener al menos una función."); :} |
+           {: syntaxError(((Symbol) stack.peek()), "El programa debe tener al menos una función."); :}
 ;
 
 GLOBAL_DECLARACIONES ::= DECLARACION |
-                         GLOBAL_DECLARACIONES DECLARACION
+                        GLOBAL_DECLARACIONES DECLARACION |
+                        error SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Declaración de variable incorrecta."); :}
 ;
 
 FUNCIONES ::= FUNCION |
@@ -90,7 +112,8 @@ CONTROL_STATEMENT ::=
 
 DECLARACION ::= 
     T_DATO ID_LIST SEMICOLON | 
-    CONST T_DATO ID_LIST SEMICOLON 
+    CONST T_DATO ID_LIST SEMICOLON |
+    VOID ID_LIST SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Una variable no puede ser declarada void."); :}
 ;
 
 
