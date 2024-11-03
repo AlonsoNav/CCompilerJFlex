@@ -12,6 +12,10 @@ void PruebaSinParametro(int a) {
     } else {
         return;
     }
+
+    while (a < b) {
+        return;
+    }
 }
 
 int PruebaConParametro(int a) {
