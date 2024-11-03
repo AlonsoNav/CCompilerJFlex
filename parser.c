@@ -29,11 +29,19 @@ void PruebaSinParametro(int a) {
 }
 
 int PruebaConParametro(int a) {
-    return a;
 }
 
 int main() {
     long bigNum = 123;
     short int a = 0;
-    return;
+
+    int num = 2; // Expresión numérica para el switch
+
+    switch ((num + 2)) {
+        case 1:
+        default:
+            break;
+    }
+
+    return 0;
 }
