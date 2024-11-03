@@ -1,4 +1,4 @@
-const int b = 3;
+int a = ( 6 + 7 ) * 8, ba, ca = 2+ 3;
 const long c = (5 < 6) && (6 > 5);
 long int d = 5 * 8;
 int short e = 6;
