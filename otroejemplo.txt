@@ -9,9 +9,9 @@ void PruebaSinParametro(int a) {
         return;
     } else {
         return;
-    } else {
-        return;
     } 
+
+    a + b > c && b - a
 
     while (a < b) {
         return;

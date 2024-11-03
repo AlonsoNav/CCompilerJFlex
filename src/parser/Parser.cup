@@ -53,6 +53,7 @@ precedence left TIMES, DIVIDE, MOD;
 precedence right INC_OP, DEC_OP;
 precedence right NOT_OP;
 precedence right ASSIGN, PLUS_ASSIGN, MINUS_ASSIGN, TIMES_ASSIGN, DIV_ASSIGN;
+precedence right LPAREN;
 
 start with INICIO;
 
@@ -99,7 +100,8 @@ SENTENCIA ::=
     READ_WRITE |
     CONTROL_STATEMENT|
     SWITCHs |
-    EXPRESIONES SEMICOLON
+    EXPRESIONES SEMICOLON |
+    EXPRESIONES SENTENCIA {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :}
 ;
 
 CONTROL_STATEMENT ::= 
