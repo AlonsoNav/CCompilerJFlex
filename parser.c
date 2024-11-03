@@ -1,16 +1,26 @@
-const int b = 3;
-const long c = 4;
-long int d = 5;
+int a = ( 6 + 7 ) * 8, ba, ca = 2+ 3;
+const long c = (5 < 6) && (6 > 5);
+long int d = 5 * 8;
 int short e = 6;
 
 void PruebaSinParametro(int a) {
-    int a = 0;
-    if (a + b > c && b - a < c) {
+    int a = suma();
+    if (a = b = 5 < 6) {
+        write(C- 123);
+        return;
+    } else if (a + b > c && b - a) {
+        return;
+    } else {
         return;
     }
-    if (a + b > c && b - a) {
+
+    while (a < b) {
         return;
     }
+
+    do {
+        return;
+    } while (a < b);
 }
 
 int PruebaConParametro(int a) {
@@ -18,7 +28,7 @@ int PruebaConParametro(int a) {
 }
 
 int main() {
-    long bigNum = 1.23E30L;
+    long bigNum = 123;
     short int a = 0;
     return;
 }

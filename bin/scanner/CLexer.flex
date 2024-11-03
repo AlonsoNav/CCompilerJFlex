@@ -16,13 +16,28 @@ import parser.Sym; // Importa los símbolos generados por CUP
 
 %{
 private Map<String, Token> tokenTable = new HashMap<>();
+private int currentLine = 1;
+private StringBuilder lineTokens = new StringBuilder();
 
 // Implementa la interfaz Scanner de CUP
 @Override
 public Symbol next_token() throws java.io.IOException {
     Symbol symbol = yylex();
     if (symbol != null) {
-        System.out.println("Token: " + symbol.sym + ", Valor: " + symbol.value + ", Linea: " + yyline + ", Columna: " + yycolumn);
+        
+        /* System.out.println("Token: " + symbol.sym + ", Valor: " + symbol.value + ", Linea: " + yyline + ", Columna: " + yycolumn); */
+
+        if (currentLine != (yyline + 1)) {
+            System.out.println("Linea: " + currentLine + ":" + lineTokens.toString().trim());
+            lineTokens.setLength(0);
+            currentLine = yyline + 1;
+        }
+
+        lineTokens.append(symbol.value).append(" ");
+    }
+
+    if (symbol == null && lineTokens.length() > 0) {
+        System.out.println("Linea: " + currentLine + ":" + lineTokens.toString().trim());
     }
     return symbol;
 }
