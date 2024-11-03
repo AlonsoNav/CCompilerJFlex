@@ -29,6 +29,7 @@ void PruebaSinParametro(int a) {
 }
 
 int PruebaConParametro(int a) {
+    write(2 + 3);
 }
 
 int main() {
