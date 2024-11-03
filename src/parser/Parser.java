@@ -513,6 +513,12 @@ public class Parser extends java_cup.runtime.lr_parser {
     "\130\026\136\036\312\041\140\001\001\000\020\003\231" +
     "\006\145\010\142\011\133\021\130\026\136\041\140\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\020\012\224\022" +
+    "\032\032\161\033\037\034\033\035\036\037\156\001\001" +
+    "\000\002\001\001\000\004\005\226\001\001\000\002\001" +
+    "\001\000\002\001\001\000\020\003\130\006\146\010\142" +
+    "\011\135\021\132\026\137\036\231\001\001\000\016\003" +
+    "\232\006\146\010\142\011\135\021\132\026\137\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\030\003\126\004\006\006\145\010\142\011" +
@@ -636,7 +642,16 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // GLOBAL_DECLARACIONES ::= DECLARACION 
+          case 3: // INICIO ::= error 
+            {
+              Object RESULT =null;
+		 System.err.println("Error: Inicio del programa no válido."); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("INICIO",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 4: // GLOBAL_DECLARACIONES ::= DECLARACION 
             {
               Object RESULT =null;
 
@@ -645,7 +660,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // GLOBAL_DECLARACIONES ::= GLOBAL_DECLARACIONES DECLARACION 
+          case 5: // GLOBAL_DECLARACIONES ::= GLOBAL_DECLARACIONES DECLARACION 
             {
               Object RESULT =null;
 
@@ -654,7 +669,16 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // FUNCIONES ::= FUNCION 
+          case 6: // GLOBAL_DECLARACIONES ::= error SEMICOLON 
+            {
+              Object RESULT =null;
+		 System.err.println("Error: Declaración global no válida."); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("GLOBAL_DECLARACIONES",21, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 7: // FUNCIONES ::= FUNCION 
             {
               Object RESULT =null;
 
@@ -663,7 +687,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 6: // FUNCIONES ::= FUNCIONES FUNCION 
+          case 8: // FUNCIONES ::= FUNCIONES FUNCION 
             {
               Object RESULT =null;
 
@@ -672,7 +696,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 7: // FUNCION ::= T_DATO IDENTIFIER LPAREN PARAMETROS RPAREN LCURLY GLOBAL_DECLARACIONES SENTENCIAS RCURLY 
+          case 9: // FUNCION ::= T_DATO IDENTIFIER LPAREN PARAMETROS RPAREN LCURLY GLOBAL_DECLARACIONES SENTENCIAS RCURLY 
             {
               Object RESULT =null;
 
@@ -681,7 +705,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 8: // FUNCION ::= T_DATO IDENTIFIER LPAREN RPAREN LCURLY GLOBAL_DECLARACIONES SENTENCIAS RCURLY 
+          case 10: // FUNCION ::= T_DATO IDENTIFIER LPAREN RPAREN LCURLY GLOBAL_DECLARACIONES SENTENCIAS RCURLY 
             {
               Object RESULT =null;
 
@@ -690,7 +714,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 9: // FUNCION ::= VOID IDENTIFIER LPAREN RPAREN LCURLY GLOBAL_DECLARACIONES SENTENCIAS RCURLY 
+          case 11: // FUNCION ::= VOID IDENTIFIER LPAREN RPAREN LCURLY GLOBAL_DECLARACIONES SENTENCIAS RCURLY 
             {
               Object RESULT =null;
 
@@ -699,7 +723,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 10: // FUNCION ::= VOID IDENTIFIER LPAREN PARAMETROS RPAREN LCURLY GLOBAL_DECLARACIONES SENTENCIAS RCURLY 
+          case 12: // FUNCION ::= VOID IDENTIFIER LPAREN PARAMETROS RPAREN LCURLY GLOBAL_DECLARACIONES SENTENCIAS RCURLY 
             {
               Object RESULT =null;
 
@@ -708,7 +732,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 11: // FUNCION ::= T_DATO IDENTIFIER LPAREN PARAMETROS RPAREN LCURLY SENTENCIAS RCURLY 
+          case 13: // FUNCION ::= T_DATO IDENTIFIER LPAREN PARAMETROS RPAREN LCURLY SENTENCIAS RCURLY 
             {
               Object RESULT =null;
 
@@ -717,7 +741,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 12: // FUNCION ::= T_DATO IDENTIFIER LPAREN RPAREN LCURLY SENTENCIAS RCURLY 
+          case 14: // FUNCION ::= T_DATO IDENTIFIER LPAREN RPAREN LCURLY SENTENCIAS RCURLY 
             {
               Object RESULT =null;
 
@@ -726,7 +750,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 13: // FUNCION ::= VOID IDENTIFIER LPAREN RPAREN LCURLY SENTENCIAS RCURLY 
+          case 15: // FUNCION ::= VOID IDENTIFIER LPAREN RPAREN LCURLY SENTENCIAS RCURLY 
             {
               Object RESULT =null;
 
@@ -735,7 +759,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 14: // FUNCION ::= VOID IDENTIFIER LPAREN PARAMETROS RPAREN LCURLY SENTENCIAS RCURLY 
+          case 16: // FUNCION ::= VOID IDENTIFIER LPAREN PARAMETROS RPAREN LCURLY SENTENCIAS RCURLY 
             {
               Object RESULT =null;
 
@@ -744,7 +768,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 15: // PARAMETROS ::= T_DATO IDENTIFIER 
+          case 17: // PARAMETROS ::= T_DATO IDENTIFIER 
             {
               Object RESULT =null;
 
@@ -753,7 +777,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 16: // PARAMETROS ::= PARAMETROS COMMA T_DATO IDENTIFIER 
+          case 18: // PARAMETROS ::= PARAMETROS COMMA T_DATO IDENTIFIER 
             {
               Object RESULT =null;
 
@@ -762,7 +786,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 17: // SENTENCIAS ::= SENTENCIA 
+          case 19: // SENTENCIAS ::= SENTENCIA 
             {
               Object RESULT =null;
 
@@ -771,7 +795,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 18: // SENTENCIAS ::= SENTENCIAS SENTENCIA 
+          case 20: // SENTENCIAS ::= SENTENCIAS SENTENCIA 
             {
               Object RESULT =null;
 
@@ -780,7 +804,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 19: // SENTENCIA ::= ESTRUCTURA_IF 
+          case 21: // SENTENCIA ::= ESTRUCTURA_IF 
             {
               Object RESULT =null;
 
