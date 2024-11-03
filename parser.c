@@ -6,6 +6,7 @@ int short e = 6;
 void PruebaSinParametro(int a) {
     int a = suma();
     if (a = b = 5 < 6) {
+        write(C- 123);
         return;
     } else if (a + b > c && b - a) {
         return;

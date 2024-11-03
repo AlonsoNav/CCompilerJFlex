@@ -36,11 +36,14 @@ precedence right ASSIGN, PLUS_ASSIGN, MINUS_ASSIGN, TIMES_ASSIGN, DIV_ASSIGN;
 start with INICIO;
 
 INICIO ::= GLOBAL_DECLARACIONES FUNCIONES |
-           FUNCIONES
+           FUNCIONES |
+           error {: System.err.println("Error: Inicio del programa no válido."); :}
 ;
 
+
 GLOBAL_DECLARACIONES ::= DECLARACION |
-                         GLOBAL_DECLARACIONES DECLARACION
+                         GLOBAL_DECLARACIONES DECLARACION |
+                         error SEMICOLON {: System.err.println("Error: Declaración global no válida."); :}
 ;
 
 FUNCIONES ::= FUNCION |
@@ -144,7 +147,7 @@ DECLARACION_FOR ::=
 READ_WRITE ::= 
     READ LPAREN IDENTIFIER RPAREN SEMICOLON |
     READ LPAREN RPAREN SEMICOLON |
-    WRITE LPAREN IDENTIFIER RPAREN SEMICOLON
+    WRITE LPAREN EXPRESIONES RPAREN SEMICOLON
 ;
 
 T_DATO ::= INT | CHAR | LONG | SHORT | INT LONG | INT SHORT | LONG INT | SHORT INT;
