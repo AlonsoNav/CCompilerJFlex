@@ -25,20 +25,20 @@ public Symbol next_token() throws java.io.IOException {
     Symbol symbol = yylex();
     if (symbol != null) {
         
-        /* System.out.println("Token: " + symbol.sym + ", Valor: " + symbol.value + ", Linea: " + yyline + ", Columna: " + yycolumn); */
+        System.out.println("Token: " + symbol.sym + ", Valor: " + symbol.value + ", Linea: " + yyline + ", Columna: " + yycolumn);
 
-        if (currentLine != (yyline + 1)) {
+        /*if (currentLine != (yyline + 1)) {
             System.out.println("Linea: " + currentLine + ":" + lineTokens.toString().trim());
             lineTokens.setLength(0);
             currentLine = yyline + 1;
         }
 
-        lineTokens.append(symbol.value).append(" ");
+        lineTokens.append(symbol.value).append(" ");*/
     }
-
+    /*
     if (symbol == null && lineTokens.length() > 0) {
         System.out.println("Linea: " + currentLine + ":" + lineTokens.toString().trim());
-    }
+    }*/
     return symbol;
 }
 
