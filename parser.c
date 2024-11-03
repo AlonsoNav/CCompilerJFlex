@@ -1,10 +1,10 @@
 const int b = 3;
-const long c = 4;
-long int d = 5;
+const long c = (5 < 6) && (6 > 5);
+long int d = 5 * 8;
 int short e = 6;
 
 void PruebaSinParametro(int a) {
-    int a = 0;
+    int a = suma();
     if (a = b = 5 < 6) {
         return;
     }
