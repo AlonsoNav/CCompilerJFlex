@@ -7,8 +7,9 @@ void PruebaSinParametro(int a) {
     int a = suma();
     if (a = b = 5 < 6) {
         return;
-    }
-    if (a + b > c && b - a) {
+    } else if (a + b > c && b - a) {
+        return;
+    } else {
         return;
     }
 }
