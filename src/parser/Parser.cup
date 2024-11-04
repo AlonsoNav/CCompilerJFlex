@@ -40,7 +40,7 @@ non terminal INICIO, SENTENCIA, DECLARACION, EXPRESION_FOR, ESTRUCTURA_IF, ESTRU
     OP_LOGICOS, OP_ARITMETICOS, OP_BIT, READ_WRITE, LITERALES, ID_LIST, FUNCION, PARAMETROS, 
     CONTROL_STATEMENT, GLOBAL_DECLARACIONES, FUNCIONES, FUNCION_DECLARACIONES, EXPRESION_ASIGNACION, 
     INCREMENTO_DECREMENTO, EXPRESION_ARITMETICA, EXPRESIONES_RELACIONAL, SENTENCIAS, EXPRESIONES_LOGICAS,
-    ARGUMENTOS, DO_WHILE, SENTENCIA_SWITCH, SWITCHs, CASES, CONSTANTE, DEFAULT_STMT, CASE_STMT, DECLARACION_LIST, 
+    ARGUMENTOS, DO_WHILE, SENTENCIA_SWITCH, SWITCHs, CASES, DEFAULT_STMT, CASE_STMT, DECLARACION_LIST, 
     EXPRESIONES_NUMERICAS, LISTA_EXPRESIONES;
 
 
@@ -200,7 +200,10 @@ READ_WRITE ::=
 ;
 
 LISTA_EXPRESIONES ::= EXPRESIONES |
-                     LISTA_EXPRESIONES COMMA EXPRESIONES
+                     LISTA_EXPRESIONES COMMA EXPRESIONES |
+                     LISTA_EXPRESIONES COMMA error {: syntaxError(((Symbol) stack.peek()), "Falta expresión después de la coma."); :} |
+                     COMMA EXPRESIONES {: syntaxError(((Symbol) stack.peek()), "Falta expresión antes de la coma."); :} |
+                     LISTA_EXPRESIONES error {: syntaxError(((Symbol) stack.peek()), "Falta coma entre expresiones."); :} 
 ;
 
 T_DATO ::= INT | CHAR | LONG | SHORT | INT LONG | INT SHORT | LONG INT | SHORT INT;
@@ -210,7 +213,10 @@ OP_ARITMETICOS ::= PLUS | MINUS | TIMES | DIVIDE | MOD | INC_OP | DEC_OP | PLUS_
 LITERALES ::= NUMBER | CHAR_LITERAL | HEX_LITERAL | OCTAL_LITERAL | BINARY_LITERAL;
 
 ARGUMENTOS ::= EXPRESIONES_LOGICAS |
-               ARGUMENTOS COMMA EXPRESIONES_LOGICAS
+               ARGUMENTOS COMMA EXPRESIONES_LOGICAS |
+               ARGUMENTOS error EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta coma entre argumentos."); :} |
+               ARGUMENTOS COMMA error {: syntaxError(((Symbol) stack.peek()), "Falta argumento después de la coma."); :} |
+               COMMA EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "falta un argumento antes de la coma." ); :} 
 ;
 
 EXPRESION_ARITMETICA ::= EXPRESION_ARITMETICA PLUS EXPRESION_ARITMETICA |
@@ -246,7 +252,18 @@ EXPRESIONES_NUMERICAS ::= EXPRESIONES_NUMERICAS PLUS EXPRESIONES_NUMERICAS |
             IDENTIFIER LPAREN ARGUMENTOS RPAREN |
             IDENTIFIER LPAREN RPAREN |
             LITERALES |
-            INCREMENTO_DECREMENTO
+            INCREMENTO_DECREMENTO |
+            EXPRESIONES_NUMERICAS PLUS error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '+'."); :} |
+            EXPRESIONES_NUMERICAS MINUS error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '-'."); :} |
+            EXPRESIONES_NUMERICAS TIMES error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '*'."); :} |
+            EXPRESIONES_NUMERICAS DIVIDE error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '/'."); :} |
+            EXPRESIONES_NUMERICAS MOD error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '%'."); :} |
+            error PLUS EXPRESIONES_NUMERICAS {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '+'."); :} |
+            error MINUS EXPRESIONES_NUMERICAS {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '-'."); :} |
+            error TIMES EXPRESIONES_NUMERICAS {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '*'."); :} |
+            error DIVIDE EXPRESIONES_NUMERICAS {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '/'."); :} |
+            error MOD EXPRESIONES_NUMERICAS {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '%'."); :} |
+            LPAREN error RPAREN {: syntaxError(((Symbol) stack.peek()), "Expresión inválida dentro de paréntesis."); :}
 ;
 
 INCREMENTO_DECREMENTO ::= IDENTIFIER INC_OP |
