@@ -2,16 +2,13 @@ void x;
 
 void PruebaSinParametro(int a) {
     int a = suma();
-    if (a = b = 5 < 6) {
+    if (a = 5) {
         write(C- 123);
         return;
     } else if (a + b > c && b - a) {
         return;
-    } else {
+    } else 
         return;
-    } else {
-        return;
-    } 
 
     while (a < b) {
         return;

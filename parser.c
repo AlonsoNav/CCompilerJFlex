@@ -6,7 +6,7 @@ int i = 0;
 
 void PruebaSinParametro(int a) {
     int a = suma();
-    if (a = b = 5 < 6) {
+    if (2 < 3 < 4) {
         write(C- 123);
         return;
     } else if (a + b > c && b - a) {
