@@ -40,8 +40,8 @@ non terminal INICIO, SENTENCIA, DECLARACION, EXPRESION_FOR, ESTRUCTURA_IF, ESTRU
     OP_LOGICOS, OP_ARITMETICOS, OP_BIT, READ_WRITE, LITERALES, ID_LIST, FUNCION, PARAMETROS, 
     CONTROL_STATEMENT, GLOBAL_DECLARACIONES, FUNCIONES, FUNCION_DECLARACIONES, EXPRESION_ASIGNACION, 
     INCREMENTO_DECREMENTO, EXPRESION_ARITMETICA, EXPRESIONES_RELACIONAL, SENTENCIAS, EXPRESIONES_LOGICAS,
-    ARGUMENTOS, DO_WHILE, SENTENCIA_SWITCH, SWITCHs, CASES, CONSTANTE, DEFAULT_STMT, CASE_STMT, DECLARACION_LIST,
-    INVALID_CASE_MISSING_CONSTANT, EXPRESIONES_NUMERICAS, LISTA_EXPRESIONES;
+    ARGUMENTOS, DO_WHILE, SENTENCIA_SWITCH, SWITCHs, CASES, CONSTANTE, DEFAULT_STMT, CASE_STMT, DECLARACION_LIST, 
+    EXPRESIONES_NUMERICAS, LISTA_EXPRESIONES;
 
 
 precedence left OR_OP;
@@ -64,9 +64,7 @@ INICIO ::= GLOBAL_DECLARACIONES FUNCIONES |
 ;
 
 GLOBAL_DECLARACIONES ::= DECLARACION |
-                        GLOBAL_DECLARACIONES DECLARACION |
-                        error SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Declaración de variable incorrecta."); :}
-                        
+                        GLOBAL_DECLARACIONES DECLARACION 
 ;
 
 FUNCIONES ::= FUNCION |
@@ -102,7 +100,7 @@ SENTENCIA ::=
     CONTROL_STATEMENT|
     SWITCHs |
     EXPRESIONES SEMICOLON |
-    EXPRESIONES SENTENCIA {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :}
+    EXPRESIONES SENTENCIA {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} 
 ;
 
 CONTROL_STATEMENT ::= 
@@ -181,7 +179,9 @@ SENTENCIA_FOR ::=
 ;
 
 EXPRESION_FOR ::= 
+    /* vacío */ |
     EXPRESIONES |
+    error {: syntaxError(((Symbol) stack.peek()), "Expresión en `for` incorrecta. Se esperaba una asignación o una condición numérica válida."); :}
 ;
 
 SWITCHs ::= SWITCH LPAREN EXPRESIONES_NUMERICAS RPAREN LCURLY CASES DEFAULT_STMT RCURLY |
@@ -223,7 +223,17 @@ EXPRESION_ARITMETICA ::= EXPRESION_ARITMETICA PLUS EXPRESION_ARITMETICA |
             IDENTIFIER LPAREN ARGUMENTOS RPAREN |
             IDENTIFIER LPAREN RPAREN |
             LITERALES |
-            INCREMENTO_DECREMENTO
+            INCREMENTO_DECREMENTO |
+            EXPRESION_ARITMETICA PLUS error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '+'."); :} |
+            EXPRESION_ARITMETICA MINUS error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '-'."); :} |
+            EXPRESION_ARITMETICA TIMES error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '*'."); :} |
+            EXPRESION_ARITMETICA DIVIDE error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '/'."); :} |
+            EXPRESION_ARITMETICA MOD error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '%'."); :} |
+            LPAREN error RPAREN {: syntaxError(((Symbol) stack.peek()), "Expresión inválida dentro de paréntesis."); :} |
+            error TIMES EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '*'."); :} |
+            error DIVIDE EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '/'."); :} |
+            error PLUS EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '+'."); :} |
+            error MINUS EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '-'."); :}
 ;
 
 EXPRESIONES_NUMERICAS ::= EXPRESIONES_NUMERICAS PLUS EXPRESIONES_NUMERICAS |
@@ -242,7 +252,11 @@ EXPRESIONES_NUMERICAS ::= EXPRESIONES_NUMERICAS PLUS EXPRESIONES_NUMERICAS |
 INCREMENTO_DECREMENTO ::= IDENTIFIER INC_OP |
                           IDENTIFIER DEC_OP | 
                           INC_OP IDENTIFIER | 
-                          DEC_OP IDENTIFIER   
+                          DEC_OP IDENTIFIER |
+                          error DEC_OP {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes o despues de '--'."); :} |
+                          error INC_OP {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes o despues de '++'."); :} |
+                          INC_OP error {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes o despues de '++'."); :} |
+                          DEC_OP error {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes o despues de '--'."); :}   
 ;
 
 EXPRESION_ASIGNACION ::= IDENTIFIER PLUS_ASSIGN EXPRESIONES_LOGICAS |
@@ -250,5 +264,15 @@ EXPRESION_ASIGNACION ::= IDENTIFIER PLUS_ASSIGN EXPRESIONES_LOGICAS |
                          IDENTIFIER TIMES_ASSIGN EXPRESIONES_LOGICAS |
                          IDENTIFIER DIV_ASSIGN EXPRESIONES_LOGICAS |
                          IDENTIFIER ASSIGN EXPRESIONES_LOGICAS |
-                         IDENTIFIER ASSIGN EXPRESION_ASIGNACION
+                         IDENTIFIER ASSIGN EXPRESION_ASIGNACION |
+                         IDENTIFIER PLUS_ASSIGN error {: syntaxError(((Symbol) stack.peek()), "Expresión inválida después de '+=' en asignación compuesta."); :} |
+                         IDENTIFIER MINUS_ASSIGN error {: syntaxError(((Symbol) stack.peek()), "Expresión inválida después de '-=' en asignación compuesta."); :} |
+                         IDENTIFIER TIMES_ASSIGN error {: syntaxError(((Symbol) stack.peek()), "Expresión inválida después de '*=' en asignación compuesta."); :} |
+                         IDENTIFIER DIV_ASSIGN error {: syntaxError(((Symbol) stack.peek()), "Expresión inválida después de '/=' en asignación compuesta."); :} |
+                         IDENTIFIER ASSIGN error {: syntaxError(((Symbol) stack.peek()), "Expresión inválida después de '=' en asignación."); :} |
+                         PLUS_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes de '+='."); :} |
+                         MINUS_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes de '-='."); :} |
+                         TIMES_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes de '*='."); :} |
+                         DIV_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes de '/='."); :} |
+                         ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes de '=' en asignación."); :}
 ;
