@@ -53,7 +53,7 @@ precedence left TIMES, DIVIDE, MOD;
 precedence right INC_OP, DEC_OP;
 precedence right NOT_OP;
 precedence right ASSIGN, PLUS_ASSIGN, MINUS_ASSIGN, TIMES_ASSIGN, DIV_ASSIGN;
-precedence right LPAREN;
+precedence right LPAREN, RPAREN;
 
 start with INICIO;
 
@@ -125,7 +125,11 @@ ID_LIST ::= ID_LIST COMMA IDENTIFIER |
             IDENTIFIER
 ;
 
-ESTRUCTURA_IF ::= IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE
+ESTRUCTURA_IF ::= IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE |
+    IF LPAREN error RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Expresión de condición if incorrecta."); :} |
+    IF error SENTENCIAS RCURLY ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis del if."); :} |
+    IF LPAREN EXPRESIONES RPAREN error SENTENCIAS RCURLY ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Error en la llave de apertura del if."); :} |
+    IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS error ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Error en la llave de cierre del if."); :}
 ;
 
 EXPRESIONES ::= 

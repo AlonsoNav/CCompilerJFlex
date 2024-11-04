@@ -125,7 +125,10 @@ ID_LIST ::= ID_LIST COMMA IDENTIFIER |
             IDENTIFIER
 ;
 
-ESTRUCTURA_IF ::= IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE
+ESTRUCTURA_IF ::= IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE |
+    IF LPAREN error RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE {:syntaxError(((Symbol) stack.peek()), "If con condición inválida."); :} |
+    IF LPAREN error LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE {:syntaxError(((Symbol) stack.peek()), "If con paréntesis incompletos."); :} |
+    IF error LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE {:syntaxError(((Symbol) stack.peek()), "If con paréntesis incompletos."); :} |
 ;
 
 EXPRESIONES ::= 
