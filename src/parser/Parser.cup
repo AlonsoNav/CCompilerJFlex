@@ -66,6 +66,7 @@ INICIO ::= GLOBAL_DECLARACIONES FUNCIONES |
 GLOBAL_DECLARACIONES ::= DECLARACION |
                         GLOBAL_DECLARACIONES DECLARACION |
                         error SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Declaración de variable incorrecta."); :}
+                        
 ;
 
 FUNCIONES ::= FUNCION |
@@ -109,20 +110,32 @@ CONTROL_STATEMENT ::=
     CONTINUE SEMICOLON |
     RETURN LITERALES SEMICOLON |
     RETURN IDENTIFIER SEMICOLON |
-    RETURN SEMICOLON
+    RETURN SEMICOLON |
+    BREAK {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
+    CONTINUE {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
+    RETURN LITERALES {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
+    RETURN IDENTIFIER {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} 
+
 ;
 
 DECLARACION ::= 
     T_DATO ID_LIST SEMICOLON | 
     CONST T_DATO ID_LIST SEMICOLON |
-    VOID ID_LIST SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Una variable no puede ser declarada void."); :}
+    VOID ID_LIST SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Una variable no puede ser declarada void."); :} 
+    //ID_LIST SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta el tipo de dato en la declaración."); :}
+    
 ;
 
 
 ID_LIST ::= ID_LIST COMMA IDENTIFIER |
             ID_LIST COMMA IDENTIFIER ASSIGN EXPRESIONES_LOGICAS |
             IDENTIFIER ASSIGN EXPRESIONES_LOGICAS |
-            IDENTIFIER
+            IDENTIFIER |
+            ID_LIST IDENTIFIER {: syntaxError(((Symbol) stack.peek()), "Falta coma entre identificadores."); :} |
+            ID_LIST IDENTIFIER ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta coma entre identificadores."); :} |
+            ID_LIST COMMA IDENTIFIER ASSIGN  {: syntaxError(((Symbol) stack.peek()), "No se asignó ningun valor a la variable"); :} |
+            IDENTIFIER ASSIGN {: syntaxError(((Symbol) stack.peek()), "No se asignó ningun valor a la variable"); :}
+            
 ;
 
 ESTRUCTURA_IF ::= IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE |
