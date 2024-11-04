@@ -1,23 +1,48 @@
-int l = 0; // Error de sintaxis
+int a = ( 6 + 7 ) * 8, ba, ca = 2+ 3;
+const long c = (5 < 6) && (6 > 5);
+long int d = 5 * 8;
+int short e = 6;
+int i = 0;
+
+void PruebaSinParametro(int a) {
+    int a = suma();
+    if (2 < 3 < 4) {
+        write(C- 123);
+        return;
+    } else if (a + b > c && b - a) {
+        return;
+    } else {
+        return;
+    }
+
+    while (a < b) {
+        return;
+    }
+
+    do {
+        return;
+    } while (a < b);
+
+    for (; ++a < 5;) {
+        return;
+    }
+}
+
+int PruebaConParametro(int a) {
+    write(2 + 3);
+}
 
 int main() {
     long bigNum = 123;
-    
-    int a, b c;
-
-    int a = 8, h = , i = 10; 
-    
-    a = 5
-
+    short int a = 0;
 
     int num = 2; // Expresión numérica para el switch
 
     switch ((num + 2)) {
         case 1:
         default:
-            return num
+            break;
     }
 
-    
-    return 0
+    return 0;
 }
