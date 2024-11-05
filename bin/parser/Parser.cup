@@ -107,7 +107,7 @@ SENTENCIA ::=
     CONTROL_STATEMENT|
     SWITCHs |
     EXPRESIONES SEMICOLON |
-    error {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :}
+    EXPRESIONES {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :}
 ;
 
 CONTROL_STATEMENT ::= 
@@ -137,7 +137,23 @@ ID_LIST ::= ID_LIST COMMA IDENTIFIER |
             IDENTIFIER
 ;
 
-ESTRUCTURA_IF ::= IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE
+ESTRUCTURA_IF ::= IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE |
+    IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY |
+    IF LPAREN error RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Error en la condición del if."); :} |
+    IF LPAREN error RPAREN LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en la condición del if."); :} |
+    IF error RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en el if."); :} |
+    IF error RPAREN LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en el if."); :} |
+    IF LPAREN EXPRESIONES LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre del if."); :} |
+    IF LPAREN EXPRESIONES LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre del if."); :} |
+    IF LPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre del if."); :} |
+    IF LPAREN LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre del if."); :} |
+    IF error LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la condición del if."); :} | 
+    IF error LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la condición del if."); :} |
+    IF LPAREN EXPRESIONES RPAREN error SENTENCIAS RCURLY ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Error en la llave de apertura del if."); :} |
+    IF LPAREN EXPRESIONES RPAREN error SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en la llave de apertura del if."); :} |
+    IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS error ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Error en la llave de cierre del if."); :} | 
+    IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS error {: syntaxError(((Symbol) stack.peek()), "Error en la llave de cierre del if."); :} |
+    IF LPAREN EXPRESIONES RPAREN error ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Error en las llaves del if."); :}
 ;
 
 EXPRESIONES ::= 
@@ -156,9 +172,9 @@ EXPRESIONES_RELACIONAL ::=
 ;
 
 ESTRUCTURA_ELSE ::= 
-    ELSE ESTRUCTURA_IF |
-    ELSE LCURLY SENTENCIAS RCURLY |
-    ELSE error SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en las llaves del else."); :} |
+    ELSE IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE |
+    ELSE IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY |
+    ELSE LCURLY SENTENCIAS RCURLY 
 ;
 
 ESTRUCTURA_WHILE ::= WHILE LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY
@@ -227,10 +243,10 @@ EXPRESION_ARITMETICA ::= EXPRESION_ARITMETICA PLUS EXPRESION_ARITMETICA |
             IDENTIFIER LPAREN RPAREN |
             LITERALES |
             INCREMENTO_DECREMENTO |
-            EXPRESION_ARITMETICA PLUS {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '+'."); :} |
-            EXPRESION_ARITMETICA MINUS {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '-'."); :} |
-            EXPRESION_ARITMETICA TIMES {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '*'."); :} |
-            EXPRESION_ARITMETICA DIVIDE {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '/'."); :} |
+            EXPRESION_ARITMETICA PLUS error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '+'."); :} |
+            EXPRESION_ARITMETICA MINUS error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '-'."); :} |
+            EXPRESION_ARITMETICA TIMES error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '*'."); :} |
+            EXPRESION_ARITMETICA DIVIDE error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '/'."); :} |
             EXPRESION_ARITMETICA MOD {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '%'."); :} |
             LPAREN error RPAREN {: syntaxError(((Symbol) stack.peek()), "Expresión inválida dentro de paréntesis."); :} |
             error TIMES EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '*'."); :} |
@@ -267,10 +283,8 @@ INCREMENTO_DECREMENTO ::= IDENTIFIER INC_OP |
                           IDENTIFIER DEC_OP | 
                           INC_OP IDENTIFIER | 
                           DEC_OP IDENTIFIER |
-                          error DEC_OP {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes o despues de '--'."); :} |
-                          error INC_OP {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes o despues de '++'."); :} |
-                          INC_OP error {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes o despues de '++'."); :} |
-                          DEC_OP error {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes o despues de '--'."); :}   
+                          DEC_OP error {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes o despues de '--'."); :} |
+                          INC_OP error {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes o despues de '++'."); :}    
 ;
 
 EXPRESION_ASIGNACION ::= IDENTIFIER PLUS_ASSIGN EXPRESIONES_LOGICAS |
