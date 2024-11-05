@@ -8,8 +8,10 @@ void PruebaSinParametro(int a) {
     }
 
     do {
+        a + 5
         return;
-        a + 5;
+        a + ;
+        a + 5
     } while (a < b);
 
     for (; ++a < 5;) {
