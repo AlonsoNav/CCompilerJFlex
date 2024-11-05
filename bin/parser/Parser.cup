@@ -199,7 +199,13 @@ ESTRUCTURA_WHILE ::= WHILE LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY |
 DO_WHILE ::= DO LCURLY SENTENCIAS RCURLY WHILE LPAREN EXPRESIONES RPAREN SEMICOLON
 ;
 
-ESTRUCTURA_FOR ::= FOR LPAREN SENTENCIA_FOR RPAREN LCURLY SENTENCIAS RCURLY
+ESTRUCTURA_FOR ::= FOR LPAREN SENTENCIA_FOR RPAREN LCURLY SENTENCIAS RCURLY |
+    FOR LPAREN error RPAREN LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en la sentencia del for."); :} |
+    FOR error RPAREN LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en el for."); :} |
+    FOR LPAREN SENTENCIA_FOR LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre del for."); :} |
+    FOR LPAREN LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre del for."); :} |
+    FOR error LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la condición del for."); :} |
+    FOR LPAREN SENTENCIA_FOR RPAREN error SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en la llave de apertura del for."); :}
 ;
 
 SENTENCIA_FOR ::=
