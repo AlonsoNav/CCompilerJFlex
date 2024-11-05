@@ -6,6 +6,7 @@ parser code {:
     void syntaxError(Symbol sym, String message) {
         System.err.println("Error de sintaxis en línea " + sym.left + ": " + message);
     }
+
     @Override
     public void report_error(String message, Object info) {
     }
@@ -17,7 +18,14 @@ parser code {:
     }
 
     @Override
-    public void syntax_error(Symbol cur_token) {
+    public void syntax_error(Symbol s) {
+    }
+
+    public void unrecovered_syntax_error(Symbol s) throws Exception {
+        String symbol = (s.value != null) ? s.value.toString() : "símbolo desconocido";
+        String message = "Error de sintaxis no recuperable en línea " + (s.left) + ": Símbolo '" + symbol + "' no esperado.";
+        System.err.println(message);
+        throw new Exception("Error de análisis sintáctico: " + message);
     }
 :};
 
@@ -38,11 +46,10 @@ terminal PLUS, TIMES, LPAREN, RPAREN, MINUS, DIVIDE, MOD, NOT_OP,
 non terminal INICIO, SENTENCIA, DECLARACION, EXPRESION_FOR, ESTRUCTURA_IF, ESTRUCTURA_ELSE,
     ESTRUCTURA_WHILE, ESTRUCTURA_FOR, EXPRESIONES, SENTENCIA_FOR, T_DATO, OP_RELACIONALES, 
     OP_LOGICOS, OP_ARITMETICOS, OP_BIT, READ_WRITE, LITERALES, ID_LIST, FUNCION, PARAMETROS, 
-    CONTROL_STATEMENT, GLOBAL_DECLARACIONES, FUNCIONES, FUNCION_DECLARACIONES, EXPRESION_ASIGNACION, 
-    INCREMENTO_DECREMENTO, EXPRESION_ARITMETICA, EXPRESIONES_RELACIONAL, SENTENCIAS, EXPRESIONES_LOGICAS,
-    ARGUMENTOS, DO_WHILE, SENTENCIA_SWITCH, SWITCHs, CASES, DEFAULT_STMT, CASE_STMT, DECLARACION_LIST, 
+    CONTROL_STATEMENT, GLOBAL_DECLARACIONES, FUNCIONES, EXPRESION_ASIGNACION, INCREMENTO_DECREMENTO, 
+    EXPRESION_ARITMETICA, EXPRESIONES_RELACIONAL, SENTENCIAS, EXPRESIONES_LOGICAS, ARGUMENTOS,
+    DO_WHILE, SENTENCIA_SWITCH, SWITCHs, CASES, DEFAULT_STMT, CASE_STMT, DECLARACION_LIST, 
     EXPRESIONES_NUMERICAS, LISTA_EXPRESIONES;
-
 
 precedence left OR_OP;
 precedence left AND_OP;
@@ -64,7 +71,7 @@ INICIO ::= GLOBAL_DECLARACIONES FUNCIONES |
 ;
 
 GLOBAL_DECLARACIONES ::= DECLARACION |
-                        GLOBAL_DECLARACIONES DECLARACION 
+                        GLOBAL_DECLARACIONES DECLARACION
 ;
 
 FUNCIONES ::= FUNCION |
@@ -84,7 +91,13 @@ FUNCION ::=
 
 PARAMETROS ::= 
     T_DATO IDENTIFIER |
-    PARAMETROS COMMA T_DATO IDENTIFIER
+    PARAMETROS COMMA T_DATO IDENTIFIER |
+    error IDENTIFIER {: syntaxError(((Symbol) stack.peek()), "Falta el tipo de dato en el parámetro"); :} |
+    T_DATO error {: syntaxError(((Symbol) stack.peek()), "El parámetro debe tener un identificador"); :} | // no funciona tengo que revisarlo
+    PARAMETROS COMMA error IDENTIFIER {: syntaxError(((Symbol) stack.peek()), "Falta el tipo de dato en el parámetro"); :} |
+    PARAMETROS COMMA T_DATO error {: syntaxError(((Symbol) stack.peek()), "El parámetro debe tener un identificador"); :} | //Falla
+    PARAMETROS T_DATO IDENTIFIER {: syntaxError(((Symbol) stack.peek()), "Los parámetros deben estar separados por una coma"); :}
+
 ;
 
 SENTENCIAS ::=
@@ -100,7 +113,7 @@ SENTENCIA ::=
     CONTROL_STATEMENT|
     SWITCHs |
     EXPRESIONES SEMICOLON |
-    EXPRESIONES SENTENCIA {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} 
+    error {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :}
 ;
 
 CONTROL_STATEMENT ::= 
@@ -112,7 +125,8 @@ CONTROL_STATEMENT ::=
     BREAK {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
     CONTINUE {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
     RETURN LITERALES {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
-    RETURN IDENTIFIER {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} 
+    RETURN IDENTIFIER {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :}|
+    RETURN error {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} 
 
 ;
 
@@ -124,23 +138,13 @@ DECLARACION ::=
     
 ;
 
-
 ID_LIST ::= ID_LIST COMMA IDENTIFIER |
             ID_LIST COMMA IDENTIFIER ASSIGN EXPRESIONES_LOGICAS |
             IDENTIFIER ASSIGN EXPRESIONES_LOGICAS |
-            IDENTIFIER |
-            ID_LIST IDENTIFIER {: syntaxError(((Symbol) stack.peek()), "Falta coma entre identificadores."); :} |
-            ID_LIST IDENTIFIER ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta coma entre identificadores."); :} |
-            ID_LIST COMMA IDENTIFIER ASSIGN  {: syntaxError(((Symbol) stack.peek()), "No se asignó ningun valor a la variable"); :} |
-            IDENTIFIER ASSIGN {: syntaxError(((Symbol) stack.peek()), "No se asignó ningun valor a la variable"); :}
-            
+            IDENTIFIER
 ;
 
-ESTRUCTURA_IF ::= IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE |
-    IF LPAREN error RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Expresión de condición if incorrecta."); :} |
-    IF error SENTENCIAS RCURLY ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis del if."); :} |
-    IF LPAREN EXPRESIONES RPAREN error SENTENCIAS RCURLY ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Error en la llave de apertura del if."); :} |
-    IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS error ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Error en la llave de cierre del if."); :}
+ESTRUCTURA_IF ::= IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE
 ;
 
 EXPRESIONES ::= 
@@ -196,7 +200,20 @@ DEFAULT_STMT ::= DEFAULT COLON SENTENCIAS;
 READ_WRITE ::= 
     READ LPAREN IDENTIFIER RPAREN SEMICOLON |
     READ LPAREN RPAREN SEMICOLON |
-    WRITE LPAREN LISTA_EXPRESIONES RPAREN SEMICOLON
+    WRITE LPAREN LISTA_EXPRESIONES RPAREN SEMICOLON |
+    READ error IDENTIFIER RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de apertura en la llamada a la funcion"); :} |
+    READ LPAREN IDENTIFIER error SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre en la llamada a la funcion"); :} |
+    READ IDENTIFIER SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Faltan los paréntesis para la llamada a la funcion"); :} |
+    READ error RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de apertura en la llamada a la funcion"); :} |
+    READ LPAREN error SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre en la llamada a la funcion"); :} |
+    WRITE error LISTA_EXPRESIONES RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de apertura en la llamada a la funcion"); :} | 
+    WRITE LPAREN LISTA_EXPRESIONES error SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre en la llamada a la funcion"); :} | //hay un error porque es como si siguiera como entre LISTA_EXPRESIONES porque no sabe bien cuando parar
+    READ LPAREN IDENTIFIER RPAREN {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :}  |
+    READ LPAREN RPAREN {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
+    WRITE LPAREN LISTA_EXPRESIONES RPAREN {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
+    WRITE LPAREN error RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta una expresión entre los paréntesis"); :} 
+    
+
 ;
 
 LISTA_EXPRESIONES ::= EXPRESIONES |
@@ -230,11 +247,11 @@ EXPRESION_ARITMETICA ::= EXPRESION_ARITMETICA PLUS EXPRESION_ARITMETICA |
             IDENTIFIER LPAREN RPAREN |
             LITERALES |
             INCREMENTO_DECREMENTO |
-            EXPRESION_ARITMETICA PLUS error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '+'."); :} |
-            EXPRESION_ARITMETICA MINUS error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '-'."); :} |
-            EXPRESION_ARITMETICA TIMES error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '*'."); :} |
-            EXPRESION_ARITMETICA DIVIDE error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '/'."); :} |
-            EXPRESION_ARITMETICA MOD error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '%'."); :} |
+            EXPRESION_ARITMETICA PLUS {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '+'."); :} |
+            EXPRESION_ARITMETICA MINUS {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '-'."); :} |
+            EXPRESION_ARITMETICA TIMES {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '*'."); :} |
+            EXPRESION_ARITMETICA DIVIDE {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '/'."); :} |
+            EXPRESION_ARITMETICA MOD {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '%'."); :} |
             LPAREN error RPAREN {: syntaxError(((Symbol) stack.peek()), "Expresión inválida dentro de paréntesis."); :} |
             error TIMES EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '*'."); :} |
             error DIVIDE EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '/'."); :} |
