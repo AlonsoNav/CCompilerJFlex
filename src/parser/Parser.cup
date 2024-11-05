@@ -187,7 +187,13 @@ ESTRUCTURA_ELSE ::=
     ELSE ERRORES_IF
 ;
 
-ESTRUCTURA_WHILE ::= WHILE LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY
+ESTRUCTURA_WHILE ::= WHILE LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY |
+    WHILE LPAREN error RPAREN LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en la condición del while."); :} |
+    WHILE error RPAREN LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en el while."); :} |
+    WHILE LPAREN EXPRESIONES LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre del while."); :} |
+    WHILE LPAREN LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre del while."); :} |
+    WHILE error LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la condición del while."); :} |
+    WHILE LPAREN EXPRESIONES RPAREN error SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en la llave de apertura del while."); :}
 ;
 
 DO_WHILE ::= DO LCURLY SENTENCIAS RCURLY WHILE LPAREN EXPRESIONES RPAREN SEMICOLON
