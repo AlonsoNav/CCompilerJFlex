@@ -46,9 +46,9 @@ terminal PLUS, TIMES, LPAREN, RPAREN, MINUS, DIVIDE, MOD, NOT_OP,
 non terminal INICIO, SENTENCIA, DECLARACION, EXPRESION_FOR, ESTRUCTURA_IF, ESTRUCTURA_ELSE,
     ESTRUCTURA_WHILE, ESTRUCTURA_FOR, EXPRESIONES, SENTENCIA_FOR, T_DATO, OP_RELACIONALES, 
     OP_LOGICOS, OP_ARITMETICOS, OP_BIT, READ_WRITE, LITERALES, ID_LIST, FUNCION, PARAMETROS, 
-    CONTROL_STATEMENT, GLOBAL_DECLARACIONES, FUNCIONES, FUNCION_DECLARACIONES, EXPRESION_ASIGNACION, 
-    INCREMENTO_DECREMENTO, EXPRESION_ARITMETICA, EXPRESIONES_RELACIONAL, SENTENCIAS, EXPRESIONES_LOGICAS,
-    ARGUMENTOS, DO_WHILE, SENTENCIA_SWITCH, SWITCHs, CASES, DEFAULT_STMT, CASE_STMT, DECLARACION_LIST, 
+    CONTROL_STATEMENT, GLOBAL_DECLARACIONES, FUNCIONES, EXPRESION_ASIGNACION, INCREMENTO_DECREMENTO, 
+    EXPRESION_ARITMETICA, EXPRESIONES_RELACIONAL, SENTENCIAS, EXPRESIONES_LOGICAS, ARGUMENTOS,
+    DO_WHILE, SENTENCIA_SWITCH, SWITCHs, CASES, DEFAULT_STMT, CASE_STMT, DECLARACION_LIST, 
     EXPRESIONES_NUMERICAS, LISTA_EXPRESIONES;
 
 precedence left OR_OP;
@@ -91,7 +91,13 @@ FUNCION ::=
 
 PARAMETROS ::= 
     T_DATO IDENTIFIER |
-    PARAMETROS COMMA T_DATO IDENTIFIER
+    PARAMETROS COMMA T_DATO IDENTIFIER |
+    error IDENTIFIER {: syntaxError(((Symbol) stack.peek()), "Falta el tipo de dato en el parámetro"); :} |
+    T_DATO error {: syntaxError(((Symbol) stack.peek()), "El parámetro debe tener un identificador"); :} | // no funciona tengo que revisarlo
+    PARAMETROS COMMA error IDENTIFIER {: syntaxError(((Symbol) stack.peek()), "Falta el tipo de dato en el parámetro"); :} |
+    PARAMETROS COMMA T_DATO error {: syntaxError(((Symbol) stack.peek()), "El parámetro debe tener un identificador"); :} | //Falla
+    PARAMETROS T_DATO IDENTIFIER {: syntaxError(((Symbol) stack.peek()), "Los parámetros deben estar separados por una coma"); :}
+
 ;
 
 SENTENCIAS ::=
@@ -119,7 +125,8 @@ CONTROL_STATEMENT ::=
     BREAK {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
     CONTINUE {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
     RETURN LITERALES {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
-    RETURN IDENTIFIER {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} 
+    RETURN IDENTIFIER {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :}|
+    RETURN error {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} 
 
 ;
 
@@ -209,7 +216,20 @@ DEFAULT_STMT ::= DEFAULT COLON SENTENCIAS;
 READ_WRITE ::= 
     READ LPAREN IDENTIFIER RPAREN SEMICOLON |
     READ LPAREN RPAREN SEMICOLON |
-    WRITE LPAREN LISTA_EXPRESIONES RPAREN SEMICOLON
+    WRITE LPAREN LISTA_EXPRESIONES RPAREN SEMICOLON |
+    READ error IDENTIFIER RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de apertura en la llamada a la funcion"); :} |
+    READ LPAREN IDENTIFIER error SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre en la llamada a la funcion"); :} |
+    READ IDENTIFIER SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Faltan los paréntesis para la llamada a la funcion"); :} |
+    READ error RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de apertura en la llamada a la funcion"); :} |
+    READ LPAREN error SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre en la llamada a la funcion"); :} |
+    WRITE error LISTA_EXPRESIONES RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de apertura en la llamada a la funcion"); :} | 
+    WRITE LPAREN LISTA_EXPRESIONES error SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre en la llamada a la funcion"); :} | //hay un error porque es como si siguiera como entre LISTA_EXPRESIONES porque no sabe bien cuando parar
+    READ LPAREN IDENTIFIER RPAREN {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :}  |
+    READ LPAREN RPAREN {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
+    WRITE LPAREN LISTA_EXPRESIONES RPAREN {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
+    WRITE LPAREN error RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta una expresión entre los paréntesis"); :} 
+    
+
 ;
 
 LISTA_EXPRESIONES ::= EXPRESIONES |
