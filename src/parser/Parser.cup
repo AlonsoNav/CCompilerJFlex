@@ -196,7 +196,17 @@ ESTRUCTURA_WHILE ::= WHILE LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY |
     WHILE LPAREN EXPRESIONES RPAREN error SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en la llave de apertura del while."); :}
 ;
 
-DO_WHILE ::= DO LCURLY SENTENCIAS RCURLY WHILE LPAREN EXPRESIONES RPAREN SEMICOLON
+DO_WHILE ::= DO LCURLY SENTENCIAS RCURLY WHILE LPAREN EXPRESIONES RPAREN SEMICOLON |
+    DO LCURLY SENTENCIAS RCURLY WHILE LPAREN error RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en la condición del do-while."); :} |
+    DO LCURLY SENTENCIAS RCURLY WHILE error RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en el do-while."); :} |
+    DO LCURLY SENTENCIAS RCURLY WHILE LPAREN EXPRESIONES SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre del do-while."); :} |
+    DO LCURLY SENTENCIAS RCURLY WHILE LPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre del do-while."); :} |
+    DO LCURLY SENTENCIAS RCURLY WHILE error SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la condición del do-while."); :} |
+    DO LCURLY SENTENCIAS RCURLY WHILE LPAREN EXPRESIONES RPAREN {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
+    DO error SENTENCIAS RCURLY WHILE LPAREN EXPRESIONES RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en la llave de apertura del do-while."); :} |
+    DO LCURLY SENTENCIAS WHILE LPAREN EXPRESIONES RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en la llave de cierre del do-while."); :} |
+    DO LCURLY SENTENCIAS RCURLY LPAREN EXPRESIONES RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta palabra reservada while antes de la condición."); :} |
+    DO error SENTENCIAS WHILE LPAREN EXPRESIONES RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Faltan ambas llaves en el do-while."); :} 
 ;
 
 ESTRUCTURA_FOR ::= FOR LPAREN SENTENCIA_FOR RPAREN LCURLY SENTENCIAS RCURLY |

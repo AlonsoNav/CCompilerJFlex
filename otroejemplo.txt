@@ -3,6 +3,18 @@ void x;
 void PruebaSinParametro(int a) {
     int a = suma();
 
+    do 
+        return;
+        a + 5;
+        return;
+        if(a){
+            return;
+        } else {
+            a;
+            return;
+        }
+    while ;
+
     while (a > 0) {
         return;
     }
