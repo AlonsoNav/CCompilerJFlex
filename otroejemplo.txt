@@ -4,12 +4,14 @@ void PruebaSinParametro(int a) {
     int a = suma();
 
     switch (a) {
-        case 1:
-            return;
-        case 2:
-            return;
+        case 5:
+            break;
+        default: 
+            break;
+        case 6:
+            break;
         default:
-            return;
+            break;
     }
 
     do {

@@ -49,7 +49,7 @@ non terminal INICIO, SENTENCIA, DECLARACION, EXPRESION_FOR, ESTRUCTURA_IF, ESTRU
     CONTROL_STATEMENT, GLOBAL_DECLARACIONES, FUNCIONES, EXPRESION_ASIGNACION, INCREMENTO_DECREMENTO, 
     EXPRESION_ARITMETICA, EXPRESIONES_RELACIONAL, SENTENCIAS, EXPRESIONES_LOGICAS, ARGUMENTOS,
     DO_WHILE, SWITCHs, CASES, DEFAULT_STMT, CASE_STMT, DECLARACION_LIST, EXPRESIONES_NUMERICAS,
-    LISTA_EXPRESIONES, ERRORES_IF;
+    LISTA_EXPRESIONES, ERRORES_IF, LISTA_DEFAULT;
 
 precedence left OR_OP;
 precedence left AND_OP;
@@ -229,14 +229,15 @@ EXPRESION_FOR ::=
     error {: syntaxError(((Symbol) stack.peek()), "Expresión en `for` incorrecta. Se esperaba una asignación o una condición numérica válida."); :}
 ;
 
-SWITCHs ::= SWITCH LPAREN EXPRESIONES_NUMERICAS RPAREN LCURLY CASES DEFAULT_STMT RCURLY |
+SWITCHs ::= SWITCH LPAREN EXPRESIONES_NUMERICAS RPAREN LCURLY CASES DEFAULT_STMT CASES RCURLY |
             SWITCH LPAREN EXPRESIONES_NUMERICAS RPAREN LCURLY CASES RCURLY |
             SWITCH LPAREN error RPAREN LCURLY CASES DEFAULT_STMT RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en la condición del switch."); :} |
             SWITCH LPAREN EXPRESIONES_NUMERICAS LCURLY CASES DEFAULT_STMT RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre del switch."); :} |
             SWITCH LPAREN EXPRESIONES_NUMERICAS RPAREN error CASES DEFAULT_STMT RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en la llave de apertura del switch."); :} |
             SWITCH error RPAREN LCURLY CASES DEFAULT_STMT RCURLY {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en el switch."); :} |
             SWITCH LPAREN LCURLY CASES DEFAULT_STMT RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre del switch."); :} |
-            SWITCH error LCURLY CASES DEFAULT_STMT RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la condición del switch."); :}
+            SWITCH error LCURLY CASES DEFAULT_STMT RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la condición del switch."); :} |
+            SWITCH LPAREN EXPRESIONES_NUMERICAS RPAREN LCURLY CASES DEFAULT_STMT CASES LISTA_DEFAULT CASES RCURLY {: syntaxError(((Symbol) stack.peek()), "Múltiples definiciones de default en un switch."); :}
 ;
 
 CASES ::= CASES CASE_STMT |;
@@ -244,6 +245,8 @@ CASES ::= CASES CASE_STMT |;
 CASE_STMT ::= CASE EXPRESIONES_NUMERICAS COLON SENTENCIAS;
 
 DEFAULT_STMT ::= DEFAULT COLON SENTENCIAS;
+
+LISTA_DEFAULT ::= DEFAULT_STMT LISTA_DEFAULT | DEFAULT_STMT;
 
 READ_WRITE ::= 
     READ LPAREN IDENTIFIER RPAREN SEMICOLON |
