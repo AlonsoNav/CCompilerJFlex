@@ -3,7 +3,16 @@ void x;
 void PruebaSinParametro(int a) {
     int a = suma();
 
-    do 
+    switch (a) {
+        case 1:
+            return;
+        case 2:
+            return;
+        default:
+            return;
+    }
+
+    do {
         return;
         a + 5;
         return;
@@ -13,7 +22,7 @@ void PruebaSinParametro(int a) {
             a;
             return;
         }
-    while ;
+    } while (a < b);
 
     while (a > 0) {
         return;
