@@ -7,26 +7,24 @@ void PruebaSinParametro(int a) {
         return;
     }
 
-    if (a + 5) { 
+    if (a) {
         return;
-    } else if (a > 0) {
-        ++
+    } else if (a) { 
+        a++;
         return; 
     } else {
         return;
-    }
 
     do {
         return;
         a + 5;
         return;
-        if(a)
+        if(a){
             return;
-        else {
-            a
+        } else {
+            a;
             return;
         }
-        return;
     } while (a < b);
 
     for (; ++a < 5;) {
