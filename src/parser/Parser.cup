@@ -6,6 +6,7 @@ parser code {:
     void syntaxError(Symbol sym, String message) {
         System.err.println("Error de sintaxis en línea " + sym.left + ": " + message);
     }
+
     @Override
     public void report_error(String message, Object info) {
     }
@@ -17,7 +18,14 @@ parser code {:
     }
 
     @Override
-    public void syntax_error(Symbol cur_token) {
+    public void syntax_error(Symbol s) {
+    }
+
+    public void unrecovered_syntax_error(Symbol s) throws Exception {
+        String symbol = (s.value != null) ? s.value.toString() : "símbolo desconocido";
+        String message = "Error de sintaxis no recuperable en línea " + (s.left) + ": Símbolo '" + symbol + "' no esperado.";
+        System.err.println(message);
+        throw new Exception("Error de análisis sintáctico: " + message);
     }
 :};
 
@@ -43,7 +51,6 @@ non terminal INICIO, SENTENCIA, DECLARACION, EXPRESION_FOR, ESTRUCTURA_IF, ESTRU
     ARGUMENTOS, DO_WHILE, SENTENCIA_SWITCH, SWITCHs, CASES, CONSTANTE, DEFAULT_STMT, CASE_STMT, DECLARACION_LIST,
     INVALID_CASE_MISSING_CONSTANT, EXPRESIONES_NUMERICAS, LISTA_EXPRESIONES;
 
-
 precedence left OR_OP;
 precedence left AND_OP;
 precedence nonassoc EQ_OP, NE_OP;
@@ -64,8 +71,7 @@ INICIO ::= GLOBAL_DECLARACIONES FUNCIONES |
 ;
 
 GLOBAL_DECLARACIONES ::= DECLARACION |
-                        GLOBAL_DECLARACIONES DECLARACION |
-                        error SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Declaración de variable incorrecta."); :}
+                        GLOBAL_DECLARACIONES DECLARACION
 ;
 
 FUNCIONES ::= FUNCION |
@@ -101,7 +107,7 @@ SENTENCIA ::=
     CONTROL_STATEMENT|
     SWITCHs |
     EXPRESIONES SEMICOLON |
-    EXPRESIONES SENTENCIA {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :}
+    error {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :}
 ;
 
 CONTROL_STATEMENT ::= 
@@ -118,18 +124,13 @@ DECLARACION ::=
     VOID ID_LIST SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Una variable no puede ser declarada void."); :}
 ;
 
-
 ID_LIST ::= ID_LIST COMMA IDENTIFIER |
             ID_LIST COMMA IDENTIFIER ASSIGN EXPRESIONES_LOGICAS |
             IDENTIFIER ASSIGN EXPRESIONES_LOGICAS |
             IDENTIFIER
 ;
 
-ESTRUCTURA_IF ::= IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE |
-    IF LPAREN error RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Expresión de condición if incorrecta."); :} |
-    IF error SENTENCIAS RCURLY ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis del if."); :} |
-    IF LPAREN EXPRESIONES RPAREN error SENTENCIAS RCURLY ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Error en la llave de apertura del if."); :} |
-    IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS error ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Error en la llave de cierre del if."); :}
+ESTRUCTURA_IF ::= IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE
 ;
 
 EXPRESIONES ::= 
