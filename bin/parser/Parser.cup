@@ -70,7 +70,8 @@ start with INICIO;
 INICIO ::= GLOBAL_DECLARACIONES FUNCIONES |
            FUNCIONES |
            GLOBAL_DECLARACIONES {: syntaxError(((Symbol) stack.peek()), "El programa debe tener al menos una función."); :} |
-           {: syntaxError(((Symbol) stack.peek()), "El programa debe tener al menos una función."); :}
+           {: syntaxError(((Symbol) stack.peek()), "El programa debe tener al menos una función."); :} |
+           error {: syntaxError(((Symbol) stack.peek()), "Error en la estructura del programa."); :}
 ;
 
 GLOBAL_DECLARACIONES ::= DECLARACION |
@@ -137,10 +138,9 @@ DECLARACION ::=
     T_DATO ID_LIST SEMICOLON | 
     CONST T_DATO ID_LIST SEMICOLON |
     VOID ID_LIST SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Una variable no puede ser declarada void."); :} |
-    T_DATO error SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta el identificador de la variable en la declaración global."); :} |
-    T_DATO ID_LIST error {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} 
-    
-    
+    T_DATO SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta el identificador de la variable en la declaración."); :} |
+    T_DATO error {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
+    error ID_LIST SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta el tipo de dato en la declaración."); :}  
 ;
 
 ID_LIST ::= ID_LIST COMMA IDENTIFIER |
