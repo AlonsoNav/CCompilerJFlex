@@ -3,12 +3,8 @@ void x;
 void PruebaSinParametro(int a) {
     int a = suma();
 
-    switch (a) {
+    switch (a){ 
         case 5:
-            break;
-        default: 
-            break;
-        case 6:
             break;
         default:
             break;
