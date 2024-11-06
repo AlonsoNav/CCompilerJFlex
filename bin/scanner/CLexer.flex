@@ -49,8 +49,55 @@ public Map<String, Token> getTokenTable() {
 
 \"([^\"\\\n]|\\.)*          { System.out.println("String without closure " + yytext() + " in " + (yyline + 1)); }
 
+/* Operators */
+"<<="                   { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.LSHIFT_ASSIGN, yyline + 1, yycolumn, yytext()); }
+">>="                   { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.RSHIFT_ASSIGN, yyline + 1, yycolumn, yytext()); }
+"+="                    { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.PLUS_ASSIGN, yyline + 1, yycolumn, yytext()); }
+"-="                    { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.MINUS_ASSIGN, yyline + 1, yycolumn, yytext()); }
+"*="                    { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.TIMES_ASSIGN, yyline + 1, yycolumn, yytext()); }
+"/="                    { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.DIV_ASSIGN, yyline + 1, yycolumn, yytext()); }
+"&"                     { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_AND, yyline + 1, yycolumn, yytext()); }
+"^"                     { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_XOR, yyline + 1, yycolumn, yytext()); }
+"|"                     { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_OR, yyline + 1, yycolumn, yytext()); }
+">>"                    { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.RSHIFT, yyline + 1, yycolumn, yytext()); }
+"<<"                    { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.LSHIFT, yyline + 1, yycolumn, yytext()); }
+"~"                     { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_NOT, yyline + 1, yycolumn, yytext()); }
+"%="                    { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.MOD_ASSIGN, yyline + 1, yycolumn, yytext()); }
+"&="                    { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_AND_ASSIGN, yyline + 1, yycolumn, yytext()); }
+"^="                    { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_XOR_ASSIGN, yyline + 1, yycolumn, yytext()); }
+"|="                    { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_OR_ASSIGN, yyline + 1, yycolumn, yytext()); }
+"->"                    { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.PTR_OP, yyline + 1, yycolumn, yytext()); }
+"++"                    { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.INC_OP, yyline + 1, yycolumn, yytext()); }
+"--"                    { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.DEC_OP, yyline + 1, yycolumn, yytext()); }
+"=="                    { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.EQ_OP, yyline + 1, yycolumn, yytext()); }
+">="                    { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.GE_OP, yyline + 1, yycolumn, yytext()); }
+">"                     { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.GT_OP, yyline + 1, yycolumn, yytext()); }
+"?"                     { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.QUESTION, yyline + 1, yycolumn, yytext()); }
+"<="                    { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.LE_OP, yyline + 1, yycolumn, yytext()); }
+"<"                     { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.LT_OP, yyline + 1, yycolumn, yytext()); }
+"!="                    { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.NE_OP, yyline + 1, yycolumn, yytext()); }
+"||"                    { addToken(yytext(), TokenType.OPERATOR_LOGICAL); return new Symbol(Sym.OR_OP, yyline + 1, yycolumn, yytext()); }
+"&&"                    { addToken(yytext(), TokenType.OPERATOR_LOGICAL); return new Symbol(Sym.AND_OP, yyline + 1, yycolumn, yytext()); }
+"!"                     { addToken(yytext(), TokenType.OPERATOR_LOGICAL); return new Symbol(Sym.NOT_OP, yyline + 1, yycolumn, yytext()); }
+"="                     { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.ASSIGN, yyline + 1, yycolumn, yytext()); }
+"+"                     { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.PLUS, yyline + 1, yycolumn, yytext()); }
+"-"                     { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.MINUS, yyline + 1, yycolumn, yytext()); }
+"*"                     { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.TIMES, yyline + 1, yycolumn, yytext()); }
+"/"                     { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.DIVIDE, yyline + 1, yycolumn, yytext()); }
+"%"                     { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.MOD, yyline + 1, yycolumn, yytext()); }
+"("                     { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.LPAREN, yyline + 1, yycolumn, yytext()); }
+")"                     { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.RPAREN, yyline + 1, yycolumn, yytext()); }
+"["                     { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.LBRACKET, yyline + 1, yycolumn, yytext()); }
+"]"                     { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.RBRACKET, yyline + 1, yycolumn, yytext()); }
+"{"                     { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.LCURLY, yyline + 1, yycolumn, yytext()); }
+"}"                     { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.RCURLY, yyline + 1, yycolumn, yytext()); }
+":"                     { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.COLON, yyline + 1, yycolumn, yytext()); }
+"."                     { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.DOT, yyline + 1, yycolumn, yytext()); }
+","                     { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.COMMA, yyline + 1, yycolumn, yytext()); }
+";"                     { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.SEMICOLON, yyline + 1, yycolumn, yytext()); }
+
 /* Literals */
-[-+]?(0|[1-9][0-9]*)[uU]?[lL]?[lL]?             { addToken(yytext(), TokenType.LITERAL_INT); return new Symbol(Sym.NUMBER, yyline + 1, yycolumn, Integer.valueOf(yytext())); }
+[-]?(0|[1-9][0-9]*)[uU]?[lL]?[lL]?             { addToken(yytext(), TokenType.LITERAL_INT); return new Symbol(Sym.NUMBER, yyline + 1, yycolumn, Integer.valueOf(yytext())); }
 0[xX][0-9a-fA-F]+[uU]?[lL]?[lL]?                { addToken(yytext(), TokenType.LITERAL_HEX); return new Symbol(Sym.HEX_LITERAL, yyline + 1, yycolumn, yytext()); }
 0[0-7]+[uU]?[lL]?[lL]?                          { addToken(yytext(), TokenType.LITERAL_OCTAL); return new Symbol(Sym.OCTAL_LITERAL, yyline + 1, yycolumn, yytext()); }
 0[bB][01]+[uU]?[lL]?[lL]?                       { addToken(yytext(), TokenType.LITERAL_BINARY); return new Symbol(Sym.BINARY_LITERAL, yyline + 1, yycolumn, yytext()); }
@@ -102,54 +149,6 @@ public Map<String, Token> getTokenTable() {
 "while"                 { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.WHILE, yyline + 1, yycolumn, yytext()); }
 "read"                  { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.READ, yyline + 1, yycolumn, yytext()); }
 "write"                 { addToken(yytext(), TokenType.KEYWORD); return new Symbol(Sym.WRITE, yyline + 1, yycolumn, yytext()); }
-
-
-/* Operators */
-"<<="                   { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.LSHIFT_ASSIGN, yyline + 1, yycolumn, yytext()); }
-">>="                   { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.RSHIFT_ASSIGN, yyline + 1, yycolumn, yytext()); }
-"+="                    { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.PLUS_ASSIGN, yyline + 1, yycolumn, yytext()); }
-"-="                    { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.MINUS_ASSIGN, yyline + 1, yycolumn, yytext()); }
-"*="                    { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.TIMES_ASSIGN, yyline + 1, yycolumn, yytext()); }
-"/="                    { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.DIV_ASSIGN, yyline + 1, yycolumn, yytext()); }
-"&"                     { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_AND, yyline + 1, yycolumn, yytext()); }
-"^"                     { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_XOR, yyline + 1, yycolumn, yytext()); }
-"|"                     { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_OR, yyline + 1, yycolumn, yytext()); }
-">>"                    { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.RSHIFT, yyline + 1, yycolumn, yytext()); }
-"<<"                    { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.LSHIFT, yyline + 1, yycolumn, yytext()); }
-"~"                     { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_NOT, yyline + 1, yycolumn, yytext()); }
-"%="                    { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.MOD_ASSIGN, yyline + 1, yycolumn, yytext()); }
-"&="                    { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_AND_ASSIGN, yyline + 1, yycolumn, yytext()); }
-"^="                    { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_XOR_ASSIGN, yyline + 1, yycolumn, yytext()); }
-"|="                    { addToken(yytext(), TokenType.OPERATOR_BITWISE); return new Symbol(Sym.BIT_OR_ASSIGN, yyline + 1, yycolumn, yytext()); }
-"->"                    { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.PTR_OP, yyline + 1, yycolumn, yytext()); }
-"++"                    { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.INC_OP, yyline + 1, yycolumn, yytext()); }
-"--"                    { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.DEC_OP, yyline + 1, yycolumn, yytext()); }
-"=="                    { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.EQ_OP, yyline + 1, yycolumn, yytext()); }
-">="                    { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.GE_OP, yyline + 1, yycolumn, yytext()); }
-">"                     { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.GT_OP, yyline + 1, yycolumn, yytext()); }
-"?"                     { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.QUESTION, yyline + 1, yycolumn, yytext()); }
-"<="                    { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.LE_OP, yyline + 1, yycolumn, yytext()); }
-"<"                     { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.LT_OP, yyline + 1, yycolumn, yytext()); }
-"!="                    { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.NE_OP, yyline + 1, yycolumn, yytext()); }
-"||"                    { addToken(yytext(), TokenType.OPERATOR_LOGICAL); return new Symbol(Sym.OR_OP, yyline + 1, yycolumn, yytext()); }
-"&&"                    { addToken(yytext(), TokenType.OPERATOR_LOGICAL); return new Symbol(Sym.AND_OP, yyline + 1, yycolumn, yytext()); }
-"!"                     { addToken(yytext(), TokenType.OPERATOR_LOGICAL); return new Symbol(Sym.NOT_OP, yyline + 1, yycolumn, yytext()); }
-"="                     { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.ASSIGN, yyline + 1, yycolumn, yytext()); }
-"+"                     { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.PLUS, yyline + 1, yycolumn, yytext()); }
-"-"                     { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.MINUS, yyline + 1, yycolumn, yytext()); }
-"*"                     { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.TIMES, yyline + 1, yycolumn, yytext()); }
-"/"                     { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.DIVIDE, yyline + 1, yycolumn, yytext()); }
-"%"                     { addToken(yytext(), TokenType.OPERATOR_ARITHMETIC); return new Symbol(Sym.MOD, yyline + 1, yycolumn, yytext()); }
-"("                     { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.LPAREN, yyline + 1, yycolumn, yytext()); }
-")"                     { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.RPAREN, yyline + 1, yycolumn, yytext()); }
-"["                     { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.LBRACKET, yyline + 1, yycolumn, yytext()); }
-"]"                     { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.RBRACKET, yyline + 1, yycolumn, yytext()); }
-"{"                     { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.LCURLY, yyline + 1, yycolumn, yytext()); }
-"}"                     { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.RCURLY, yyline + 1, yycolumn, yytext()); }
-":"                     { addToken(yytext(), TokenType.OPERATOR_RELATIONAL); return new Symbol(Sym.COLON, yyline + 1, yycolumn, yytext()); }
-"."                     { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.DOT, yyline + 1, yycolumn, yytext()); }
-","                     { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.COMMA, yyline + 1, yycolumn, yytext()); }
-";"                     { addToken(yytext(), TokenType.OPERATOR); return new Symbol(Sym.SEMICOLON, yyline + 1, yycolumn, yytext()); }
 
 /* Ids */
 [a-zA-Z_][a-zA-Z0-9_]*  { addToken(yytext(), TokenType.ID); return new Symbol(Sym.IDENTIFIER, yyline + 1, yycolumn, yytext()); }

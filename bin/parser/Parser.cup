@@ -23,7 +23,9 @@ parser code {:
 
     public void unrecovered_syntax_error(Symbol s) throws Exception {
         String symbol = (s.value != null) ? s.value.toString() : "símbolo desconocido";
-        String message = "Error de sintaxis no recuperable en línea " + (s.left) + ": Símbolo '" + symbol + "' no esperado.";
+        String peek = (stack.elementAt(stack.size() - 3) != null) ? (((Symbol) stack.elementAt(stack.size() - 3)).value).toString() : "símbolo desconocido";
+        Object left = (stack.elementAt(stack.size() - 3) != null) ? (((Symbol) stack.elementAt(stack.size() - 3)).left) : "símbolo desconocido";
+        String message = "Error de sintaxis no recuperable en línea " + (s.left) + ": Símbolo '" + symbol + "' no esperado." + peek + " " + left;
         System.err.println(message);
         throw new Exception("Error de análisis sintáctico: " + message);
     }
@@ -190,6 +192,7 @@ ESTRUCTURA_ELSE ::=
     ELSE IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE |
     ELSE IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY |
     ELSE LCURLY SENTENCIAS RCURLY |
+    ELSE LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Múltiples else en estructura if."); :} |
     ELSE error SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en la llave de apertura del else."); :} |
     ELSE ERRORES_IF
 ;
@@ -227,7 +230,8 @@ ESTRUCTURA_FOR ::= FOR LPAREN SENTENCIA_FOR RPAREN LCURLY SENTENCIAS RCURLY |
 
 SENTENCIA_FOR ::=
     DECLARACION EXPRESION_FOR SEMICOLON EXPRESION_FOR |
-    EXPRESION_FOR SEMICOLON EXPRESION_FOR SEMICOLON EXPRESION_FOR
+    EXPRESION_FOR SEMICOLON EXPRESION_FOR SEMICOLON EXPRESION_FOR |
+    EXPRESION_FOR SEMICOLON {: syntaxError(((Symbol) stack.peek()), "No puede haber una sola expresión."); :} 
 ;
 
 EXPRESION_FOR ::= 
@@ -261,7 +265,8 @@ DEFAULT_STMT ::= DEFAULT COLON SENTENCIAS |
     DEFAULT COLON LCURLY SENTENCIAS RCURLY |
     DEFAULT LITERALES COLON SENTENCIAS {: syntaxError(((Symbol) stack.elementAt(stack.size() - 2)), "Default no debe tener literal."); :} |
     DEFAULT LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Falta dos puntos en el default."); :} |
-    DEFAULT error SENTENCIAS {: syntaxError(((Symbol) stack.elementAt(stack.size() - 2)), "Falta dos puntos en el default."); :}
+    DEFAULT error SENTENCIAS {: syntaxError(((Symbol) stack.elementAt(stack.size() - 2)), "Error en el default."); :} |
+    DEFAULT error LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en el default."); :} 
 ;
 
 LISTA_DEFAULT ::= DEFAULT_STMT LISTA_DEFAULT | DEFAULT_STMT;
@@ -270,13 +275,13 @@ READ_WRITE ::=
     READ LPAREN IDENTIFIER RPAREN SEMICOLON |
     READ LPAREN RPAREN SEMICOLON |
     WRITE LPAREN LISTA_EXPRESIONES RPAREN SEMICOLON |
-    READ error IDENTIFIER RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de apertura en la llamada a la funcion"); :} |
-    READ LPAREN IDENTIFIER error SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre en la llamada a la funcion"); :} |
-    READ IDENTIFIER SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Faltan los paréntesis para la llamada a la funcion"); :} |
-    READ error RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de apertura en la llamada a la funcion"); :} |
-    READ LPAREN error SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre en la llamada a la funcion"); :} |
-    WRITE error LISTA_EXPRESIONES RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de apertura en la llamada a la funcion"); :} | 
-    WRITE LPAREN LISTA_EXPRESIONES error SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre en la llamada a la funcion"); :} | //hay un error porque es como si siguiera como entre LISTA_EXPRESIONES porque no sabe bien cuando parar
+    READ error IDENTIFIER RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de apertura en la llamada read"); :} |
+    READ LPAREN IDENTIFIER error SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre en la llamada read"); :} |
+    READ IDENTIFIER SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Faltan los paréntesis para la llamada read"); :} |
+    READ error RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de apertura en la llamada read"); :} |
+    READ LPAREN error SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre en la llamada read"); :} |
+    WRITE error LISTA_EXPRESIONES RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de apertura en la llamada write"); :} | 
+    WRITE LPAREN LISTA_EXPRESIONES error SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre en la llamada write"); :} | //hay un error porque es como si siguiera como entre LISTA_EXPRESIONES porque no sabe bien cuando parar
     READ LPAREN IDENTIFIER RPAREN {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :}  |
     READ LPAREN RPAREN {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
     WRITE LPAREN LISTA_EXPRESIONES RPAREN {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
@@ -322,10 +327,10 @@ EXPRESION_ARITMETICA ::= EXPRESION_ARITMETICA PLUS EXPRESION_ARITMETICA |
             EXPRESION_ARITMETICA DIVIDE error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '/'."); :} |
             EXPRESION_ARITMETICA MOD {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '%'."); :} |
             LPAREN error RPAREN {: syntaxError(((Symbol) stack.peek()), "Expresión inválida dentro de paréntesis."); :} |
-            error TIMES EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '*'."); :} |
-            error DIVIDE EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '/'."); :} |
-            error PLUS EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '+'."); :} |
-            error MINUS EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '-'."); :}
+            TIMES EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '*'."); :} |
+            DIVIDE EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '/'."); :} |
+            PLUS EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '+'."); :} |
+            MINUS EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '-'."); :}
 ;
 
 EXPRESIONES_NUMERICAS ::= EXPRESIONES_NUMERICAS PLUS EXPRESIONES_NUMERICAS |

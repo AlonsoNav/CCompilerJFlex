@@ -1,12 +1,11 @@
-
 int g;
 void x; //deberia de dar error pues no se pueden declarar variables void
-y;  // error     
+// y;  // error     
 int z, t, y, y;
 
 int funcion1(){  
 int k;  
-int g  //error por no tener ;
+//int g  //error por no tener ;
 
 
 a = a * funcion(8);
@@ -31,11 +30,10 @@ a = a * c // error por el punto y coma
 	} 
 }
 
-
-int funcion4(int, int) { //no se permite solo los tipos
+int funcion4(int dato, int dato) { //no se permite solo los tipos
 	
-	if ( (x<7) && (x>2) ){
- 		x= g+6;
+	if ((x<7) && (x>2)){
+ 		x=g+5;
 	}
 	
 	while ( ){ //debe dar error porque falta expresion
@@ -43,13 +41,13 @@ int funcion4(int, int) { //no se permite solo los tipos
 		break;
 	}
 	
-	for (x=0; ) { //error pues hay solamente una expresion 
+	for (; ;) { //error pues hay solamente una expresion 
 		x= a+b; 	
 		break;
 	}
 }
 
-int funcion1( int x   {  // falta parentesis
+int funcion1( int x){  // falta parentesis
 
 	while (x && y){ 
 		x++;
@@ -71,5 +69,4 @@ read(x++); //se espera error
 
 write(C- 123);
 write( );     //se espera error
-
-}  
+} 
