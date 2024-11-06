@@ -102,7 +102,7 @@ CUERPO_FUNCION ::=
 ERRORES_FUNCION ::= T_DATO IDENTIFIER error CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la función."); :} |
                     VOID IDENTIFIER error CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la función."); :} |
                     T_DATO IDENTIFIER IDENTIFIER CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la función."); :} |
-                    VOID IDENTIFIER IDENTIFIER CUERPO_FUNCION {: syntaxError((Symbol) stack.peek()), "Error en los paréntesis de la función."); :} |
+                    VOID IDENTIFIER IDENTIFIER CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la función."); :} |
                     IDENTIFIER LPAREN PARAMETROS RPAREN CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Falta el tipo de dato en la declaración de la función."); :} 
 ;
 
