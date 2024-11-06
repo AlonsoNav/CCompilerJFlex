@@ -51,6 +51,7 @@ non terminal INICIO, SENTENCIA, DECLARACION, EXPRESION_FOR, ESTRUCTURA_IF, ESTRU
     DO_WHILE, SWITCHs, CASES, DEFAULT_STMT, CASE_STMT, DECLARACION_LIST, EXPRESIONES_NUMERICAS,
     LISTA_EXPRESIONES, ERRORES_IF, LISTA_DEFAULT;
 
+
 precedence left OR_OP;
 precedence left AND_OP;
 precedence nonassoc EQ_OP, NE_OP;
@@ -133,15 +134,21 @@ CONTROL_STATEMENT ::=
 DECLARACION ::= 
     T_DATO ID_LIST SEMICOLON | 
     CONST T_DATO ID_LIST SEMICOLON |
-    VOID ID_LIST SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Una variable no puede ser declarada void."); :} 
-    //ID_LIST SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta el tipo de dato en la declaración."); :}
+    VOID ID_LIST SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Una variable no puede ser declarada void."); :} |
+    T_DATO error SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta el identificador de la variable en la declaración global."); :} |
+    T_DATO ID_LIST error {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} 
+    
     
 ;
 
 ID_LIST ::= ID_LIST COMMA IDENTIFIER |
             ID_LIST COMMA IDENTIFIER ASSIGN EXPRESIONES_LOGICAS |
             IDENTIFIER ASSIGN EXPRESIONES_LOGICAS |
-            IDENTIFIER
+            IDENTIFIER |
+            // ID_LIST error IDENTIFIER {: syntaxError(((Symbol) stack.peek()), "Falta coma entre identificadores."); :} |  //hacen que el assing falle
+            // ID_LIST error IDENTIFIER ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta coma entre identificadores."); :} |
+            ID_LIST COMMA IDENTIFIER ASSIGN error {: syntaxError(((Symbol) stack.peek()), "No se asignó ningun valor a la variable"); :} |
+            IDENTIFIER ASSIGN error {: syntaxError(((Symbol) stack.peek()), "No se asignó ningun valor a la variable"); :}
 ;
 
 ESTRUCTURA_IF ::= IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE |
