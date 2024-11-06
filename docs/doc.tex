@@ -155,23 +155,39 @@ solución de los problemas encontrados durante su desarrollo.
 \section*{Lecciones aprendidas}
 \addcontentsline{toc}{section}{Lecciones aprendidas}
 \begin{flushleft}
-	\hspace*{2em} Durante el desarrollo del proyecto el grupo 
-	pudo observar que en el scanner es muy importante el orden 
-	de las expresiones regulares porque, si el orden es incorrecto 
-	se pueden capturar tokens no deseados antes que los tokens 
-	válidos lo cual provoca errores. Además, identificar y clasificar 
-	errores como números o cadenas de caracteres con mal formato 
-	e identificadores que no siguen las reglas, permitió al grupo 
-	detectar mejor los errores y mostrar mensajes de salida útiles, 
-	brindando robustez al scanner gracias al manejo de errores léxicos.\par
-	\vspace{1em}
-	\hspace*{2em} Evitar la separación incorrecta de tokens compuestos 
-	fue un reto porque, en algunas casos los errores no se trataban como 
-	un único token con mal formato sino que, se separaban en varios 
-	elementos válidos, esto hacía que en ocasiones se interpretara 
-	incorrectamente el código. Por lo tanto, para mejorar la precisión 
-	del scanner se definieron expresiones regulares más claras.   \par
-	\vspace{1em}
+	\hspace*{2em} Durante el desarrollo del proyecto, el grupo 
+pudo observar que en el parser es fundamental definir correctamente 
+la gramática y las reglas de producción. La estructura de las reglas 
+y el uso adecuado de precedencia y asociatividad permitieron reducir 
+conflictos de análisis, como conflictos shift/reduce o reduce/reduce, 
+que dificultan el proceso de análisis sintáctico y provocan errores 
+de interpretación. Además, organizar adecuadamente las producciones y 
+sus alternativas evitó que ciertas estructuras se interpretaran de 
+forma ambigua, lo cual agregó robustez al parser al generar una mejor 
+comprensión de la jerarquía entre expresiones y bloques de código. \par
+\vspace{1em}
+\hspace*{2em} Definir mensajes de error claros fue un reto, especialmente 
+al manejar errores sintácticos complejos. En muchos casos, el parser debía 
+identificar la causa específica de un error (como la falta de un punto y 
+coma o el uso incorrecto de una palabra reservada) y generar un mensaje 
+informativo que ayudara a identificar el problema en la línea correspondiente. 
+Esto fue esencial para mejorar la experiencia del usuario al facilitar la 
+corrección de errores en el código fuente. Asimismo, el equipo experimentó 
+con la recuperación de errores para continuar el análisis a pesar de 
+errores sintácticos, lo cual permitió al parser brindar un reporte de 
+múltiples errores en una sola ejecución, aumentando la eficiencia del 
+proceso de depuración.\par
+\vspace{1em}
+\hspace*{2em} Al enfrentarse a estructuras sintácticas complejas como 
+anidación de bloques y condiciones, el equipo comprendió la importancia 
+de anticipar casos especiales en las reglas de producción. Definir reglas 
+claras para estos casos evitó ambigüedades en el análisis y permitió un 
+procesamiento más preciso del código fuente. Esto también permitió al parser 
+identificar y manejar constructos incompletos o mal formados de manera 
+más efectiva, brindando así una base sólida para la interpretación y 
+compilación del código.\par
+\vspace{1em}
+
 \end{flushleft}
 
 % Casos de prueba

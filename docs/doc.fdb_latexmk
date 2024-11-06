@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1730909604.63614 "c:/Users/alons/OneDrive/Escritorio/2024/Compiladores e Intérpretes/Compiler/docs/doc.tex" "doc.pdf" "doc" 1730909605.91403 0
+["pdflatex"] 1730909848.82566 "c:/Users/alons/OneDrive/Escritorio/2024/Compiladores e Intérpretes/Compiler/docs/doc.tex" "doc.pdf" "doc" 1730909850.11329 0
   "C:/Users/alons/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1725755836 82794 3356c8c6c52528dda375b8aed03f628e ""
   "C:/Users/alons/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1723257787 24265332 37c6746bfdd13797134de3304ba979f6 ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc" 1458473887 4993 80dc9bab7f31fb78a000ccfed0e27cab ""
@@ -79,11 +79,11 @@
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/tex/latex/tools/array.sty" 1718356376 14067 1383bd6ee23ab18ae0e796155404deb7 ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/tex/latex/tools/tabularx.sty" 1718356376 7243 e5dac1240636811edb77568b81818372 ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
-  "c:/Users/alons/OneDrive/Escritorio/2024/Compiladores e Intérpretes/Compiler/docs/doc.tex" 1730909602 84296 37e5a548f986e34fb79b7395438f3b28 ""
-  "doc.aux" 1730909605 1734 f4e18f9d4deb942d1d4e16987101a5ba "pdflatex"
-  "doc.out" 1730909605 2392 dd7007a862b455f997fa31412985531a "pdflatex"
-  "doc.tex" 1730909602 84296 37e5a548f986e34fb79b7395438f3b28 ""
-  "doc.toc" 1730909605 941 38decc421012233ee8a43b93fc3f7176 "pdflatex"
+  "c:/Users/alons/OneDrive/Escritorio/2024/Compiladores e Intérpretes/Compiler/docs/doc.tex" 1730909846 85366 029da7865571d487d8c1c1cf794e2d66 ""
+  "doc.aux" 1730909849 1734 4f02ae45141a03a22c92a67af25eedd8 "pdflatex"
+  "doc.out" 1730909849 2392 dd7007a862b455f997fa31412985531a "pdflatex"
+  "doc.tex" 1730909846 85366 029da7865571d487d8c1c1cf794e2d66 ""
+  "doc.toc" 1730909849 941 56beb83f5ca240d7d810f265b3c0f667 "pdflatex"
   "log_1.jpg" 1730908480 185030 a334b8a731ff65fea64db154b02b53ac ""
   "logo-tec.png" 1723305773 12388 65ff84ad277e787be553048cd1f3a9fa ""
   (generated)

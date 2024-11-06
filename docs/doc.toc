@@ -5,10 +5,10 @@
 \contentsline {section}{Casos de prueba}{5}{section*.6}%
 \contentsline {subsection}{Casos de prueba 1: Comentarios}{5}{section*.7}%
 \contentsline {subsection}{Casos de prueba 2: Operadores}{8}{section*.8}%
-\contentsline {subsection}{Caso de prueba 3: Identificadores}{15}{section*.9}%
-\contentsline {subsection}{Caso de prueba 4: Formato Literales}{19}{section*.10}%
-\contentsline {subsection}{Caso de prueba 5: Palabras reservadas}{24}{section*.11}%
-\contentsline {subsection}{Caso de prueba 6: General}{28}{section*.12}%
-\contentsline {section}{Manual de usuario}{34}{section*.13}%
-\contentsline {section}{Bitácora}{35}{section*.16}%
-\contentsline {section}{Bibliografía}{37}{section*.20}%
+\contentsline {subsection}{Caso de prueba 3: Identificadores}{16}{section*.9}%
+\contentsline {subsection}{Caso de prueba 4: Formato Literales}{20}{section*.10}%
+\contentsline {subsection}{Caso de prueba 5: Palabras reservadas}{25}{section*.11}%
+\contentsline {subsection}{Caso de prueba 6: General}{29}{section*.12}%
+\contentsline {section}{Manual de usuario}{35}{section*.13}%
+\contentsline {section}{Bitácora}{36}{section*.16}%
+\contentsline {section}{Bibliografía}{38}{section*.20}%
