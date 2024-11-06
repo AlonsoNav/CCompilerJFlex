@@ -1,14 +1,14 @@
 \contentsline {section}{Introducción}{2}{section*.2}%
 \contentsline {section}{Estrategia de solución}{2}{section*.3}%
-\contentsline {section}{Análisis de resultados}{3}{section*.4}%
-\contentsline {section}{Lecciones aprendidas}{3}{section*.5}%
-\contentsline {section}{Casos de prueba}{4}{section*.6}%
-\contentsline {subsection}{Casos de prueba 1: Comentarios}{4}{section*.7}%
-\contentsline {subsection}{Casos de prueba 2: Operadores}{7}{section*.8}%
-\contentsline {subsection}{Caso de prueba 3: Identificadores}{14}{section*.9}%
-\contentsline {subsection}{Caso de prueba 4: Formato Literales}{18}{section*.10}%
-\contentsline {subsection}{Caso de prueba 5: Palabras reservadas}{23}{section*.11}%
-\contentsline {subsection}{Caso de prueba 6: General}{27}{section*.12}%
-\contentsline {section}{Manual de usuario}{33}{section*.13}%
-\contentsline {section}{Bitácora}{34}{section*.16}%
-\contentsline {section}{Bibliografía}{37}{section*.21}%
+\contentsline {section}{Análisis de resultados}{4}{section*.4}%
+\contentsline {section}{Lecciones aprendidas}{4}{section*.5}%
+\contentsline {section}{Casos de prueba}{5}{section*.6}%
+\contentsline {subsection}{Casos de prueba 1: Comentarios}{5}{section*.7}%
+\contentsline {subsection}{Casos de prueba 2: Operadores}{8}{section*.8}%
+\contentsline {subsection}{Caso de prueba 3: Identificadores}{15}{section*.9}%
+\contentsline {subsection}{Caso de prueba 4: Formato Literales}{19}{section*.10}%
+\contentsline {subsection}{Caso de prueba 5: Palabras reservadas}{24}{section*.11}%
+\contentsline {subsection}{Caso de prueba 6: General}{28}{section*.12}%
+\contentsline {section}{Manual de usuario}{34}{section*.13}%
+\contentsline {section}{Bitácora}{35}{section*.16}%
+\contentsline {section}{Bibliografía}{38}{section*.21}%
