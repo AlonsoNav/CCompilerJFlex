@@ -1,0 +1,38 @@
+void testEstructurasControl() {
+    int x = 5;
+    int y = 10;
+
+    // Error: Falta paréntesis de cierre en la condición del 'if'
+    if (x < y {
+        x = x + 1;
+    }
+
+    // Error: Falta paréntesis de apertura en la condición del 'while'
+    while x < y) {
+        y = y - 1;
+    }
+
+    // Error: Falta llave de apertura en el bloque del 'else'
+    if (x > y) {
+        print(x);
+    } else 
+        print(y);
+    }
+
+    // Error: Condición en 'if' sin paréntesis alrededor
+    if x == y {
+        x = x * 2;
+    }
+
+    // Error: Falta el punto y coma al final de la condición del 'while'
+    while (x < y) {
+        x = x + 1
+    }
+
+    // Expresión correcta (para contraste)
+    if (x != y) {
+        return;
+    } else {
+        return;
+    }
+}

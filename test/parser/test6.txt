@@ -1,0 +1,34 @@
+void funcionGeneral() {
+    int a = 5;
+    int b = 10
+    // Error: Declaración de variable con tipo inválido
+    void varInvalida = 20;
+
+    // Error: asignación inválida
+    a + b = c;
+
+    // Error: Falta paréntesis de cierre en la condición del 'if'
+    if (a < b {
+        print(a);
+    } else {
+        print(b)
+    }
+
+    // Error: Falta el paréntesis de apertura en el 'while'
+    while a < b) {
+        a = a + 1;
+    }
+
+    // Error: Falta punto y coma en la declaración de 'for'
+    for (int i = 0 i < 10; i++) {
+        print(i);
+    }
+
+    // Error: Paréntesis no cerrado en una expresión aritmética 
+    a + (b * 2 ;
+
+    // Declaración correcta para contraste
+    if (x != a) {
+        print("x y a son diferentes");
+    }
+}

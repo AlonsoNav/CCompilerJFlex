@@ -1,0 +1,25 @@
+void testAsignacionAritmetica() {
+    int a = 5;
+    int b = 10;
+
+    // Error: Falta operando después del operador '+'
+    int c = a + ;
+
+    // Error: Falta operando antes del operador '-'
+    int d = - b;
+
+    // Error: Operador de asignación en una expresión aritmética
+    a + b = c; 
+
+    // Error: Uso de variable no declarada en una operación
+    int e = a + f;
+
+    // Error: Operación aritmética sin un operando válido
+    //int g = + + b;
+
+    // Error: Falta el punto y coma en la asignación
+    int h = a + c
+
+    // Expresión correcta (para contraste)
+    int i = a * b;
+}
