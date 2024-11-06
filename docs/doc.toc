@@ -11,4 +11,4 @@
 \contentsline {subsection}{Caso de prueba 6: General}{28}{section*.12}%
 \contentsline {section}{Manual de usuario}{34}{section*.13}%
 \contentsline {section}{Bitácora}{35}{section*.16}%
-\contentsline {section}{Bibliografía}{38}{section*.21}%
+\contentsline {section}{Bibliografía}{37}{section*.20}%
