@@ -3,15 +3,57 @@ void x;
 void PruebaSinParametro(int a) {
     int a = suma();
 
-    while (a < 0) {
+    switch (a) {
+        case 5:
+            break;
+        default: 
+            break;
+        case 6:
+            break;
+        default:
+            break;
+    }
+
+    do {
+        return;
+        a + 5;
+        return;
+        if(a){
+            return;
+        } else {
+            a;
+            return;
+        }
+    } while (a < b);
+
+    while (a > 0) {
+        return;
+    }
+
+    for ( int i = 0; i < 10; i++) { 
+        return;
+        a++;
+    }
+
+    if (a) {
+        return;
+    } else if (a) { 
+        a++;
+        return; 
+    } else {
         return;
     }
 
     do {
-        a + 5
         return;
-        a + ;
-        a + 5
+        a + 5;
+        return;
+        if(a){
+            return;
+        } else {
+            a;
+            return;
+        }
     } while (a < b);
 
     for (; ++a < 5;) {
