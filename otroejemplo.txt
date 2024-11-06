@@ -4,9 +4,8 @@ void PruebaSinParametro(int a) {
     int a = suma();
 
     switch (a){ 
-        case 5:{ 
+        case 5:
             break;
-        }
         default:
             break;
     }
