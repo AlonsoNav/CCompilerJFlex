@@ -130,23 +130,23 @@ solución de los problemas encontrados durante su desarrollo.
         \hline
         Desplegar lista de errores léxicos & 100\% & \\
         \hline
-        Desplegar listado de tokens encontrados & 100\% & \\
+        Desplegar lista de errores sintácticos & 100\% & \\
         \hline
-        Mostrar tipo de token, línea y cantidad de apariciones por cada token & 100\% & \\
+        Evitar desplegar errores sintácticos en cáscada & 50\% & En situaciones muy específicas el parser se puede caer o dar errores poco precisos. Esto debido a complicaciones en la gramática. \\
         \hline
-        Manejar 4 tipos grandes (operadores, literales, ids, palabras reservadas) de tokens & 100\% & \\
+        Implementar las funciones de read and write & 100\% & \\
         \hline
-        Ignorar comentarios en línea y bloque & 100\% & \\
+        Declaración de variables, constantes y lista de variables & 100\% & \\
         \hline
-        Identificar todos los operadores válidos de C & 100\% & \\
+        Reconocer la estructura del programa & 100\% & \\
         \hline
-        Identificar todos los literales válidos de C & 100\% & \\
+        Identificar funciones & 100\% & \\
         \hline
-        Identificar todos los identificadores válidos de C & 100\% & \\
+        Analizar expresiones con operadores aritméticos o booleanos & 100\% & \\
         \hline
-        Identificar todas las palabras reservadas de C & 100\% & \\
+        Identificar todas las estructuras de control & 100\% & \\
         \hline
-        Definir errores léxicos & 100\% & \\
+        Definir buenos mensajes de error & 80\% & La mayoría de errores están bien definidos, pero si el flujo es erróneo no se obtiene un buen mensaje. \\
         \hline
     \end{tabularx}
 \end{table}
@@ -155,23 +155,39 @@ solución de los problemas encontrados durante su desarrollo.
 \section*{Lecciones aprendidas}
 \addcontentsline{toc}{section}{Lecciones aprendidas}
 \begin{flushleft}
-	\hspace*{2em} Durante el desarrollo del proyecto el grupo 
-	pudo observar que en el scanner es muy importante el orden 
-	de las expresiones regulares porque, si el orden es incorrecto 
-	se pueden capturar tokens no deseados antes que los tokens 
-	válidos lo cual provoca errores. Además, identificar y clasificar 
-	errores como números o cadenas de caracteres con mal formato 
-	e identificadores que no siguen las reglas, permitió al grupo 
-	detectar mejor los errores y mostrar mensajes de salida útiles, 
-	brindando robustez al scanner gracias al manejo de errores léxicos.\par
-	\vspace{1em}
-	\hspace*{2em} Evitar la separación incorrecta de tokens compuestos 
-	fue un reto porque, en algunas casos los errores no se trataban como 
-	un único token con mal formato sino que, se separaban en varios 
-	elementos válidos, esto hacía que en ocasiones se interpretara 
-	incorrectamente el código. Por lo tanto, para mejorar la precisión 
-	del scanner se definieron expresiones regulares más claras.   \par
-	\vspace{1em}
+	\hspace*{2em} Durante el desarrollo del proyecto, el grupo 
+pudo observar que en el parser es fundamental definir correctamente 
+la gramática y las reglas de producción. La estructura de las reglas 
+y el uso adecuado de precedencia y asociatividad permitieron reducir 
+conflictos de análisis, como conflictos shift/reduce o reduce/reduce, 
+que dificultan el proceso de análisis sintáctico y provocan errores 
+de interpretación. Además, organizar adecuadamente las producciones y 
+sus alternativas evitó que ciertas estructuras se interpretaran de 
+forma ambigua, lo cual agregó robustez al parser al generar una mejor 
+comprensión de la jerarquía entre expresiones y bloques de código. \par
+\vspace{1em}
+\hspace*{2em} Definir mensajes de error claros fue un reto, especialmente 
+al manejar errores sintácticos complejos. En muchos casos, el parser debía 
+identificar la causa específica de un error (como la falta de un punto y 
+coma o el uso incorrecto de una palabra reservada) y generar un mensaje 
+informativo que ayudara a identificar el problema en la línea correspondiente. 
+Esto fue esencial para mejorar la experiencia del usuario al facilitar la 
+corrección de errores en el código fuente. Asimismo, el equipo experimentó 
+con la recuperación de errores para continuar el análisis a pesar de 
+errores sintácticos, lo cual permitió al parser brindar un reporte de 
+múltiples errores en una sola ejecución, aumentando la eficiencia del 
+proceso de depuración.\par
+\vspace{1em}
+\hspace*{2em} Al enfrentarse a estructuras sintácticas complejas como 
+anidación de bloques y condiciones, el equipo comprendió la importancia 
+de anticipar casos especiales en las reglas de producción. Definir reglas 
+claras para estos casos evitó ambigüedades en el análisis y permitió un 
+procesamiento más preciso del código fuente. Esto también permitió al parser 
+identificar y manejar constructos incompletos o mal formados de manera 
+más efectiva, brindando así una base sólida para la interpretación y 
+compilación del código.\par
+\vspace{1em}
+
 \end{flushleft}
 
 % Casos de prueba
@@ -1336,102 +1352,65 @@ Para construir y ejecutar el proyecto, es necesario tener Java instalado en tu s
     java -jar lib/jflex-full-1.9.1.jar src/scanner/CLexer.flex
     \end{verbatim}
 
+	\item Genera el archivo \texttt{Parser}:
+	\begin{verbatim}
+	java -jar lib/java-cup-11b.jar -parser Parser -symbols Symbol 
+	src/parser/Parser.cup
+	\end{verbatim}
+
     \item Compila el proyecto:
     \begin{verbatim}
-    javac -d bin -sourcepath src src/app/Main.java 
-    src/scanner/CLexer.java .\src\scanner\Token.java 
-    .\src\scanner\TokenType.java 
+    javac -d bin -sourcepath src -cp lib/java-cup-11b.jar 
+	src/app/ParserMain.java src/app/ScannerMain.java 
+	src/scanner/CLexer.java src/scanner/Token.java 
+	src/scanner/TokenType.java src/parser/Parser.java 
+	src/parser/Sym.java
     \end{verbatim}
 \end{enumerate}
 
 \subsection*{Uso}
 Para ejecutar el compilador con un archivo de entrada, utiliza el siguiente comando:
 \begin{verbatim}
-    java -cp bin app.Main input_file
-\end{verbatim}
-También puedes enviar la salida a un archivo .txt con
-\begin{verbatim}
-    java -cp bin app.Main input_file > output.txt
+    java -cp bin app.ParserMain input_file
 \end{verbatim}
 
 % Bitácora
 \section*{Bitácora}
 \addcontentsline{toc}{section}{Bitácora}
 
-\subsection*{Fecha: 26-08-2024}
+\subsection*{Fecha: 17-10-2024}
 \begin{flushleft}
-    \hspace*{2em} En la primera reunión del equipo de trabajo,
-    se acordó que CV se encargará de los expresiones regulares
-    de los operadores y del formato de impresión de la tabla.
-    AN diseñará la estructura de los tokens y sus errores, 
-    así como las expresiones regulares de los identificadores
-    y palabras reservadas. VG se responsabilizará de los 
-    literales. Por último, se decidió que la documentación se 
-    realizará en LaTeX y que GitHub será utilizado como 
-    sistema de control de versiones.
+    \hspace*{2em} Para iniciar el proyecto hicimos una pequeña
+    reunión en la que se estableció que CV se encargaba de las
+    variables, declaraciones y constantes. Por otro lado, VG
+	iba a trabajar las estructuras de control como condicionales
+	y bucles. AN diseñaría las gramáticas para las expresiones, 
+	y las funciones como read y write. CV también trabajó en la 
+	conversión de los tokens del scanners a Symbol y además de dar 
+	la estructura básica del programa. A continuación se adjunta 
+	evidencia de lo hablado en un chat de WhatsApp:\par\vspace{1em}
+	\centering
+	\includegraphics[width=0.5\textwidth]{log_1.jpg}\par
 \end{flushleft}
 
-\subsection*{Fecha: 01-09-2024}
+\subsection*{Fecha: 26-10-2024}
 \begin{flushleft}
-    La profesora responde las siguientes consultas:
-    \begin{itemize}
-        \item Nosotros ya manejamos los diferentes tipos de 
-        tokens en un enum. Queremos agregar subtipos pensando 
-        a futuro, pero no sé si sea mejor manejar cada 
-        subtipo de token como una clase aparte o si todo 
-        chorreado en un enum funciona. ¿Usted qué me recomienda?
-        \item ¿Qué hacemos con las directivas para el procesador 
-        como \texttt{\#include} o \texttt{\#define}?
-        \item Los literales de los booleanos son 0 (false) y 
-        todo lo contrario es true eso lo tomamos como un 
-        literal numérico no importa?
-        \item Manejamos también sufijos (U: unsigned, L: long...)?
-        \item Los errores es necesario guardarlos en una estructura de datos o solo con imprimirlos basta?
-    \end{itemize}
-    Lo siguiente son las respuestas de la profesora:\par\vspace{1em}
-    \centering
-    \includegraphics[width=0.5\textwidth]{respuestas-1.png}\par
-\end{flushleft}
-
-\subsection*{Fecha: 03-09-2024}
-\begin{flushleft}
-    La profesora responde la siguiente consulta:
-    \begin{quote}
-        Usted comentó que cosas como "1ejemplo", debería ser 
-        un error y no que los separe como "1": literal y 
-        "ejemplo": id. Hay otras cosas que se pegan, por 
-        ejemplo con las directivas:
-        
-        \#include \textless stdio.h \textgreater
-        
-        lo separa como\par
-        \#: error\par
-        include: id\par
-        \textless operador\par
-        stdio: id\par
-        . operador\par
-        h: id\par
-        \textgreater operador\par
-        
-        Entonces yo ya tengo definido el error genérico de 
-        "1ejemplo", pero con esto estaba pensando en meter más 
-        caracteres en ese mismo error, pero es que si fuera un 
-        "5\textless identificador" en algún condicional ya croma.
-    \end{quote}
-    La respuesta de la profesora es:\par\vspace{1em}
-    \centering
-    \includegraphics[width=0.5\textwidth]{respuestas-2.png}\par
+    En este día nos conectamos un rato en Discord para revisar 
+	lo que tenemos trabajado hasta el momento y discutir las 
+	próximas etapas del proyecto. Para el manejo de errores se hizo 
+	otra distribución donde CV se encargaba de errores de expresiones 
+	y de read and write, AN de errores de estructuras de control y VG 
+	de errores de variables, constantes y funciones.
 \end{flushleft}
 
 \subsection*{Fecha: 04-09-2024}
 \begin{flushleft}
-    \hspace*{2em} Luego de tener todo el scanner corriendo 
-    correctamente se decide que lo siguiente es finalizar la 
-    documentación. CV se encargará de la introducción, AN de 
-    la estrategia de solución y VG de las lecciones aprendidas.
-    Las demás secciones son redactadas en conjunto. Finalmente,
-    se acuerda que cada integrante hará dos casos de prueba y 
-    documentará lo encontrado.
+    \hspace*{2em} Para este punto se tienen muchas complicaciones 
+	con el manejo de errores, por lo que a partir de este día se 
+	tienen reuniones consecutivas donde se hace trabajo cooperativo 
+	con el fin de sacar las funcionalidades. Por último, se divide 
+	las partes de la documentación que serán redactadas por todos 
+	los miembros del equipo.
 \end{flushleft}
 
 % Bibliografía
@@ -1445,6 +1424,12 @@ Klein, G., Rowe, S., \& Décamps, R. (marzo de 2023).
 \emph{JFlex User’s Manual}.
 JFlex Team.
 En: \url{https://www.jflex.de/manual.html}.
+
+\bibitem{examplewebsite}
+Hudson, S. (julio de 1999).
+\emph{CUP User’s Manual}.
+Cup.
+En: \url{https://www.cs.princeton.edu/~appel/modern/java/CUP/manual.html#intro}.
 
 \end{thebibliography}
 

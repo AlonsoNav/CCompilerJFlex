@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1725769970.25738 "c:/Users/alons/OneDrive/Escritorio/2024/Compiladores e Intérpretes/Compiler/docs/doc.tex" "doc.pdf" "doc" 1725769971.40494 0
+["pdflatex"] 1730909848.82566 "c:/Users/alons/OneDrive/Escritorio/2024/Compiladores e Intérpretes/Compiler/docs/doc.tex" "doc.pdf" "doc" 1730909850.11329 0
   "C:/Users/alons/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1725755836 82794 3356c8c6c52528dda375b8aed03f628e ""
   "C:/Users/alons/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1723257787 24265332 37c6746bfdd13797134de3304ba979f6 ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc" 1458473887 4993 80dc9bab7f31fb78a000ccfed0e27cab ""
@@ -21,7 +21,6 @@
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmsy6.tfm" 1136765053 1116 933a60c408fc0a863a92debe84b2d294 ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmsy8.tfm" 1136765053 1120 8b7d695260f3cff42e636090a8002094 ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmtt12.tfm" 1136765053 772 9a936b7f5e2ff0557fce0f62822f0bbf ""
-  "C:/Users/alons/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb" 1247596667 36741 0ee9e374ec3e30da87cdfb0ea3575226 ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb" 1247596666 24252 1e4e051947e12dfb50fee0b7f4e26e3a ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helvetic/uhvb8a.pfb" 1136874948 35941 adef23a721dd8354a4a2bf4434f1c484 ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helvetic/uhvr8a.pfb" 1136874948 44648 23115b2a545ebfe2c526c3ca99db8b95 ""
@@ -72,7 +71,6 @@
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/tex/latex/kvsetkeys/kvsetkeys.sty" 1665066333 13815 760b0c02f691ea230f5359c4e1de23a7 ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/tex/latex/l3backend/l3backend-pdftex.def" 1716480499 29785 9f93ab201fe5dd053afcc6c1bcf7d266 ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/tex/latex/psnfss/helvet.sty" 1585926771 1558 de0ad166b701b820e03588a29bb30798 ""
-  "C:/Users/alons/AppData/Local/Programs/MiKTeX/tex/latex/psnfss/omlphv.fd" 1585253778 596 7e2a60c6a7a261f37ffb5bfe21c10431 ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/tex/latex/psnfss/ot1phv.fd" 1585253778 1736 51f99a09d5536398d3a0ad1d44df9625 ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/tex/latex/psnfss/ts1phv.fd" 1585253778 1221 ec0c641cd2e0fb69a449534a0279b5ca ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/tex/latex/refcount/refcount.sty" 1576433952 9878 9e94e8fa600d95f9c7731bb21dfb67a4 ""
@@ -81,14 +79,13 @@
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/tex/latex/tools/array.sty" 1718356376 14067 1383bd6ee23ab18ae0e796155404deb7 ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/tex/latex/tools/tabularx.sty" 1718356376 7243 e5dac1240636811edb77568b81818372 ""
   "C:/Users/alons/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
-  "c:/Users/alons/OneDrive/Escritorio/2024/Compiladores e Intérpretes/Compiler/docs/doc.tex" 1725769968 34168 e5dff92b4b2cdd65507e79197f5409ba ""
-  "doc.aux" 1725769971 1224 400e1a1e39dfc06ab635a50c90958115 "pdflatex"
-  "doc.out" 1725769971 1464 42f97b2af8d53e230c8354fda3c8d51f "pdflatex"
-  "doc.tex" 1725769968 34168 e5dff92b4b2cdd65507e79197f5409ba ""
-  "doc.toc" 1725769971 623 5d3ba3964eccfe16f976dc15c9218cc9 "pdflatex"
+  "c:/Users/alons/OneDrive/Escritorio/2024/Compiladores e Intérpretes/Compiler/docs/doc.tex" 1730909846 85366 029da7865571d487d8c1c1cf794e2d66 ""
+  "doc.aux" 1730909849 1734 4f02ae45141a03a22c92a67af25eedd8 "pdflatex"
+  "doc.out" 1730909849 2392 dd7007a862b455f997fa31412985531a "pdflatex"
+  "doc.tex" 1730909846 85366 029da7865571d487d8c1c1cf794e2d66 ""
+  "doc.toc" 1730909849 941 56beb83f5ca240d7d810f265b3c0f667 "pdflatex"
+  "log_1.jpg" 1730908480 185030 a334b8a731ff65fea64db154b02b53ac ""
   "logo-tec.png" 1723305773 12388 65ff84ad277e787be553048cd1f3a9fa ""
-  "respuestas-1.png" 1725751105 96816 cba65528af42075b57052a27c648b1dc ""
-  "respuestas-2.png" 1725752009 67365 c8fcf4120bc845e3c3ed5fc249d164ec ""
   (generated)
   "doc.aux"
   "doc.log"
