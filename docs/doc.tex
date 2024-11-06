@@ -1336,22 +1336,26 @@ Para construir y ejecutar el proyecto, es necesario tener Java instalado en tu s
     java -jar lib/jflex-full-1.9.1.jar src/scanner/CLexer.flex
     \end{verbatim}
 
+	\item Genera el archivo \texttt{Parser}:
+	\begin{verbatim}
+	java -jar lib/java-cup-11b.jar -parser Parser -symbols Symbol 
+	src/parser/Parser.cup
+	\end{verbatim}
+
     \item Compila el proyecto:
     \begin{verbatim}
-    javac -d bin -sourcepath src src/app/Main.java 
-    src/scanner/CLexer.java .\src\scanner\Token.java 
-    .\src\scanner\TokenType.java 
+    javac -d bin -sourcepath src -cp lib/java-cup-11b.jar 
+	src/app/ParserMain.java src/app/ScannerMain.java 
+	src/scanner/CLexer.java src/scanner/Token.java 
+	src/scanner/TokenType.java src/parser/Parser.java 
+	src/parser/Sym.java
     \end{verbatim}
 \end{enumerate}
 
 \subsection*{Uso}
 Para ejecutar el compilador con un archivo de entrada, utiliza el siguiente comando:
 \begin{verbatim}
-    java -cp bin app.Main input_file
-\end{verbatim}
-También puedes enviar la salida a un archivo .txt con
-\begin{verbatim}
-    java -cp bin app.Main input_file > output.txt
+    java -cp bin app.ParserMain input_file
 \end{verbatim}
 
 % Bitácora

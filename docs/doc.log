@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.8.9)  6 NOV 2024 09:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.8.9)  6 NOV 2024 09:49
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -4357,21 +4357,21 @@ Overfull \hbox (20.23112pt too wide) in paragraph at lines 1317--1317
 <respuestas-1.png, id=230, 345.29pt x 316.68312pt>
 File: respuestas-1.png Graphic file (type png)
 <use respuestas-1.png>
-Package pdftex.def Info: respuestas-1.png  used on input line 1393.
+Package pdftex.def Info: respuestas-1.png  used on input line 1397.
 (pdftex.def)             Requested size: 227.62206pt x 208.76506pt.
 
 
 [35]
-LaTeX Font Info:    Trying to load font information for OML+phv on input line 1405.
+LaTeX Font Info:    Trying to load font information for OML+phv on input line 1409.
  (C:\Users\alons\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\omlphv.fd
 File: omlphv.fd 
 )
 LaTeX Font Info:    Font shape `OML/phv/m/n' in size <12> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 1405.
-<respuestas-2.png, id=237, 356.83313pt x 134.5025pt>
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 1409.
+<respuestas-2.png, id=238, 356.83313pt x 134.5025pt>
 File: respuestas-2.png Graphic file (type png)
 <use respuestas-2.png>
-Package pdftex.def Info: respuestas-2.png  used on input line 1423.
+Package pdftex.def Info: respuestas-2.png  used on input line 1427.
 (pdftex.def)             Requested size: 227.62206pt x 85.79807pt.
 
 
@@ -4379,7 +4379,7 @@ Package pdftex.def Info: respuestas-2.png  used on input line 1423.
 
 [37 <./respuestas-2.png>]
 LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <12> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 1445.
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 1449.
 
 
 [38] (doc.aux)
@@ -4391,17 +4391,17 @@ Package rerunfilecheck Info: File `doc.out' has not changed.
 (rerunfilecheck)             Checksum: 2E50872F346621FB8CF62ABEC231E2A7;2392.
  ) 
 Here is how much of TeX's memory you used:
- 9372 strings out of 473899
- 147849 string characters out of 5726501
+ 9373 strings out of 473899
+ 147855 string characters out of 5726501
  1963960 words of memory out of 5000000
  32067 multiletter control sequences out of 15000+600000
  576251 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,11n,79p,935b,641s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/alons/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/alons/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb><C:/Users/alons/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Users/alons/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Users/alons/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on doc.pdf (39 pages, 244065 bytes).
+Output written on doc.pdf (39 pages, 244216 bytes).
 PDF statistics:
- 300 PDF objects out of 1000 (max. 8388607)
- 64 named destinations out of 1000 (max. 500000)
+ 301 PDF objects out of 1000 (max. 8388607)
+ 65 named destinations out of 1000 (max. 500000)
  128 words of extra memory for PDF output out of 10000 (max. 10000000)
 
