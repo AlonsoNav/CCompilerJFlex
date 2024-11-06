@@ -193,383 +193,85 @@ compilación del código.\par
 % Casos de prueba
 \section*{Casos de prueba}
 \addcontentsline{toc}{section}{Casos de prueba}
-\subsection*{Caso de prueba 1: Comentarios}
-\addcontentsline{toc}{subsection}{Casos de prueba 1: Comentarios}
+\subsection*{Caso de prueba 1: Errores en Declaración, Asignación y Estructuras de Control}
+\addcontentsline{toc}{subsection}{Casos de prueba 1: Errores en Declaración, Asignación y Estructuras de Control}
 \begin{flushleft}
     \begin{verbatim}
-    #include <stdio.h> // Comentario después de directiva de preprocesador
-    #define MAX(a, b) ((a) > (b) ? (a) : (b)) // Macro con comentario en línea 
-        
-    // Este es un comentario en línea
-    int main() {
-        // Comentario con caracteres especiales: !@#$%^&*()
-        /* Comentario en bloque con caracteres especiales: !@#$%^&*() */
-        // Comentario con código incorrecto: int x = ;
-        /* Comentario en bloque con código incorrecto: int y = ; */
-        // Comentario con    espacios
-        /*  Comentario en     bloque con espacios */
-        //      Comentario con tabulaciones
-        int a = 10; // Comentario al final de una línea de código
-        int b = 20; /* Comentario en bloque
-                        que se extiende en varias líneas */ 
-        int d = a + b;
-        int c = a + b; // Comentario después de una expresión 
-        char *str = "Este es un string con // comentario en línea";
-        char *str2 = "Este es otro string con /* comentario en bloque */";
-        b = 20;
-        /* Comentario en bloque sin cerrar
-        b = 20; // Comentario en línea anidado
-        return 0;
+    void funcion(){
+    	int a = 5;
+    	int b = 10
+    	a + b = c; // Error: asignación inválida
+    	if (a < b) {
+    		print(a);
+    	} else {
+    		print(b)
+    	}
+    	while (a < b) {
+    		a = a + 1;
+    	}
+    	for (int i = 0; i < 10; i++) {
+    		print(i);
+    	}
+    	a + (b * 2; // Error: paréntesis no cerrado
     }
     \end{verbatim}
     Errores esperados:
     \begin{itemize}
-        \item Error en la línea 1: Operador inválido '\#'.
-        \item Error en la línea 2: Operador inválido '\#'.
-        \item Error en cáscada en línea 20: Comentario de bloque sin cerrar.
+        \item Error de sintaxis en línea 3: Falta punto y coma.
+        \item Error de sintaxis en línea 4: Error antes de '=' en asignación. 
+        \item Error de sintaxis en línea 8: Falta punto y coma.
+    	\item Error de sintaxis en línea 16: Error en paréntesis de expresión.
     \end{itemize}
-    \hspace*{2em} Es importante resaltar que aunque el proyecto indique que no se pueden 
-    tener errores en cáscada, al encontrar un comentario de bloque sin cerrar el comportamiento
-    usual será seguir buscando hasta encontrar un "*/".\par\vspace{1em}
     Resultados:
     \begin{verbatim}
-Errors: 
-Character unknown: # in 1
-Character unknown: # in 2
-Block comment without closure: /* Comentario en bloque sin cerrar
-    b = 20; // Comentario en linea anidado
-    return 0;
-} in 20
-+------------+-----------------+------------------------------------------+
-| Token      | Tipo de Token   | Linea                                    |
-+------------+-----------------+------------------------------------------+
-| char       | KEYWORD         | 17, 18                                   |
-+------------+-----------------+------------------------------------------+
-| int        | KEYWORD         | 5, 13, 14, 15, 16                        |
-+------------+-----------------+------------------------------------------+
-| MAX        | ID              | 2                                        |
-+------------+-----------------+------------------------------------------+
-| a          | ID              | 2(3), 13, 15, 16                         |
-+------------+-----------------+------------------------------------------+
-| b          | ID              | 2(3), 14, 15, 16, 19                     |
-+------------+-----------------+------------------------------------------+
-| c          | ID              | 16                                       |
-+------------+-----------------+------------------------------------------+
-| d          | ID              | 15                                       |
-+------------+-----------------+------------------------------------------+
-| define     | ID              | 2                                        |
-+------------+-----------------+------------------------------------------+
-| h          | ID              | 1                                        |
-+------------+-----------------+------------------------------------------+
-| include    | ID              | 1                                        |
-+------------+-----------------+------------------------------------------+
-| main       | ID              | 5                                        |
-+------------+-----------------+------------------------------------------+
-| stdio      | ID              | 1                                        |
-+------------+-----------------+------------------------------------------+
-| str        | ID              | 17                                       |
-+------------+-----------------+------------------------------------------+
-| str2       | ID              | 18                                       |
-+------------+-----------------+------------------------------------------+
-| (          | OPERATOR        | 2(6), 5                                  |
-+------------+-----------------+------------------------------------------+
-| )          | OPERATOR        | 2(6), 5                                  |
-+------------+-----------------+------------------------------------------+
-| ,          | OPERATOR        | 2                                        |
-+------------+-----------------+------------------------------------------+
-| .          | OPERATOR        | 1                                        |
-+------------+-----------------+------------------------------------------+
-| ;          | OPERATOR        | 13, 14, 15, 16, 17, 18, 19               |
-+------------+-----------------+------------------------------------------+
-| =          | OPERATOR        | 13, 14, 15, 16, 17, 18, 19               |
-+------------+-----------------+------------------------------------------+
-| {          | OPERATOR        | 5                                        |
-+------------+-----------------+------------------------------------------+
-| *          | OPERATOR_ARITHM | 17, 18                                   |
-|            | ETIC            |                                          |
-+------------+-----------------+------------------------------------------+
-| +          | OPERATOR_ARITHM | 15, 16                                   |
-|            | ETIC            |                                          |
-+------------+-----------------+------------------------------------------+
-| :          | OPERATOR_RELATI | 2                                        |
-|            | ONAL            |                                          |
-+------------+-----------------+------------------------------------------+
-| <          | OPERATOR_RELATI | 1                                        |
-|            | ONAL            |                                          |
-+------------+-----------------+------------------------------------------+
-| >          | OPERATOR_RELATI | 1, 2                                     |
-|            | ONAL            |                                          |
-+------------+-----------------+------------------------------------------+
-| ?          | OPERATOR_RELATI | 2                                        |
-|            | ONAL            |                                          |
-+------------+-----------------+------------------------------------------+
-| 10         | LITERAL_INT     | 13                                       |
-+------------+-----------------+------------------------------------------+
-| 20         | LITERAL_INT     | 14, 19                                   |
-+------------+-----------------+------------------------------------------+
-| "Este es o | LITERAL_STR     | 18                                       |
-| tro string |                 |                                          |
-|  con /* co |                 |                                          |
-| mentario e |                 |                                          |
-| n bloque * |                 |                                          |
-| /"         |                 |                                          |
-+------------+-----------------+------------------------------------------+
-| "Este es u | LITERAL_STR     | 17                                       |
-| n string c |                 |                                          |
-| on // come |                 |                                          |
-| ntario en  |                 |                                          |
-| linea"     |                 |                                          |
-+------------+-----------------+------------------------------------------+
+Starting parsing process...
+Error de sintaxis en línea 3: Falta punto y coma.
+Error de sintaxis en línea 4: Error antes de '=' en asignación. 
+Error de sintaxis en línea 8: Falta punto y coma.
+Error de sintaxis en línea 16: Error en paréntesis de expresión.
     \end{verbatim}
 \end{flushleft}
 
-\subsection*{Caso de prueba 2: Operadores}
-\addcontentsline{toc}{subsection}{Casos de prueba 2: Operadores}
+\subsection*{Caso de prueba 2: Errores de Paréntesis, Puntos y Comas, y Variables No Declaradas}
+\addcontentsline{toc}{subsection}{Casos de prueba 2: Errores de Paréntesis, Puntos y Comas, y Variables No Declaradas}
 \begin{flushleft}
     \begin{verbatim}
-    #include <stdio.h>
-
-    int main() {
-        int a = 5 + 3;          // Suma
-        int b = a - 2;          // Resta
-        int c = a * b;          // Multiplicación
-        int d = c / 2;          // División
-        int e = c % 2;          // Módulo
-        int f = a & b;          // AND bit a bit
-        int g = a | b;          // OR bit a bit
-        int h = a ^ b;          // XOR bit a bit
-        int i = ~a;             // NOT bit a bit
-        int j = a << 2;         // Desplazamiento a la izquierda
-        int k = b >> 1;         // Desplazamiento a la derecha
-
-        if (a == b) {           // Igualdad
-            printf("a es igual a b\n");
-        }
-
-        if (a != b) {           // Desigualdad
-            printf("a no es igual a b\n");
-        }
-
-        if (a < b) {            // Menor que
-            printf("a es menor que b\n");
-        }
-
-        if (a > b) {            // Mayor que
-            printf("a es mayor que b\n");
-        }
-
-        if (a <= b) {           // Menor o igual que
-            printf("a es menor o igual que b\n");
-        }
-
-        if (a >= b) {           // Mayor o igual que
-            printf("a es mayor o igual que b\n");
-        }
-
-        if (a && b) {           // AND lógico
-            printf("a y b son verdaderos\n");
-        }
-
-        if (a || b) {           // OR lógico
-            printf("a o b es verdadero\n");
-        }
-
-        if (!a) {               // NOT lógico
-            printf("a es falso\n");
-        }
-
-        // Errores intencionales
-        int l = a @ b;          // Operador inválido
-        int n = a // b;         // Comentario mal formado
-        int p = a +;            // Operador sin operando
-        int q = ;               // Declaración sin inicialización
-
-        return 0;
+    void otraFuncion() {
+    	int x = 3;
+    	int y = 7;
+    	
+    	if (x > y {
+    		print(x);
+    	} else {
+    		print(y;
+    	}
+    	
+    	for ( int j = 0; j < 5; j++ ) {
+    		print(j)
+    	}
+    	while (x < y {
+    		x = x + 1;
+    	}
+    	x = x + y // Error: falta punto y coma
+    	z = x * 2; // Error: variable no declarada
     }
     \end{verbatim}
 Errores esperados:
 \begin{itemize}
-    \item Error en la línea 1: Operador inválido '\#'.
-    \item Error en la línea 53: Operador inválido '@'.
+    	\item Error de sintaxis en línea 8: Falta paréntesis de cierre en la llamada de función.
+    	\item Error de sintaxis en línea 7: Error en el paréntesis de cierre del if.
+    	\item Error de sintaxis en línea 12: Falta punto y coma.
+    	\item Error de sintaxis en línea 16: Error en el paréntesis de cierre del while.
+    	\item Error de sintaxis en línea 17: Falta punto y coma.
 \end{itemize}
-\hspace*{2em} También se espera que suponga el '//' como un comentario y 
-no como dos operadores de división.\par\vspace{1em}
 Resultados:
 \begin{verbatim}
-Errors: 
-Character unknown: # in 1
-Character unknown: @ in 53
-+------------+-----------------+------------------------------------------+
-| Token      | Tipo de Token   | Linea                                    |
-+------------+-----------------+------------------------------------------+
-| if         | KEYWORD         | 16, 20, 24, 28, 32, 36, 40, 44, 48       |
-+------------+-----------------+------------------------------------------+
-| int        | KEYWORD         | 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, |
-|            |                 |  53, 54, 55, 56                          |
-+------------+-----------------+------------------------------------------+
-| return     | KEYWORD         | 58                                       |
-+------------+-----------------+------------------------------------------+
-| a          | ID              | 4, 5, 6, 9, 10, 11, 12, 13, 16, 20, 24,  |
-|            |                 | 28, 32, 36, 40, 44, 48, 53, 54, 55       |
-+------------+-----------------+------------------------------------------+
-| b          | ID              | 5, 6, 9, 10, 11, 14, 16, 20, 24, 28, 32, |
-|            |                 |  36, 40, 44, 53                          |
-+------------+-----------------+------------------------------------------+
-| c          | ID              | 6, 7, 8                                  |
-+------------+-----------------+------------------------------------------+
-| d          | ID              | 7                                        |
-+------------+-----------------+------------------------------------------+
-| e          | ID              | 8                                        |
-+------------+-----------------+------------------------------------------+
-| f          | ID              | 9                                        |
-+------------+-----------------+------------------------------------------+
-| g          | ID              | 10                                       |
-+------------+-----------------+------------------------------------------+
-| h          | ID              | 1, 11                                    |
-+------------+-----------------+------------------------------------------+
-| i          | ID              | 12                                       |
-+------------+-----------------+------------------------------------------+
-| include    | ID              | 1                                        |
-+------------+-----------------+------------------------------------------+
-| j          | ID              | 13                                       |
-+------------+-----------------+------------------------------------------+
-| k          | ID              | 14                                       |
-+------------+-----------------+------------------------------------------+
-| l          | ID              | 53                                       |
-+------------+-----------------+------------------------------------------+
-| main       | ID              | 3                                        |
-+------------+-----------------+------------------------------------------+
-| n          | ID              | 54                                       |
-+------------+-----------------+------------------------------------------+
-| p          | ID              | 55                                       |
-+------------+-----------------+------------------------------------------+
-| printf     | ID              | 17, 21, 25, 29, 33, 37, 41, 45, 49       |
-+------------+-----------------+------------------------------------------+
-| q          | ID              | 56                                       |
-+------------+-----------------+------------------------------------------+
-| stdio      | ID              | 1                                        |
-+------------+-----------------+------------------------------------------+
-| (          | OPERATOR        | 3, 16, 17, 20, 21, 24, 25, 28, 29, 32, 3 |
-|            |                 | 3, 36, 37, 40, 41, 44, 45, 48, 49        |
-+------------+-----------------+------------------------------------------+
-| )          | OPERATOR        | 3, 16, 17, 20, 21, 24, 25, 28, 29, 32, 3 |
-|            |                 | 3, 36, 37, 40, 41, 44, 45, 48, 49        |
-+------------+-----------------+------------------------------------------+
-| .          | OPERATOR        | 1                                        |
-+------------+-----------------+------------------------------------------+
-| ;          | OPERATOR        | 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 17 |
-|            |                 | , 21, 25, 29, 33, 37, 41, 45, 49, 53, 55 |
-|            |                 | , 56, 58                                 |
-+------------+-----------------+------------------------------------------+
-| =          | OPERATOR        | 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 53 |
-|            |                 | , 54, 55, 56                             |
-+------------+-----------------+------------------------------------------+
-| {          | OPERATOR        | 3, 16, 20, 24, 28, 32, 36, 40, 44, 48    |
-+------------+-----------------+------------------------------------------+
-| }          | OPERATOR        | 18, 22, 26, 30, 34, 38, 42, 46, 50, 59   |
-+------------+-----------------+------------------------------------------+
-| %          | OPERATOR_ARITHM | 8                                        |
-|            | ETIC            |                                          |
-+------------+-----------------+------------------------------------------+
-| *          | OPERATOR_ARITHM | 6                                        |
-|            | ETIC            |                                          |
-+------------+-----------------+------------------------------------------+
-| +          | OPERATOR_ARITHM | 4, 55                                    |
-|            | ETIC            |                                          |
-+------------+-----------------+------------------------------------------+
-| -          | OPERATOR_ARITHM | 5                                        |
-|            | ETIC            |                                          |
-+------------+-----------------+------------------------------------------+
-| /          | OPERATOR_ARITHM | 7                                        |
-|            | ETIC            |                                          |
-+------------+-----------------+------------------------------------------+
-| !          | OPERATOR_LOGICA | 48                                       |
-|            | L               |                                          |
-+------------+-----------------+------------------------------------------+
-| &&         | OPERATOR_LOGICA | 40                                       |
-|            | L               |                                          |
-+------------+-----------------+------------------------------------------+
-| ||         | OPERATOR_LOGICA | 44                                       |
-|            | L               |                                          |
-+------------+-----------------+------------------------------------------+
-| !=         | OPERATOR_RELATI | 20                                       |
-|            | ONAL            |                                          |
-+------------+-----------------+------------------------------------------+
-| <          | OPERATOR_RELATI | 1, 24                                    |
-|            | ONAL            |                                          |
-+------------+-----------------+------------------------------------------+
-| <=         | OPERATOR_RELATI | 32                                       |
-|            | ONAL            |                                          |
-+------------+-----------------+------------------------------------------+
-| ==         | OPERATOR_RELATI | 16                                       |
-|            | ONAL            |                                          |
-+------------+-----------------+------------------------------------------+
-| >          | OPERATOR_RELATI | 1, 28                                    |
-|            | ONAL            |                                          |
-+------------+-----------------+------------------------------------------+
-| >=         | OPERATOR_RELATI | 36                                       |
-|            | ONAL            |                                          |
-+------------+-----------------+------------------------------------------+
-| &          | OPERATOR_BITWIS | 9                                        |
-|            | E               |                                          |
-+------------+-----------------+------------------------------------------+
-| <<         | OPERATOR_BITWIS | 13                                       |
-|            | E               |                                          |
-+------------+-----------------+------------------------------------------+
-| >>         | OPERATOR_BITWIS | 14                                       |
-|            | E               |                                          |
-+------------+-----------------+------------------------------------------+
-| ^          | OPERATOR_BITWIS | 11                                       |
-|            | E               |                                          |
-+------------+-----------------+------------------------------------------+
-| |          | OPERATOR_BITWIS | 10                                       |
-|            | E               |                                          |
-+------------+-----------------+------------------------------------------+
-| ~          | OPERATOR_BITWIS | 12                                       |
-|            | E               |                                          |
-+------------+-----------------+------------------------------------------+
-| 0          | LITERAL_INT     | 58                                       |
-+------------+-----------------+------------------------------------------+
-| 1          | LITERAL_INT     | 14                                       |
-+------------+-----------------+------------------------------------------+
-| 2          | LITERAL_INT     | 5, 7, 8, 13                              |
-+------------+-----------------+------------------------------------------+
-| 3          | LITERAL_INT     | 4                                        |
-+------------+-----------------+------------------------------------------+
-| 5          | LITERAL_INT     | 4                                        |
-+------------+-----------------+------------------------------------------+
-| "a es fals | LITERAL_STR     | 49                                       |
-| o\n"       |                 |                                          |
-+------------+-----------------+------------------------------------------+
-| "a es igua | LITERAL_STR     | 17                                       |
-| l a b\n"   |                 |                                          |
-+------------+-----------------+------------------------------------------+
-| "a es mayo | LITERAL_STR     | 37                                       |
-| r o igual  |                 |                                          |
-| que b\n"   |                 |                                          |
-+------------+-----------------+------------------------------------------+
-| "a es mayo | LITERAL_STR     | 29                                       |
-| r que b\n" |                 |                                          |
-+------------+-----------------+------------------------------------------+
-| "a es meno | LITERAL_STR     | 33                                       |
-| r o igual  |                 |                                          |
-| que b\n"   |                 |                                          |
-+------------+-----------------+------------------------------------------+
-| "a es meno | LITERAL_STR     | 25                                       |
-| r que b\n" |                 |                                          |
-+------------+-----------------+------------------------------------------+
-| "a no es i | LITERAL_STR     | 21                                       |
-| gual a b\n |                 |                                          |
-| "          |                 |                                          |
-+------------+-----------------+------------------------------------------+
-| "a o b es  | LITERAL_STR     | 45                                       |
-| verdadero\ |                 |                                          |
-| n"         |                 |                                          |
-+------------+-----------------+------------------------------------------+
-| "a y b son | LITERAL_STR     | 41                                       |
-|  verdadero |                 |                                          |
-| s\n"       |                 |                                          |
-+------------+-----------------+------------------------------------------+
+Starting parsing process...
+Error de sintaxis en línea 8: Falta paréntesis de cierre en la llamada de función.
+Error de sintaxis en línea 7: Error en el paréntesis de cierre del if.
+Error de sintaxis en línea 12: Falta punto y coma.
+Error de sintaxis en línea 16: Error en el paréntesis de cierre del while.
+Error de sintaxis en línea 17: Falta punto y coma.
 
 \end{verbatim}
 \end{flushleft}

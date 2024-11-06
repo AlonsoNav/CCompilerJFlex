@@ -1,17 +1,25 @@
-void funcion(){
+void testAsignacionAritmetica() {
     int a = 5;
-    int b = 10
-    a + b = c; // Error: asignación inválida
-    if (a < b) {
-        print(a);
-    } else {
-        print(b)
-    }
-    while (a < b) {
-        a = a + 1;
-    }
-    for (int i = 0; i < 10; i++) {
-        print(i);
-    }
-    a + (b * 2; // Error: paréntesis no cerrado
+    int b = 10;
+
+    // Error: Falta operando después del operador '+'
+    int c = a + ;
+
+    // Error: Falta operando antes del operador '-'
+    int d = - b;
+
+    // Error: Operador de asignación en una expresión aritmética
+    a + b = c; 
+
+    // Error: Uso de variable no declarada en una operación
+    int e = a + f;
+
+    // Error: Operación aritmética sin un operando válido
+    //int g = + + b;
+
+    // Error: Falta el punto y coma en la asignación
+    int h = a + c
+
+    // Expresión correcta (para contraste)
+    int i = a * b;
 }

@@ -1,0 +1,27 @@
+// Error: Identificador sin tipo de dato
+y;
+
+//Declaracion de una variable
+int x;
+
+// Declaracion correcta de multiples variables constantes
+const int z, t, y, y;
+
+// Error: Falta punto y coma en la declaración
+int g, h, i, 
+
+void testDeclaracionesVariables() {
+    
+    // Error: Uso incorrecto de 'void' como tipo de dato en una variable
+    void variableInvalida;
+
+    // Error: Falta identificador en la declaración
+    int ;
+
+    // Error: Declaración incompleta con un tipo de dato y asignación faltante
+    const int ; // Falta un identificador o asignación a la variable constante
+
+    // Declaración correcta (para contraste)
+    int valorCorrecto = 10;
+    char letra = 'A';
+}

@@ -1,0 +1,38 @@
+// Error: Falta tipo de retorno en la declaración de la función (No funciona)
+suma(int a, int b) {
+    return a + b;
+}
+
+// Error: Falta identificador en el parámetro de la función
+int resta(int a, ) {
+    return a - b;
+}
+
+
+// Error: Falta llave de cierre en el cuerpo de la función (Tira Falta punto y coma)
+int multiplica(int a, int b) 
+    int resultado = a * b;
+    return resultado;
+}
+
+int dividir int a, int b) {
+    return a / b;
+}
+
+int dividir (int a, int b {
+    return a / b;
+    
+}
+
+void calcularSuma(int a, int b) {
+    return a + b;
+}
+
+// Función correcta (para contraste)
+int modulo(int a, int b) {
+    return a % b;
+}
+
+
+
+
