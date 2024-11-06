@@ -6,7 +6,7 @@ void PruebaSinParametro(int a) {
     switch (a){ 
         case 5:
             break;
-        default:
+        default 
             break;
     }
 

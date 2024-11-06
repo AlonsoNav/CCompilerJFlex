@@ -257,7 +257,12 @@ CASE_STMT ::= CASE LITERALES COLON SENTENCIAS |
     CASE LITERALES SENTENCIAS {: syntaxError(((Symbol) stack.elementAt(stack.size() - 2)), "Falta dos puntos en el case."); :}
 ;
 
-DEFAULT_STMT ::= DEFAULT COLON SENTENCIAS;
+DEFAULT_STMT ::= DEFAULT COLON SENTENCIAS |
+    DEFAULT COLON LCURLY SENTENCIAS RCURLY |
+    DEFAULT LITERALES COLON SENTENCIAS {: syntaxError(((Symbol) stack.elementAt(stack.size() - 2)), "Default no debe tener literal."); :} |
+    DEFAULT LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Falta dos puntos en el default."); :} |
+    DEFAULT error SENTENCIAS {: syntaxError(((Symbol) stack.elementAt(stack.size() - 2)), "Falta dos puntos en el default."); :}
+;
 
 LISTA_DEFAULT ::= DEFAULT_STMT LISTA_DEFAULT | DEFAULT_STMT;
 
