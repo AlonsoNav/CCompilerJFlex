@@ -6,13 +6,13 @@ void PruebaSinParametro(int a) {
     switch (a){ 
         case 5:
             break;
-        default:
+        default: 
             break;
     }
 
     do {
         return;
-        a + 5;
+        a || 5;
         return;
         if(a){
             return;
