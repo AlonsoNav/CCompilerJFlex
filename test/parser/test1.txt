@@ -1,0 +1,17 @@
+void funcion(){
+    int a = 5;
+    int b = 10
+    a + b = c; // Error: asignación inválida
+    if (a < b) {
+        print(a);
+    } else {
+        print(b)
+    }
+    while (a < b) {
+        a = a + 1;
+    }
+    for (int i = 0; i < 10; i++) {
+        print(i);
+    }
+    a + (b * 2; // Error: paréntesis no cerrado
+}

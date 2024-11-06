@@ -146,11 +146,11 @@ DECLARACION ::=
 ID_LIST ::= ID_LIST COMMA IDENTIFIER |
             ID_LIST COMMA IDENTIFIER ASSIGN EXPRESIONES_LOGICAS |
             IDENTIFIER ASSIGN EXPRESIONES_LOGICAS |
-            IDENTIFIER |
+            IDENTIFIER
             // ID_LIST error IDENTIFIER {: syntaxError(((Symbol) stack.peek()), "Falta coma entre identificadores."); :} |  //hacen que el assing falle
             // ID_LIST error IDENTIFIER ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta coma entre identificadores."); :} |
-            ID_LIST COMMA IDENTIFIER ASSIGN error {: syntaxError(((Symbol) stack.peek()), "No se asignó ningun valor a la variable"); :} |
-            IDENTIFIER ASSIGN error {: syntaxError(((Symbol) stack.peek()), "No se asignó ningun valor a la variable"); :}
+            // ID_LIST COMMA IDENTIFIER ASSIGN error {: syntaxError(((Symbol) stack.peek()), "No se asignó ningun valor a la variable"); :} |
+            // IDENTIFIER ASSIGN error {: syntaxError(((Symbol) stack.peek()), "No se asignó ningun valor a la variable"); :}
 ;
 
 ESTRUCTURA_IF ::= IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE |
@@ -330,7 +330,9 @@ EXPRESION_ARITMETICA ::= EXPRESION_ARITMETICA PLUS EXPRESION_ARITMETICA |
             TIMES EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '*'."); :} |
             DIVIDE EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '/'."); :} |
             PLUS EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '+'."); :} |
-            MINUS EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '-'."); :}
+            MINUS EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '-'."); :} |
+            LPAREN error {: syntaxError(((Symbol) stack.peek()), "Error en paréntesis de expresión."); :} |
+            IDENTIFIER LPAREN ARGUMENTOS {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de cierre en la llamada de función."); :}
 ;
 
 EXPRESIONES_NUMERICAS ::= EXPRESIONES_NUMERICAS PLUS EXPRESIONES_NUMERICAS |
@@ -380,5 +382,10 @@ EXPRESION_ASIGNACION ::= IDENTIFIER PLUS_ASSIGN EXPRESIONES_LOGICAS |
                          MINUS_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes de '-='."); :} |
                          TIMES_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes de '*='."); :} |
                          DIV_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes de '/='."); :} |
-                         ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes de '=' en asignación."); :}
+                         ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes de '=' en asignación."); :} |
+                         EXPRESIONES_LOGICAS ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Error antes de '=' en asignación."); :} |
+                         EXPRESIONES_LOGICAS DIV_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Error antes de '/=' en asignación."); :} |
+                         EXPRESIONES_LOGICAS TIMES_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Error antes de '*=' en asignación."); :} |
+                         EXPRESIONES_LOGICAS MINUS_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Error antes de '-=' en asignación."); :} |
+                         EXPRESIONES_LOGICAS PLUS_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Error antes de '+=' en asignación."); :} 
 ;
