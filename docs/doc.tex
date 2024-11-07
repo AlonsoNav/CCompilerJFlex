@@ -88,33 +88,22 @@ solución de los problemas encontrados durante su desarrollo.
 \section*{Estrategia de solución}
 \addcontentsline{toc}{section}{Estrategia de solución}
 \begin{flushleft}
-    \hspace*{2em} Después de leer detenidamente la documentación 
-    de JFlex, se comenzó a diseñar las expresiones regulares 
-    para los tokens que debía reconocer el escáner. Aquí surgió 
-    el primer problema: el escáner reconoce los tokens según 
-    el orden de prioridad. Es decir, si la primera expresión 
-    regular es un punto, ningún otro token será reconocido, 
-    ya que este metacaracter coincide con cualquier carácter, 
-    interpretándolo como un error. Por lo tanto, fue crucial 
-    definir adecuadamente el orden de las expresiones regulares. \par
+
+\hspace*{2em} Después de leer detenidamente la documentación 
+    de Java CUP, se comenzó a planear y diseñar la manera en que se iba a conectar el Analizador léxico con el Analizador Sintáctico, 
+    aquí surguió el primer problema porque para que funcionaran juntos era necesario modificar la estructura del Analizador Léxico, 
+    de manera que devolviera al Analizador Sintáctico los tokens ya analizados. Una vez que se logró hacer esta conexión correctamente, 
+    se comenzó con el diseño de las producciones, para ello primero se definieron los terminales y no terminales, luego se inició con el diseño de las 
+    producciones de cada uno de los no terminales, aquí surgió el segundo problema porque algunas producciones no eran lo suficientemente 
+    específicas en su composición, generando errores debido a ambiguedades, para resolver estos problemas el grupo se reunió y se definieron 
+    nuevos no terminales que ayudaron a eliminar ambiguedades y también con la factorización de algunas producciones. \par
+   \vspace{1em}
+    \hspace*{2em} Cuando se tuvieron las producciones listas se hicieron pruebas para verificar que funcionaban correctamente, 
+    luego se comenzó con el manejo de errores para esto se implementó un método llamado Syntax Error este método permite 
+    manejar los errores de sintaxis para que el parser los detecte y reporte, los errores se definieron como producciones de los 
+   no terminales. POr último se realizaron pruebas para verificar que el parser reconoce las reglas gramaticales e identifica todos los errores. \par
     \vspace{1em}
-    \hspace*{2em} Una vez definido el orden de las expresiones 
-    regulares, procedimos a diseñar la estructura de los tokens 
-    y sus tipos. Para ello, decidimos crear un mapa que facilitara 
-    la búsqueda de tokens repetidos en el documento. De manera 
-    similar, cada token guarda las líneas en las que aparece 
-    en un mapa, lo que permite incrementar el contador de 
-    ocurrencias de un token en una misma línea. Finalmente, 
-    los tipos de tokens se almacenan en un enum. \par
-    \vspace{1em}
-    \hspace*{2em} Por último, se implementaron errores 
-    definidos, como un número seguido de un identificador 
-    o números flotantes que comienzan con un punto. Era 
-    necesario definir estos errores como tokens para que 
-    pudieran ser reconocidos por el escáner. Los errores no 
-    se almacenan en una estructura de datos; en su lugar, se 
-    imprimen directamente y no se agregan al mapa de tokens. \par
-    \vspace{1em}
+    
 \end{flushleft}
 
 \newpage

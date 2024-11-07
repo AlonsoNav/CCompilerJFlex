@@ -15,7 +15,7 @@ void testAsignacionAritmetica() {
     int e = a + f;
 
     // Error: Operación aritmética sin un operando válido
-    //int g = + + b;
+    int g = + + b;
 
     // Error: Falta el punto y coma en la asignación
     int h = a + c
