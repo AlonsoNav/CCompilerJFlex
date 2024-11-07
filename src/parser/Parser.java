@@ -2505,7 +2505,7 @@ class CUP$Parser$actions {
           case 22: // ERRORES_FUNCION ::= VOID IDENTIFIER IDENTIFIER CUERPO_FUNCION 
             {
               Object RESULT =null;
-		 syntaxError((Symbol) stack.peek()), "Error en los paréntesis de la función."); 
+		 syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la función."); 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("ERRORES_FUNCION",41, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
