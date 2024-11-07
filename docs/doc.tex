@@ -190,851 +190,364 @@ compilación del código.\par
 
 \end{flushleft}
 
+\newpage
+
 % Casos de prueba
 \section*{Casos de prueba}
 \addcontentsline{toc}{section}{Casos de prueba}
-\subsection*{Caso de prueba 1: Errores en Declaración, Asignación y Estructuras de Control}
-\addcontentsline{toc}{subsection}{Casos de prueba 1: Errores en Declaración, Asignación y Estructuras de Control}
+\subsection*{Caso de prueba 1: Errores en Expresiones Aritméticas y Asignación}
+\addcontentsline{toc}{subsection}{Casos de prueba 1: Errores en Expresiones Aritméticas y Asignación}
 \begin{flushleft}
     \begin{verbatim}
-    void funcion(){
-    	int a = 5;
-    	int b = 10
-    	a + b = c; // Error: asignación inválida
-    	if (a < b) {
-    		print(a);
-    	} else {
-    		print(b)
-    	}
-    	while (a < b) {
-    		a = a + 1;
-    	}
-    	for (int i = 0; i < 10; i++) {
-    		print(i);
-    	}
-    	a + (b * 2; // Error: paréntesis no cerrado
-    }
+	void testAsignacionAritmetica() {
+		int a = 5;
+		int b = 10;
+		
+		// Error: Falta operando después del operador '+'
+		int c = a + ;
+		
+		// Error: Falta operando antes del operador '-'
+		int d = - b;
+		
+		// Error: Operador de asignación en una expresión aritmética
+		a + b = c; 
+		
+		// Error: Uso de variable no declarada en una operación
+		int e = a + f;
+		
+		// Error: Operación aritmética sin un operando válido
+		int g = + + b;
+		
+		// Error: Falta el punto y coma en la asignación
+		int h = a + c
+		
+		// Expresión correcta (para contraste)
+		int i = a * b;
+	}
     \end{verbatim}
     Errores esperados:
     \begin{itemize}
-        \item Error de sintaxis en línea 3: Falta punto y coma.
-        \item Error de sintaxis en línea 4: Error antes de '=' en asignación. 
-        \item Error de sintaxis en línea 8: Falta punto y coma.
-    	\item Error de sintaxis en línea 16: Error en paréntesis de expresión.
+	\item Error de sintaxis en línea 6: Error en la expresión
+	\item Error de sintaxis en línea 9: Falta operando antes de '-'.
+	\item Error de sintaxis en línea 12: Error antes de '=' en asignación.
+	\item Error de sintaxis en línea 15: Falta el tipo de dato en la declaración.
+	\item Error de sintaxis en línea 18: Falta operando antes de '+'.
+	\item Error de sintaxis en línea 18: Falta operando antes de '+'.
+	\item Error de sintaxis en línea 21: Error en la expresión
     \end{itemize}
     Resultados:
     \begin{verbatim}
-Starting parsing process...
-Error de sintaxis en línea 3: Falta punto y coma.
-Error de sintaxis en línea 4: Error antes de '=' en asignación. 
-Error de sintaxis en línea 8: Falta punto y coma.
-Error de sintaxis en línea 16: Error en paréntesis de expresión.
+	Starting parsing process...
+	Error de sintaxis en línea 6: Error en la expresión
+	Error de sintaxis en línea 9: Falta operando antes de '-'.
+	Error de sintaxis en línea 12: Error antes de '=' en asignación.
+	Error de sintaxis en línea 15: Falta el tipo de dato en la declaración.
+	Error de sintaxis en línea 18: Falta operando antes de '+'.
+	Error de sintaxis en línea 18: Falta operando antes de '+'.
+	Error de sintaxis en línea 21: Error en la expresión
     \end{verbatim}
 \end{flushleft}
 
-\subsection*{Caso de prueba 2: Errores de Paréntesis, Puntos y Comas, y Variables No Declaradas}
+\newpage
+
+\subsection*{Caso de prueba 2: Errores en Estructuras de Control}
 \addcontentsline{toc}{subsection}{Casos de prueba 2: Errores de Paréntesis, Puntos y Comas, y Variables No Declaradas}
 \begin{flushleft}
     \begin{verbatim}
-    void otraFuncion() {
-    	int x = 3;
-    	int y = 7;
-    	
-    	if (x > y {
-    		print(x);
-    	} else {
-    		print(y;
-    	}
-    	
-    	for ( int j = 0; j < 5; j++ ) {
-    		print(j)
-    	}
-    	while (x < y {
+    void testEstructurasControl() {
+    	int x = 5;
+    	int y = 10;
+    	// Error: Falta paréntesis de cierre en la condición del 'if'
+    	if (x < y {
     		x = x + 1;
     	}
-    	x = x + y // Error: falta punto y coma
-    	z = x * 2; // Error: variable no declarada
+    	// Error: Falta paréntesis de apertura en la condición del 'while'
+    	while x < y) {
+    		y = y - 1;
+    	}
+    	// Error: Falta llave de apertura en el bloque del 'else'
+    	if (x > y) {
+    		print(x);
+    	} else 
+    		print(y);
+    	}
+    	// Error: Condición en 'if' sin paréntesis alrededor
+    	if x == y {
+    		x = x * 2;
+    	}
+    	// Error: Falta el punto y coma al final de la condición del 'while'
+    	while (x < y) {
+    		x = x + 1
+    	}
+    	// Expresión correcta (para contraste)
+    	if (x != y) {
+    		return;
+    	} else {
+    		return;
+    	}
     }
     \end{verbatim}
 Errores esperados:
 \begin{itemize}
-    	\item Error de sintaxis en línea 8: Falta paréntesis de cierre en la llamada de función.
-    	\item Error de sintaxis en línea 7: Error en el paréntesis de cierre del if.
-    	\item Error de sintaxis en línea 12: Falta punto y coma.
-    	\item Error de sintaxis en línea 16: Error en el paréntesis de cierre del while.
-    	\item Error de sintaxis en línea 17: Falta punto y coma.
+	\item Error de sintaxis en línea 8: Error en el paréntesis de cierre del if.
+	\item Error de sintaxis en línea 13: Falta paréntesis de apertura en el while.
+	\item Error de sintaxis en línea 20: Error en la llave de apertura del else.
+	\item Error de sintaxis en línea 25: Error en los paréntesis de la condición del if.
+	\item Error de sintaxis en línea 29: Falta punto y coma.
 \end{itemize}
 Resultados:
 \begin{verbatim}
 Starting parsing process...
-Error de sintaxis en línea 8: Falta paréntesis de cierre en la llamada de función.
-Error de sintaxis en línea 7: Error en el paréntesis de cierre del if.
-Error de sintaxis en línea 12: Falta punto y coma.
-Error de sintaxis en línea 16: Error en el paréntesis de cierre del while.
-Error de sintaxis en línea 17: Falta punto y coma.
+Error de sintaxis en línea 8: Error en el paréntesis de cierre del if.
+Error de sintaxis en línea 13: Falta paréntesis de apertura en el while.
+Error de sintaxis en línea 20: Error en la llave de apertura del else.
+Error de sintaxis en línea 25: Error en los paréntesis de la condición del if.
+Error de sintaxis en línea 29: Falta punto y coma.
 
 \end{verbatim}
 \end{flushleft}
 
 \newpage
 
-\subsection*{Caso de prueba 3: Identificadores}
-\addcontentsline{toc}{subsection}{Caso de prueba 3: Identificadores}
+\subsection*{Caso de prueba 3: Errores en Declaraciones de Variables}
+\addcontentsline{toc}{subsection}{Caso de prueba 3: Errores en Declaraciones de Variables}
 \begin{flushleft}
 	\begin{verbatim}
-		#include <stdio.h>
-		
-		
-		int 1invalidVar = 10; // Identificador comienza con un dígito
-		int validVar = 20; // Identificador válido
-		float 2anotherInvalid = 30.5; // Identificador comienza con un dígito
-		char special#CharVar = 'A'; // Identificador contiene un carácter especial '#'
-		int valid_var_123 = 50; // Identificador válido
-		
-		
-		void function() {
-			int invalid@Var = 100; // Identificador contiene un carácter especial '@'
-			int valid_var = 0; // Identificador válido
-			float invalid%percent = 40.2; // Identificador contiene un carácter especial '%'
-			double validDoubleVar = 123.456; // Identificador válido
-			double 3invalidStart = 987.654; // Identificador comienza con un dígito
-		}
-		
-		
-		int main() {
-			printf("Valor de validVar: %d\n", validVar); // Identificador válido
-			printf("Valor de valid_var_123: %d\n", valid_var_123); // Identificador válido
-			
-			return 0;
+		// Error: Identificador sin tipo de dato
+		y;
+		//Declaracion de una variable
+		int x;
+		// Declaracion correcta de multiples variables constantes
+		const int z, t, y, y;
+		// Error: Falta punto y coma en la declaración
+		int g, h, i, 
+		void testDeclaracionesVariables() {
+			// Error: Uso incorrecto de 'void' como tipo de dato en una variable
+			void variableInvalida;
+			// Error: Falta identificador en la declaración
+			int ;
+			// Error: Declaración incompleta con un tipo de dato y asignación faltante
+			const int ; // Falta un identificador o asignación a la variable constante
+			// Declaración correcta (para contraste)
+			int valorCorrecto = 10;
+			char letra = 'A';
 		}
 	\end{verbatim}
 	Errores esperados:
 	\begin{itemize}
-		\item Error en la línea 1: Operador inválido '\#'.
-		\item Error en la línea 3: Dígito antes de id '1invalidVar'.
-		\item Error en la línea 3: Dígito antes de id '1invalidVar'.
-		\item Error en la línea 5: Dígito antes de id '2anotherInvalid'.
-		\item Error en la línea 6: Operador inválido '\#'.
-		\item Error en la línea 10: Operador inválido '@'.
-		\item Error en la línea 14: Dígito antes de id '3invalidStart'.
+		\item Error de sintaxis en línea 5: Falta el tipo de dato en la declaración.
+		\item Error de sintaxis en línea 11: Falta punto y coma.
+		\item Error de sintaxis en línea 16: Una variable no puede ser declarada void.
+		\item Error de sintaxis en línea 19: Falta el identificador de la variable en la declaración.
+		\item Error de sintaxis en línea 22: Falta el identificador de la variable en la declaración.
 	\end{itemize}
 	
 	Resultados:
 	\begin{verbatim}
-		Errors: 
-		Character unknown: # in 1
-		Digit before id: 1invalidVar in 3
-		Digit before id: 2anotherInvalid in 5
-		Character unknown: # in 6
-		Character unknown: @ in 10
-		Digit before id: 3invalidStart in 14
-		+------------+-----------------+------------------------------------------+
-		| Token      | Tipo de Token   | Linea                                    |
-		+------------+-----------------+------------------------------------------+
-		| char       | KEYWORD         | 6                                        |
-		+------------+-----------------+------------------------------------------+
-		| double     | KEYWORD         | 13, 14                                   |
-		+------------+-----------------+------------------------------------------+
-		| float      | KEYWORD         | 5, 12                                    |
-		+------------+-----------------+------------------------------------------+
-		| int        | KEYWORD         | 3, 4, 7, 10, 11, 17                      |
-		+------------+-----------------+------------------------------------------+
-		| return     | KEYWORD         | 21                                       |
-		+------------+-----------------+------------------------------------------+
-		| void       | KEYWORD         | 9                                        |
-		+------------+-----------------+------------------------------------------+
-		| CharVar    | ID              | 6                                        |
-		+------------+-----------------+------------------------------------------+
-		| Var        | ID              | 10                                       |
-		+------------+-----------------+------------------------------------------+
-		| function   | ID              | 9                                        |
-		+------------+-----------------+------------------------------------------+
-		| h          | ID              | 1                                        |
-		+------------+-----------------+------------------------------------------+
-		| include    | ID              | 1                                        |
-		+------------+-----------------+------------------------------------------+
-		| invalid    | ID              | 10, 12                                   |
-		+------------+-----------------+------------------------------------------+
-		| main       | ID              | 17                                       |
-		+------------+-----------------+------------------------------------------+
-		| percent    | ID              | 12                                       |
-		+------------+-----------------+------------------------------------------+
-		| printf     | ID              | 18, 19                                   |
-		+------------+-----------------+------------------------------------------+
-		| special    | ID              | 6                                        |
-		+------------+-----------------+------------------------------------------+
-		| stdio      | ID              | 1                                        |
-		+------------+-----------------+------------------------------------------+
-		| validDoubl | ID              | 13                                       |
-		| eVar       |                 |                                          |
-		+------------+-----------------+------------------------------------------+
-		| validVar   | ID              | 4, 18                                    |
-		+------------+-----------------+------------------------------------------+
-		| valid_var  | ID              | 11                                       |
-		+------------+-----------------+------------------------------------------+
-		| valid_var_ | ID              | 7, 19                                    |
-		| 123        |                 |                                          |
-		+------------+-----------------+------------------------------------------+
-		| (          | OPERATOR        | 9, 17, 18, 19                            |
-		+------------+-----------------+------------------------------------------+
-		| )          | OPERATOR        | 9, 17, 18, 19                            |
-		+------------+-----------------+------------------------------------------+
-		| ,          | OPERATOR        | 18, 19                                   |
-		+------------+-----------------+------------------------------------------+
-		| .          | OPERATOR        | 1                                        |
-		+------------+-----------------+------------------------------------------+
-		| ;          | OPERATOR        | 3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 18, 1 |
-		|            |                 | 9, 21                                    |
-		+------------+-----------------+------------------------------------------+
-		| =          | OPERATOR        | 3, 4, 5, 6, 7, 10, 11, 12, 13, 14        |
-		+------------+-----------------+------------------------------------------+
-		| {          | OPERATOR        | 9, 17                                    |
-		+------------+-----------------+------------------------------------------+
-		| }          | OPERATOR        | 15, 22                                   |
-		+------------+-----------------+------------------------------------------+
-		| %          | OPERATOR_ARITHM | 12                                       |
-		|            | ETIC            |                                          |
-		+------------+-----------------+------------------------------------------+
-		| <          | OPERATOR_RELATI | 1                                        |
-		|            | ONAL            |                                          |
-		+------------+-----------------+------------------------------------------+
-		| >          | OPERATOR_RELATI | 1                                        |
-		|            | ONAL            |                                          |
-		+------------+-----------------+------------------------------------------+
-		| 0          | LITERAL_INT     | 11, 21                                   |
-		+------------+-----------------+------------------------------------------+
-		| 10         | LITERAL_INT     | 3                                        |
-		+------------+-----------------+------------------------------------------+
-		| 100        | LITERAL_INT     | 10                                       |
-		+------------+-----------------+------------------------------------------+
-		| 20         | LITERAL_INT     | 4                                        |
-		+------------+-----------------+------------------------------------------+
-		| 50         | LITERAL_INT     | 7                                        |
-		+------------+-----------------+------------------------------------------+
-		| "Valor de  | LITERAL_STR     | 18                                       |
-		| validVar:  |                 |                                          |
-		| %d\n"      |                 |                                          |
-		+------------+-----------------+------------------------------------------+
-		| "Valor de  | LITERAL_STR     | 19                                       |
-		| valid_var_ |                 |                                          |
-		| 123: %d\n" |                 |                                          |
-		+------------+-----------------+------------------------------------------+
-		| 'A'        | LITERAL_CHAR    | 6                                        |
-		+------------+-----------------+------------------------------------------+
-		| 123.456    | LITERAL_DOUBLE  | 13                                       |
-		+------------+-----------------+------------------------------------------+
-		| 30.5       | LITERAL_DOUBLE  | 5                                        |
-		+------------+-----------------+------------------------------------------+
-		| 40.2       | LITERAL_DOUBLE  | 12                                       |
-		+------------+-----------------+------------------------------------------+
-		| 987.654    | LITERAL_DOUBLE  | 14                                       |
-		+------------+-----------------+------------------------------------------+
+		Starting parsing process...
+		Error de sintaxis en línea 5: Falta el tipo de dato en la declaración.
+		Error de sintaxis en línea 11: Falta punto y coma.
+		Error de sintaxis en línea 16: Una variable no puede ser declarada void.
+		Error de sintaxis en línea 19: Falta el identificador de la variable en la declaración.
+		Error de sintaxis en línea 22: Falta el identificador de la variable en la declaración.
 	\end{verbatim}
 \end{flushleft}
 
 \newpage
 
-\subsection*{Caso de prueba 4: Formato Literales}
-\addcontentsline{toc}{subsection}{Caso de prueba 4: Formato Literales}
+\subsection*{Caso de prueba 4: Errores en Ciclos}
+\addcontentsline{toc}{subsection}{Caso de prueba 4: Errores en Ciclos}
 \begin{flushleft}
 	\begin{verbatim}
-		#include <stdio.h>
-		
-		int main() {
-			// Números decimales
-			int decimal = 12345; // Decimal positivo
-			int negativeDecimal = -6789; // Decimal negativo
+		void testCiclos() {
+			int x = 0;
 			
-			// Números octales
-			int octal = 0123; // Octal (equivalente a 83 en decimal)
-			int negativeOctal = -07654; // Octal negativo (equivalente a -4012 en decimal)
-			
-			// Números hexadecimales
-			int hexadecimal = 0x1A3F; // Hexadecimal (equivalente a 6719 en decimal)
-			int negativeHexadecimal = -0xDEAD; // Hexadecimal negativo (equivalente a -57005 en decimal)
-			
-			// Números binarios (C11 en adelante)
-			int binary = 0b1101; // Binario (equivalente a 13 en decimal)
-			
-			// Números con punto flotante
-			float floatNum = 3.14159; // Flotante positivo
-			float negativeFloat = -0.9876; // Flotante negativo
-			
-			// Números en notación exponencial (notación científica)
-			double scientificPos = 1.23e4; // 1.23 * 10^4 = 12300
-			double scientificNeg = -5.67E-3; // -5.67 * 10^-3 = -0.00567
-			
-			// Números flotantes con notación hexadecimal (C99)
-			double hexFloat = 0x1.1p3; // Equivalente a 8.5 en decimal
-			
-			// Strings-caracteres
-			char *f = "Cadena válida";      // Cadena válida de caracteres
-			char g = 'a';                   // Caracter válido
-			char h = #65;                 // Literal char válido
-			
-			// Errores intencionales:
-			int invalidHex = 0x1G; // Error: carácter inválido en número hexadecimal
-			float invalidExp = 12.34e+; // Error: exponente no válido
-			int invalidOctal = 089; // Error: dígitos no válidos en número octal
-			double invalidFloat = 1.23.45; // Error: punto flotante mal formado
-			    double invalid = 5..38; // Punto flotante mal formado
-			int invalidInt = 123abc;         // Número entero inválido
-			char *s = "Esto es un \n
-			string inválido porque está en múltiples líneas";           
-			
-			return 0;
+			// Error: Falta punto y coma en la declaración de 'for'
+			for (int i = 0 i < 10; i++) { 
+				x += i;
+			}
+			// Error: While vacio
+			while () {
+				x += 1;
+			}
+			// Error: Falta paréntesis de cierre en la condición del 'while'
+			while (x < 10 {
+				x += 1;
+			}
+			// Error: do while vacio
+			do {
+				x += 1;
+			} while ();
+			// Error: for vacio
+			for () {
+				x += 1;
+			}
+			// Error: for con una sola expresion
+			for (;) {
+				x += 1;
+			}
+			// Error: Falta paréntesis de apertura en la condición del 'do-while'
+			do {
+				x += 2;
+			} while x < 20);
+			// Error: Falta punto y coma al final de la condición en 'do-while'
+			do {
+				x -= 1;
+			} while (x > 0)
+			// Error: Falta llave de apertura en el bloque del 'for'
+			for (int j = 0; j < 5; j++) 
+			x += j;
+			}
+			// Ciclo correcto (para contraste)
+			for (int k = 0; k < 5; k++) {
+				x += k;
+			}
 		}
 	\end{verbatim}
 	Errores esperados:
-	\begin{itemize}
-		\item Error en la línea 1: Operador inválido '\#'.
-		\item Error en la línea 28: Formato de número no válido '.1'.
-		\item Error en la línea 31: Dígito antes de id '0x1G'.
-		\item Error en la línea 34: Formato de número no válido '.45'.
-		\item Error en la línea 40: Formato de número no válido '1.23.45'.
-		\item Error en la línea 41: Formato de número no válido '5..38'.
-		\item Error en la línea 43: String no valido "Esto es un string inválido porque está en múltiples líneas".
+	\begin{itemize} 
+		\item Error de sintaxis en línea 5: Falta punto y coma.
+		\item Error de sintaxis en línea 12: Error en la condición del while.
+		\item Error de sintaxis en línea 17: Error en el paréntesis de cierre del while.
+		\item Error de sintaxis en línea 22: Error en la condición del do-while.
+		\item Error de sintaxis en línea 27: Error en la sentencia del for.
+		\item Error de sintaxis en línea 30: No puede haber una sola expresión.
+		\item Error de sintaxis en línea 37: Falta paréntesis de apertura en el do-while.
+		\item Error de sintaxis en línea 42: Falta punto y coma.
+		\item Error de sintaxis en línea 47: Error en la llave de apertura del for.
 	\end{itemize}
 	Resultados:
 	\begin{verbatim}
-	Errors: 
-	Character unknown: # in 1
-	Invalid number format: .1 in 28
-	Digit before id: 0x1G in 31
-	Invalid number format: .45 in 34
-	Invalid number format: 1.23.45 in 40
-	Invalid number format: 5..38 in 41
-	Strings cannot span multiple lines: "Esto es un \n string inválido porque está en múltiples líneas" in 43
-	+------------+-----------------+------------------------------------------+
-	| Token      | Tipo de Token   | Linea                                    |
-	+------------+-----------------+------------------------------------------+
-	| char       | KEYWORD         | 31, 32, 33                               |
-	+------------+-----------------+------------------------------------------+
-	| double     | KEYWORD         | 24, 25, 28, 40, 41                       |
-	+------------+-----------------+------------------------------------------+
-	| float      | KEYWORD         | 20, 21, 38                               |
-	+------------+-----------------+------------------------------------------+
-	| int        | KEYWORD         | 3, 5, 6, 9, 10, 13, 14, 17, 37, 39, 42   |
-	+------------+-----------------+------------------------------------------+
-	| return     | KEYWORD         | 44                                       |
-	+------------+-----------------+------------------------------------------+
-	| binary     | ID              | 17                                       |
-	+------------+-----------------+------------------------------------------+
-	| decimal    | ID              | 5                                        |
-	+------------+-----------------+------------------------------------------+
-	| e          | ID              | 38                                       |
-	+------------+-----------------+------------------------------------------+
-	| f          | ID              | 31                                       |
-	+------------+-----------------+------------------------------------------+
-	| floatNum   | ID              | 20                                       |
-	+------------+-----------------+------------------------------------------+
-	| g          | ID              | 32                                       |
-	+------------+-----------------+------------------------------------------+
-	| h          | ID              | 1, 33                                    |
-	+------------+-----------------+------------------------------------------+
-	| hexFloat   | ID              | 28                                       |
-	+------------+-----------------+------------------------------------------+
-	| hexadecima | ID              | 13                                       |
-	| l          |                 |                                          |
-	+------------+-----------------+------------------------------------------+
-	| include    | ID              | 1                                        |
-	+------------+-----------------+------------------------------------------+
-	| invalid    | ID              | 41                                       |
-	+------------+-----------------+------------------------------------------+
-	| invalidExp | ID              | 38                                       |
-	+------------+-----------------+------------------------------------------+
-	| invalidFlo | ID              | 40                                       |
-	| at         |                 |                                          |
-	+------------+-----------------+------------------------------------------+
-	| invalidHex | ID              | 37                                       |
-	+------------+-----------------+------------------------------------------+
-	| invalidInt | ID              | 42                                       |
-	+------------+-----------------+------------------------------------------+
-	| invalidOct | ID              | 39                                       |
-	| al         |                 |                                          |
-	+------------+-----------------+------------------------------------------+
-	| main       | ID              | 3                                        |
-	+------------+-----------------+------------------------------------------+
-	| negativeDe | ID              | 6                                        |
-	| cimal      |                 |                                          |
-	+------------+-----------------+------------------------------------------+
-	| negativeFl | ID              | 21                                       |
-	| oat        |                 |                                          |
-	+------------+-----------------+------------------------------------------+
-	| negativeHe | ID              | 14                                       |
-	| xadecimal  |                 |                                          |
-	+------------+-----------------+------------------------------------------+
-	| negativeOc | ID              | 10                                       |
-	| tal        |                 |                                          |
-	+------------+-----------------+------------------------------------------+
-	| octal      | ID              | 9                                        |
-	+------------+-----------------+------------------------------------------+
-	| scientific | ID              | 25                                       |
-	| Neg        |                 |                                          |
-	+------------+-----------------+------------------------------------------+
-	| scientific | ID              | 24                                       |
-	| Pos        |                 |                                          |
-	+------------+-----------------+------------------------------------------+
-	| stdio      | ID              | 1                                        |
-	+------------+-----------------+------------------------------------------+
-	| xDEAD      | ID              | 14                                       |
-	+------------+-----------------+------------------------------------------+
-	| (          | OPERATOR        | 3                                        |
-	+------------+-----------------+------------------------------------------+
-	| )          | OPERATOR        | 3                                        |
-	+------------+-----------------+------------------------------------------+
-	| .          | OPERATOR        | 1, 28                                    |
-	+------------+-----------------+------------------------------------------+
-	| ;          | OPERATOR        | 5, 6, 9, 10, 13, 14, 17, 20, 21, 24, 25, |
-	|            |                 |  28, 31, 32, 33, 37, 38, 39, 40, 41, 42, |
-	|            |                 |  44                                      |
-	+------------+-----------------+------------------------------------------+
-	| =          | OPERATOR        | 5, 6, 9, 10, 13, 14, 17, 20, 21, 24, 25, |
-	|            |                 |  28, 31, 32, 33, 37, 38, 39, 40, 41, 42  |
-	+------------+-----------------+------------------------------------------+
-	| {          | OPERATOR        | 3                                        |
-	+------------+-----------------+------------------------------------------+
-	| }          | OPERATOR        | 45                                       |
-	+------------+-----------------+------------------------------------------+
-	| *          | OPERATOR_ARITHM | 31                                       |
-	|            | ETIC            |                                          |
-	+------------+-----------------+------------------------------------------+
-	| +          | OPERATOR_ARITHM | 38                                       |
-	|            | ETIC            |                                          |
-	+------------+-----------------+------------------------------------------+
-	| <          | OPERATOR_RELATI | 1                                        |
-	|            | ONAL            |                                          |
-	+------------+-----------------+------------------------------------------+
-	| >          | OPERATOR_RELATI | 1                                        |
-	|            | ONAL            |                                          |
-	+------------+-----------------+------------------------------------------+
-	| -0         | LITERAL_INT     | 10, 14                                   |
-	+------------+-----------------+------------------------------------------+
-	| -6789      | LITERAL_INT     | 6                                        |
-	+------------+-----------------+------------------------------------------+
-	| 0          | LITERAL_INT     | 39, 44                                   |
-	+------------+-----------------+------------------------------------------+
-	| 12345      | LITERAL_INT     | 5                                        |
-	+------------+-----------------+------------------------------------------+
-	| 7654       | LITERAL_INT     | 10                                       |
-	+------------+-----------------+------------------------------------------+
-	| 89         | LITERAL_INT     | 39                                       |
-	+------------+-----------------+------------------------------------------+
-	| "Cadena vá | LITERAL_STR     | 31                                       |
-	| lida"      |                 |                                          |
-	+------------+-----------------+------------------------------------------+
-	| #65        | LITERAL_CHAR    | 33                                       |
-	+------------+-----------------+------------------------------------------+
-	| 'a'        | LITERAL_CHAR    | 32                                       |
-	+------------+-----------------+------------------------------------------+
-	| 0b1101     | LITERAL_BINARY  | 17                                       |
-	+------------+-----------------+------------------------------------------+
-	| 0123       | LITERAL_OCTAL   | 9                                        |
-	+------------+-----------------+------------------------------------------+
-	| 0x1        | LITERAL_HEX     | 28                                       |
-	+------------+-----------------+------------------------------------------+
-	| 0x1A3F     | LITERAL_HEX     | 13                                       |
-	+------------+-----------------+------------------------------------------+
-	| -0.9876    | LITERAL_DOUBLE  | 21                                       |
-	+------------+-----------------+------------------------------------------+
-	| -5.67E-3   | LITERAL_DOUBLE  | 25                                       |
-	+------------+-----------------+------------------------------------------+
-	| 1.23e4     | LITERAL_DOUBLE  | 24                                       |
-	+------------+-----------------+------------------------------------------+
-	| 12.34      | LITERAL_DOUBLE  | 38                                       |
-	+------------+-----------------+------------------------------------------+
-	| 3.14159    | LITERAL_DOUBLE  | 20                                       |
-	+------------+-----------------+------------------------------------------+
+	Starting parsing process...
+	Error de sintaxis en línea 5: Falta punto y coma.
+	Error de sintaxis en línea 12: Error en la condición del while.
+	Error de sintaxis en línea 17: Error en el paréntesis de cierre del while.
+	Error de sintaxis en línea 22: Error en la condición del do-while.
+	Error de sintaxis en línea 27: Error en la sentencia del for.
+	Error de sintaxis en línea 30: No puede haber una sola expresión.
+	Error de sintaxis en línea 37: Falta paréntesis de apertura en el do-while.
+	Error de sintaxis en línea 42: Falta punto y coma.
+	Error de sintaxis en línea 47: Error en la llave de apertura del for.
 	\end{verbatim}
 \end{flushleft}
 
-\subsection*{Caso de prueba 5: Palabras reservadas}
-\addcontentsline{toc}{subsection}{Caso de prueba 5: Palabras reservadas}
+\subsection*{Caso de prueba 5: Errores en Funciones y Parámetros}
+\addcontentsline{toc}{subsection}{Caso de prueba 5: Errores en Funciones y Parámetros}
 \begin{flushleft}
 	\begin{verbatim}
-		#include <stdio.h>
-		
-		int main() {
-			auto intVar = 5;          // auto
-			int b = intVar + 3;       // int
-			char c = 'A';             // char
-			const int d = 10;         // const
-			unsgned long g = 100L;   
-			signed shrt h = -10;      
-			statc int counter = 0;    
-			float e = 3.14f;          // float
-			double f = 5.0;           // double
-			unsigned long g = 100L;   // unsigned long
-			signed short h = -10;     // signed y short
-			enum days { Mon, Tue };   // enum
-			struct point {            // struct
-				int x, y;
-			};
-			typedef int entero;       // typedef'
-			extern int i;             // extern'
-			static int counter = 0;   // static'
-			void function() {         // void
-				continue;             // continue
-			}
-			
-			
-			return 0;
+		// Error: Falta tipo de retorno en la declaración de la función (No funciona)
+		suma(int a, int b) {
+			return a + b;
 		}
+		// Error: Falta identificador en el parámetro de la función
+		int resta(int a, ) {
+			return a - b;
+		}
+		// Error: Falta llave de cierre en el cuerpo de la función (Tira Falta punto y coma)
+		int multiplica(int a, int b) 
+			int resultado = a * b;
+			return resultado;
+		}
+		int dividir int a, int b) {
+			return a / b;
+		}
+		int dividir (int a, int b {
+			return a / b;
+		}
+		void calcularSuma(int a, int b) {
+			return a + b;
+		}
+		// Función correcta (para contraste)
+		int modulo(int a, int b) {
+			return a % b;
+		}
+	
 	\end{verbatim}
+	Errores esperados:
+	\begin{itemize} 
+	\item Error de sintaxis en línea 2: Falta el tipo de dato en la declaración de la función.
+	\item Error de sintaxis en línea 7: Error en la coma de los parametros.
+	\item Error de sintaxis en línea 16: Error en las llaves de la función.
+	\item Error de sintaxis en línea 18: Error en los paréntesis de la función.
+	\item Error de sintaxis en línea 22: Error en la coma de los parametros.
+	\end{itemize}
 
 	Resultados:
 	\begin{verbatim}
-		+------------+-----------------+------------------------------------------+
-		| Token      | Tipo de Token   | Linea                                    |
-		+------------+-----------------+------------------------------------------+
-		| auto       | KEYWORD         | 2                                        |
-		+------------+-----------------+------------------------------------------+
-		| char       | KEYWORD         | 4                                        |
-		+------------+-----------------+------------------------------------------+
-		| const      | KEYWORD         | 5                                        |
-		+------------+-----------------+------------------------------------------+
-		| continue   | KEYWORD         | 21                                       |
-		+------------+-----------------+------------------------------------------+
-		| double     | KEYWORD         | 10                                       |
-		+------------+-----------------+------------------------------------------+
-		| enum       | KEYWORD         | 13                                       |
-		+------------+-----------------+------------------------------------------+
-		| extern     | KEYWORD         | 18                                       |
-		+------------+-----------------+------------------------------------------+
-		| float      | KEYWORD         | 9                                        |
-		+------------+-----------------+------------------------------------------+
-		| int        | KEYWORD         | 1, 3, 5, 8, 15, 17, 18, 19               |
-		+------------+-----------------+------------------------------------------+
-		| long       | KEYWORD         | 6, 11                                    |
-		+------------+-----------------+------------------------------------------+
-		| return     | KEYWORD         | 25                                       |
-		+------------+-----------------+------------------------------------------+
-		| short      | KEYWORD         | 12                                       |
-		+------------+-----------------+------------------------------------------+
-		| signed     | KEYWORD         | 7, 12                                    |
-		+------------+-----------------+------------------------------------------+
-		| static     | KEYWORD         | 19                                       |
-		+------------+-----------------+------------------------------------------+
-		| struct     | KEYWORD         | 14                                       |
-		+------------+-----------------+------------------------------------------+
-		| typedef    | KEYWORD         | 17                                       |
-		+------------+-----------------+------------------------------------------+
-		| unsigned   | KEYWORD         | 11                                       |
-		+------------+-----------------+------------------------------------------+
-		| void       | KEYWORD         | 20                                       |
-		+------------+-----------------+------------------------------------------+
-		| Mon        | ID              | 13                                       |
-		+------------+-----------------+------------------------------------------+
-		| Tue        | ID              | 13                                       |
-		+------------+-----------------+------------------------------------------+
-		| b          | ID              | 3                                        |
-		+------------+-----------------+------------------------------------------+
-		| c          | ID              | 4                                        |
-		+------------+-----------------+------------------------------------------+
-		| counter    | ID              | 8, 19                                    |
-		+------------+-----------------+------------------------------------------+
-		| d          | ID              | 5                                        |
-		+------------+-----------------+------------------------------------------+
-		| days       | ID              | 13                                       |
-		+------------+-----------------+------------------------------------------+
-		| e          | ID              | 9                                        |
-		+------------+-----------------+------------------------------------------+
-		| entero     | ID              | 17                                       |
-		+------------+-----------------+------------------------------------------+
-		| f          | ID              | 10                                       |
-		+------------+-----------------+------------------------------------------+
-		| function   | ID              | 20                                       |
-		+------------+-----------------+------------------------------------------+
-		| g          | ID              | 6, 11                                    |
-		+------------+-----------------+------------------------------------------+
-		| h          | ID              | 7, 12                                    |
-		+------------+-----------------+------------------------------------------+
-		| i          | ID              | 18                                       |
-		+------------+-----------------+------------------------------------------+
-		| intVar     | ID              | 2, 3                                     |
-		+------------+-----------------+------------------------------------------+
-		| main       | ID              | 1                                        |
-		+------------+-----------------+------------------------------------------+
-		| point      | ID              | 14                                       |
-		+------------+-----------------+------------------------------------------+
-		| shrt       | ID              | 7                                        |
-		+------------+-----------------+------------------------------------------+
-		| statc      | ID              | 8                                        |
-		+------------+-----------------+------------------------------------------+
-		| unsgned    | ID              | 6                                        |
-		+------------+-----------------+------------------------------------------+
-		| x          | ID              | 15                                       |
-		+------------+-----------------+------------------------------------------+
-		| y          | ID              | 15                                       |
-		+------------+-----------------+------------------------------------------+
-		| (          | OPERATOR        | 1, 20                                    |
-		+------------+-----------------+------------------------------------------+
-		| )          | OPERATOR        | 1, 20                                    |
-		+------------+-----------------+------------------------------------------+
-		| ,          | OPERATOR        | 13, 15                                   |
-		+------------+-----------------+------------------------------------------+
-		| ;          | OPERATOR        | 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,  |
-		|            |                 | 15, 16, 17, 18, 19, 21, 25               |
-		+------------+-----------------+------------------------------------------+
-		| =          | OPERATOR        | 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 19   |
-		+------------+-----------------+------------------------------------------+
-		| {          | OPERATOR        | 1, 13, 14, 20                            |
-		+------------+-----------------+------------------------------------------+
-		| }          | OPERATOR        | 13, 16, 22, 26                           |
-		+------------+-----------------+------------------------------------------+
-		| +          | OPERATOR_ARITHM | 3                                        |
-		|            | ETIC            |                                          |
-		+------------+-----------------+------------------------------------------+
-		| -10        | LITERAL_INT     | 7, 12                                    |
-		+------------+-----------------+------------------------------------------+
-		| 0          | LITERAL_INT     | 8, 19, 25                                |
-		+------------+-----------------+------------------------------------------+
-		| 10         | LITERAL_INT     | 5                                        |
-		+------------+-----------------+------------------------------------------+
-		| 100L       | LITERAL_INT     | 6, 11                                    |
-		+------------+-----------------+------------------------------------------+
-		| 3          | LITERAL_INT     | 3                                        |
-		+------------+-----------------+------------------------------------------+
-		| 5          | LITERAL_INT     | 2                                        |
-		+------------+-----------------+------------------------------------------+
-		| 'A'        | LITERAL_CHAR    | 4                                        |
-		+------------+-----------------+------------------------------------------+
-		| 3.14f      | LITERAL_DOUBLE  | 9                                        |
-		+------------+-----------------+------------------------------------------+
-		| 5.0        | LITERAL_DOUBLE  | 10                                       |
-		+------------+-----------------+------------------------------------------+
+	Starting parsing process...
+	Error de sintaxis en línea 2: Falta el tipo de dato en la declaración de la función.
+	Error de sintaxis en línea 7: Error en la coma de los parametros.
+	Error de sintaxis en línea 16: Error en las llaves de la función.
+	Error de sintaxis en línea 18: Error en los paréntesis de la función.
+	Error de sintaxis en línea 22: Error en la coma de los parametros.
 	\end{verbatim}
 \end{flushleft}
+
+\newpage
+
 \subsection*{Caso de prueba 6: General}
 \addcontentsline{toc}{subsection}{Caso de prueba 6: General}
 \begin{flushleft}
 	\begin{verbatim}
-		#include <stdio.h>
-		
-		int main() {
-			// Palabras reservadas
-			int x = 10;                // int
-			float y = 5.5f;           // float
-			char z = 'c';             // char
-			const int max = 100;      // const
-			double pi = 3.14159;      // double
-			unsigned int u = 5;       // unsigned
-			signed int s = -3;        // signed
-			enum colors { RED, GREEN, BLUE }; // enum
-			struct Point {            // struct
-				int x, y;
-			};
+		void funcionGeneral() {
+			int a = 5;
+			int b = 10
+			// Error: Declaración de variable con tipo inválido
+			void varInvalida = 20;
+			// Error: asignación inválida
+			a + b = c;
+			// Error: Falta paréntesis de cierre en la condición del 'if'
+			if (a < b {
+				print(a);
+			} else {
+				print(b)
+			}
+			// Error: Falta el paréntesis de apertura en el 'while'
+			while a < b) {
+				a = a + 1;
+			}
+			// Error: Falta punto y coma en la declaración de 'for'
+			for (int i = 0 i < 10; i++) {
+				print(i);
+			}
+			// Error: Paréntesis no cerrado en una expresión aritmética 
+			a + (b * 2 ;
 			
-			// Usando typedef
-			typedef int entero;       // typedef
-			entero a = 5;             // usando typedef
-			
-			// Operaciones
-			int sum = x + 20;         // Suma
-			int product = x * 2;      // Multiplicación
-			double division = (double)x / 4; // División
-			int modulo = x % 3;       // Módulo
-			
-			// Operadores bit a bit
-			int andBit = x & 1;       // AND bit a bit
-			int orBit = x | 1;        // OR bit a bit
-			int xorBit = x ^ 1;       // XOR bit a bit
-			int notBit = ~x;          // NOT bit a bit
-			
-			// Desplazamientos
-			int leftShift = x << 1;   // Desplazamiento a la izquierda
-			int rightShift = x >> 1;  // Desplazamiento a la derecha
-			
-			// Errores intencionales
-			floaat wrongFloat = 2.5;   // Error: debería ser 'float'
-			int 2ndVar = 10;           // Error: no puede comenzar con un dígito
-			const float pi = 3.14;      // Error: redeclaración de 'const'
-			int l = a @ b;          // Operador inválido
-			int n = a // b;         // Comentario mal formado
-			
-			return 0;
+			// Declaración correcta para contraste
+			if (x != a) {
+				print("x y a son diferentes");
+			}
 		}
 		
 	\end{verbatim}
 	Errores esperados:
 	\begin{itemize}
-		\item Error en la línea 38: Dígito antes de id '2ndVar'.
-		\item Error en la línea 28: Caracter desconocido '@'.
+	\item	Error de sintaxis en línea 3: Falta punto y coma.
+	\item	Error de sintaxis en línea 5: Una variable no puede ser declarada void.
+	\item	Error de sintaxis en línea 8: Error antes de '=' en asignación.
+	\item	Error de sintaxis en línea 14: Falta punto y coma.
+	\item	Error de sintaxis en línea 13: Error en el paréntesis de cierre del if.
+	\item	Error de sintaxis en línea 20: Falta paréntesis de apertura en el while.
+	\item	Error de sintaxis en línea 23: Falta punto y coma.
+	\item	Error de sintaxis en línea 28: Error en paréntesis de expresión.
+	\item	Error de sintaxis en línea 33: Error en la llave de apertura del if.
 	\end{itemize}
 	Resultados:
 	\begin{verbatim}
-		Errors: 
-		Digit before id: 2ndVar in 38
-		Character unknown: @ in 40
-		+------------+-----------------+------------------------------------------+
-		| Token      | Tipo de Token   | Linea                                    |
-		+------------+-----------------+------------------------------------------+
-		| char       | KEYWORD         | 5, 32, 33, 34                            |
-		+------------+-----------------+------------------------------------------+
-		| const      | KEYWORD         | 6, 39                                    |
-		+------------+-----------------+------------------------------------------+
-		| double     | KEYWORD         | 7, 22(2)                                 |
-		+------------+-----------------+------------------------------------------+
-		| enum       | KEYWORD         | 10                                       |
-		+------------+-----------------+------------------------------------------+
-		| float      | KEYWORD         | 4, 39                                    |
-		+------------+-----------------+------------------------------------------+
-		| int        | KEYWORD         | 1, 3, 6, 8, 9, 12, 16, 20, 21, 23, 26, 2 |
-		|            |                 | 7, 28, 29, 38, 40, 41                    |
-		+------------+-----------------+------------------------------------------+
-		| return     | KEYWORD         | 43                                       |
-		+------------+-----------------+------------------------------------------+
-		| signed     | KEYWORD         | 9                                        |
-		+------------+-----------------+------------------------------------------+
-		| struct     | KEYWORD         | 11                                       |
-		+------------+-----------------+------------------------------------------+
-		| typedef    | KEYWORD         | 16                                       |
-		+------------+-----------------+------------------------------------------+
-		| unsigned   | KEYWORD         | 8                                        |
-		+------------+-----------------+------------------------------------------+
-		| BLUE       | ID              | 10                                       |
-		+------------+-----------------+------------------------------------------+
-		| GREEN      | ID              | 10                                       |
-		+------------+-----------------+------------------------------------------+
-		| Point      | ID              | 11                                       |
-		+------------+-----------------+------------------------------------------+
-		| RED        | ID              | 10                                       |
-		+------------+-----------------+------------------------------------------+
-		| a          | ID              | 17, 40, 41                               |
-		+------------+-----------------+------------------------------------------+
-		| andBit     | ID              | 26                                       |
-		+------------+-----------------+------------------------------------------+
-		| b          | ID              | 40                                       |
-		+------------+-----------------+------------------------------------------+
-		| colors     | ID              | 10                                       |
-		+------------+-----------------+------------------------------------------+
-		| division   | ID              | 22                                       |
-		+------------+-----------------+------------------------------------------+
-		| entero     | ID              | 16, 17                                   |
-		+------------+-----------------+------------------------------------------+
-		| f          | ID              | 32                                       |
-		+------------+-----------------+------------------------------------------+
-		| floaat     | ID              | 37                                       |
-		+------------+-----------------+------------------------------------------+
-		| g          | ID              | 33                                       |
-		+------------+-----------------+------------------------------------------+
-		| h          | ID              | 34                                       |
-		+------------+-----------------+------------------------------------------+
-		| l          | ID              | 40                                       |
-		+------------+-----------------+------------------------------------------+
-		| main       | ID              | 1                                        |
-		+------------+-----------------+------------------------------------------+
-		| max        | ID              | 6                                        |
-		+------------+-----------------+------------------------------------------+
-		| modulo     | ID              | 23                                       |
-		+------------+-----------------+------------------------------------------+
-		| n          | ID              | 41                                       |
-		+------------+-----------------+------------------------------------------+
-		| notBit     | ID              | 29                                       |
-		+------------+-----------------+------------------------------------------+
-		| orBit      | ID              | 27                                       |
-		+------------+-----------------+------------------------------------------+
-		| pi         | ID              | 7, 39                                    |
-		+------------+-----------------+------------------------------------------+
-		| product    | ID              | 21                                       |
-		+------------+-----------------+------------------------------------------+
-		| s          | ID              | 9                                        |
-		+------------+-----------------+------------------------------------------+
-		| sum        | ID              | 20                                       |
-		+------------+-----------------+------------------------------------------+
-		| u          | ID              | 8                                        |
-		+------------+-----------------+------------------------------------------+
-		| wrongFloat | ID              | 37                                       |
-		+------------+-----------------+------------------------------------------+
-		| x          | ID              | 3, 12, 20, 21, 22, 23, 26, 27, 28, 29    |
-		+------------+-----------------+------------------------------------------+
-		| xorBit     | ID              | 28                                       |
-		+------------+-----------------+------------------------------------------+
-		| y          | ID              | 4, 12                                    |
-		+------------+-----------------+------------------------------------------+
-		| z          | ID              | 5                                        |
-		+------------+-----------------+------------------------------------------+
-		| (          | OPERATOR        | 1, 22                                    |
-		+------------+-----------------+------------------------------------------+
-		| )          | OPERATOR        | 1, 22                                    |
-		+------------+-----------------+------------------------------------------+
-		| ,          | OPERATOR        | 10(2), 12                                |
-		+------------+-----------------+------------------------------------------+
-		| ;          | OPERATOR        | 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 16, 17, |
-		|            |                 |  20, 21, 22, 23, 26, 27, 28, 29, 32, 33, |
-		|            |                 |  34, 37, 38, 39, 40, 43                  |
-		+------------+-----------------+------------------------------------------+
-		| =          | OPERATOR        | 3, 4, 5, 6, 7, 8, 9, 17, 20, 21, 22, 23, |
-		|            |                 |  26, 27, 28, 29, 32, 33, 34, 37, 38, 39, |
-		|            |                 |  40, 41                                  |
-		+------------+-----------------+------------------------------------------+
-		| {          | OPERATOR        | 1, 10, 11                                |
-			+------------+-----------------+------------------------------------------+
-			| }          | OPERATOR        | 10, 13, 44                               |
-		+------------+-----------------+------------------------------------------+
-		| %          | OPERATOR_ARITHM | 23                                       |
-		|            | ETIC            |                                          |
-		+------------+-----------------+------------------------------------------+
-		| *          | OPERATOR_ARITHM | 21, 32                                   |
-		|            | ETIC            |                                          |
-		+------------+-----------------+------------------------------------------+
-		| +          | OPERATOR_ARITHM | 20                                       |
-		|            | ETIC            |                                          |
-		+------------+-----------------+------------------------------------------+
-		| /          | OPERATOR_ARITHM | 22                                       |
-		|            | ETIC            |                                          |
-		+------------+-----------------+------------------------------------------+
-		| &          | OPERATOR_BITWIS | 26                                       |
-		|            | E               |                                          |
-		+------------+-----------------+------------------------------------------+
-		| ^          | OPERATOR_BITWIS | 28                                       |
-		|            | E               |                                          |
-		+------------+-----------------+------------------------------------------+
-		| |          | OPERATOR_BITWIS | 27                                       |
-		|            | E               |                                          |
-		+------------+-----------------+------------------------------------------+
-		| ~          | OPERATOR_BITWIS | 29                                       |
-		|            | E               |                                          |
-		+------------+-----------------+------------------------------------------+
-		| -3         | LITERAL_INT     | 9                                        |
-		+------------+-----------------+------------------------------------------+
-		| 0          | LITERAL_INT     | 43                                       |
-		+------------+-----------------+------------------------------------------+
-		| 1          | LITERAL_INT     | 26, 27, 28                               |
-		+------------+-----------------+------------------------------------------+
-		| 10         | LITERAL_INT     | 3, 38                                    |
-		+------------+-----------------+------------------------------------------+
-		| 100        | LITERAL_INT     | 6                                        |
-		+------------+-----------------+------------------------------------------+
-		| 2          | LITERAL_INT     | 21                                       |
-		+------------+-----------------+------------------------------------------+
-		| 20         | LITERAL_INT     | 20                                       |
-		+------------+-----------------+------------------------------------------+
-		| 3          | LITERAL_INT     | 23                                       |
-		+------------+-----------------+------------------------------------------+
-		| 4          | LITERAL_INT     | 22                                       |
-		+------------+-----------------+------------------------------------------+
-		| 5          | LITERAL_INT     | 8, 17                                    |
-		+------------+-----------------+------------------------------------------+
-		| "Cadena vá | LITERAL_STR     | 32                                       |
-		| lida"      |                 |                                          |
-		+------------+-----------------+------------------------------------------+
-		| #65        | LITERAL_CHAR    | 34                                       |
-		+------------+-----------------+------------------------------------------+
-		| 'a'        | LITERAL_CHAR    | 33                                       |
-		+------------+-----------------+------------------------------------------+
-		| 'c'        | LITERAL_CHAR    | 5                                        |
-		+------------+-----------------+------------------------------------------+
-		| 2.5        | LITERAL_DOUBLE  | 37                                       |
-		+------------+-----------------+------------------------------------------+
-		| 3.14       | LITERAL_DOUBLE  | 39                                       |
-		+------------+-----------------+------------------------------------------+
-		| 3.14159    | LITERAL_DOUBLE  | 7                                        |
-		+------------+-----------------+------------------------------------------+
-		| 5.5f       | LITERAL_DOUBLE  | 4                                        |
+	Starting parsing process...
+	Error de sintaxis en línea 3: Falta punto y coma.
+	Error de sintaxis en línea 5: Una variable no puede ser declarada void.
+	Error de sintaxis en línea 8: Error antes de '=' en asignación.
+	Error de sintaxis en línea 14: Falta punto y coma.
+	Error de sintaxis en línea 13: Error en el paréntesis de cierre del if.
+	Error de sintaxis en línea 20: Falta paréntesis de apertura en el while.
+	Error de sintaxis en línea 23: Falta punto y coma.
+	Error de sintaxis en línea 28: Error en paréntesis de expresión.
+	Error de sintaxis en línea 33: Error en la llave de apertura del if.
 	\end{verbatim}
 \end{flushleft}
 
+\newpage
 
 % Manual de usuario
 \section*{Manual de usuario}

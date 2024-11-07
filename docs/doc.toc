@@ -2,13 +2,13 @@
 \contentsline {section}{Estrategia de solución}{2}{section*.3}%
 \contentsline {section}{Análisis de resultados}{4}{section*.4}%
 \contentsline {section}{Lecciones aprendidas}{4}{section*.5}%
-\contentsline {section}{Casos de prueba}{5}{section*.6}%
-\contentsline {subsection}{Casos de prueba 1: Errores en Declaración, Asignación y Estructuras de Control}{5}{section*.7}%
-\contentsline {subsection}{Casos de prueba 2: Errores de Paréntesis, Puntos y Comas, y Variables No Declaradas}{6}{section*.8}%
-\contentsline {subsection}{Caso de prueba 3: Identificadores}{8}{section*.9}%
-\contentsline {subsection}{Caso de prueba 4: Formato Literales}{12}{section*.10}%
-\contentsline {subsection}{Caso de prueba 5: Palabras reservadas}{17}{section*.11}%
-\contentsline {subsection}{Caso de prueba 6: General}{21}{section*.12}%
-\contentsline {section}{Manual de usuario}{27}{section*.13}%
-\contentsline {section}{Bitácora}{28}{section*.16}%
-\contentsline {section}{Bibliografía}{30}{section*.20}%
+\contentsline {section}{Casos de prueba}{6}{section*.6}%
+\contentsline {subsection}{Casos de prueba 1: Errores en Expresiones Aritméticas y Asignación}{6}{section*.7}%
+\contentsline {subsection}{Casos de prueba 2: Errores de Paréntesis, Puntos y Comas, y Variables No Declaradas}{8}{section*.8}%
+\contentsline {subsection}{Caso de prueba 3: Errores en Declaraciones de Variables}{10}{section*.9}%
+\contentsline {subsection}{Caso de prueba 4: Errores en Ciclos}{12}{section*.10}%
+\contentsline {subsection}{Caso de prueba 5: Errores en Funciones y Parámetros}{14}{section*.11}%
+\contentsline {subsection}{Caso de prueba 6: General}{16}{section*.12}%
+\contentsline {section}{Manual de usuario}{18}{section*.13}%
+\contentsline {section}{Bitácora}{19}{section*.16}%
+\contentsline {section}{Bibliografía}{20}{section*.20}%
