@@ -341,8 +341,7 @@ EXPRESION_ARITMETICA ::= EXPRESION_ARITMETICA PLUS EXPRESION_ARITMETICA |
             DIVIDE EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '/'."); :} |
             PLUS EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '+'."); :} |
             MINUS EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '-'."); :} |
-            LPAREN error {: syntaxError(((Symbol) stack.peek()), "Error en paréntesis de expresión."); :} |
-            IDENTIFIER LPAREN ARGUMENTOS {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de cierre en la llamada de función."); :}
+            LPAREN error {: syntaxError(((Symbol) stack.peek()), "Error en paréntesis de expresión."); :}
 ;
 
 
