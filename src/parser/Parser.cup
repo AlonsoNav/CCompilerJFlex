@@ -1,8 +1,16 @@
 package parser;
 
 import java_cup.runtime.*;
+import java.util.HashMap;
+import java.util.Stack;
 
 parser code {:
+    // Tabla de símbolos
+    private HashMap<String, Object> symbolTable = new HashMap<>();
+
+    // Pila semántica
+    private Stack<Object> semanticStack = new Stack<>();
+
     void syntaxError(Symbol sym, String message) {
         System.err.println("Error de sintaxis en línea " + sym.left + ": " + message);
     }
