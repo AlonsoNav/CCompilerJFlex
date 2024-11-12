@@ -6,6 +6,9 @@
 package parser;
 
 import java_cup.runtime.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Stack;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -2208,6 +2211,25 @@ public class Parser extends java_cup.runtime.lr_parser {
 
 
 
+    // Tabla de símbolos
+    private HashMap<String, Object> symbolTable = new HashMap<>();
+
+    // Pila semántica
+    private Stack<Object> semanticStack = new Stack<>();
+
+    public HashMap<String, Object> getSymbolTable() {
+        return symbolTable;
+    }
+
+    private void addVariableToSymbolTable(String varName, String varType) {
+        if (symbolTable.containsKey(varName)) {
+            syntaxError(((Symbol) stack.peek()), "La variable '" + varName + "' ya ha sido declarada.");
+        } else {
+            symbolTable.put(varName, varType);
+            System.out.println("Variable '" + varName + "' de tipo '" + varType + "' agregada a la tabla de símbolos.");
+        }
+    }
+
     void syntaxError(Symbol sym, String message) {
         System.err.println("Error de sintaxis en línea " + sym.left + ": " + message);
     }
@@ -2710,7 +2732,16 @@ class CUP$Parser$actions {
           case 49: // DECLARACION ::= T_DATO ID_LIST SEMICOLON 
             {
               Object RESULT =null;
-
+		int id_typeleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int id_typeright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object id_type = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		
+        System.out.println("Declaración de variable de tipo '" + id_type + "' con identificador(es) " + id);
+        addVariableToSymbolTable((String) id, (String) id_type);
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("DECLARACION",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -2800,7 +2831,13 @@ class CUP$Parser$actions {
           case 59: // ID_LIST ::= IDENTIFIER 
             {
               Object RESULT =null;
-
+		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+                System.out.println("Identificador: " + id);
+                RESULT = id;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("ID_LIST",17, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3727,7 +3764,7 @@ class CUP$Parser$actions {
           case 162: // T_DATO ::= INT 
             {
               Object RESULT =null;
-
+		 RESULT = "int"; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("T_DATO",10, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3736,7 +3773,7 @@ class CUP$Parser$actions {
           case 163: // T_DATO ::= CHAR 
             {
               Object RESULT =null;
-
+		 RESULT = "char"; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("T_DATO",10, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3745,7 +3782,7 @@ class CUP$Parser$actions {
           case 164: // T_DATO ::= LONG 
             {
               Object RESULT =null;
-
+		 RESULT = "long"; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("T_DATO",10, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3754,7 +3791,7 @@ class CUP$Parser$actions {
           case 165: // T_DATO ::= SHORT 
             {
               Object RESULT =null;
-
+		 RESULT = "short"; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("T_DATO",10, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3763,7 +3800,7 @@ class CUP$Parser$actions {
           case 166: // T_DATO ::= INT LONG 
             {
               Object RESULT =null;
-
+		 RESULT = "int long"; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("T_DATO",10, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3772,7 +3809,7 @@ class CUP$Parser$actions {
           case 167: // T_DATO ::= INT SHORT 
             {
               Object RESULT =null;
-
+		 RESULT = "int short"; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("T_DATO",10, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3781,7 +3818,7 @@ class CUP$Parser$actions {
           case 168: // T_DATO ::= LONG INT 
             {
               Object RESULT =null;
-
+		 RESULT = "long int"; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("T_DATO",10, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3790,7 +3827,7 @@ class CUP$Parser$actions {
           case 169: // T_DATO ::= SHORT INT 
             {
               Object RESULT =null;
-
+		 RESULT = "short int"; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("T_DATO",10, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
