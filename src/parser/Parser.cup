@@ -122,10 +122,12 @@ CUERPO_FUNCION ::=
 ;           
 
 ERRORES_FUNCION ::= T_DATO IDENTIFIER error CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la función."); :} |
+                    T_DATO IDENTIFIER error SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error no se aceptan variables globales"); :} |
                     VOID IDENTIFIER error CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la función."); :} |
                     T_DATO IDENTIFIER IDENTIFIER CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la función."); :} |
                     VOID IDENTIFIER IDENTIFIER CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la función."); :} |
-                    IDENTIFIER LPAREN PARAMETROS RPAREN CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Falta el tipo de dato en la declaración de la función."); :} 
+                    IDENTIFIER LPAREN PARAMETROS RPAREN CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Falta el tipo de dato en la declaración de la función."); :} |
+                    IDENTIFIER LPAREN RPAREN CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Falta el tipo de dato en la declaración de la función."); :} 
 ;
 
 
@@ -286,7 +288,7 @@ SWITCHs ::= SWITCH LPAREN EXPRESIONES_NUMERICAS RPAREN LCURLY CASES DEFAULT_STMT
             SWITCH error RPAREN LCURLY CASES DEFAULT_STMT RCURLY {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en el switch."); :} |
             SWITCH LPAREN LCURLY CASES DEFAULT_STMT RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre del switch."); :} |
             SWITCH error LCURLY CASES DEFAULT_STMT RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la condición del switch."); :} |
-            SWITCH LPAREN EXPRESIONES_NUMERICAS RPAREN LCURLY CASES DEFAULT_STMT CASES LISTA_DEFAULT CASES RCURLY {: syntaxError(((Symbol) stack.peek()), "Múltiples definiciones de default en un switch."); :}
+            SWITCH LPAREN EXPRESIONES_NUMERICAS RPAREN LCURLY CASES DEFAULT_STMT CASES LISTA_DEFAULT CASES RCURLY {: syntaxError(((Symbol) stack.peek()), "Múltiples definiciones de default en un switch."); :} 
 ;
 
 CASES ::= CASES CASE_STMT |;
@@ -323,9 +325,9 @@ READ_WRITE ::=
     READ LPAREN IDENTIFIER RPAREN {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :}  |
     READ LPAREN RPAREN {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
     WRITE LPAREN LISTA_EXPRESIONES RPAREN {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
-    WRITE LPAREN error RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta una expresión entre los paréntesis"); :} 
-    
-
+    WRITE LPAREN error RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta una expresión entre los paréntesis"); :} |
+    READ SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en la llamada read"); :} |
+    WRITE SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en la llamada write"); :} 
 ;
 
 LISTA_EXPRESIONES ::= EXPRESIONES |
