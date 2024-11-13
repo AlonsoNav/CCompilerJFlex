@@ -3,6 +3,7 @@ const long c = (5 < 6) && (6 > 5);
 long int d = 5 * 8;
 int short e = 6;
 int i = 0;
+int j; // Unico que funciona para la tabla de simbolos
 
 void PruebaSinParametro(int a) {
     int a = suma();

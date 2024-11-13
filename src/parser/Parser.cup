@@ -1,8 +1,30 @@
 package parser;
 
 import java_cup.runtime.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Stack;
 
 parser code {:
+    // Tabla de símbolos
+    private HashMap<String, Object> symbolTable = new HashMap<>();
+
+    // Pila semántica
+    private Stack<Object> semanticStack = new Stack<>();
+
+    public HashMap<String, Object> getSymbolTable() {
+        return symbolTable;
+    }
+
+    private void addVariableToSymbolTable(String varName, String varType) {
+        if (symbolTable.containsKey(varName)) {
+            syntaxError(((Symbol) stack.peek()), "La variable '" + varName + "' ya ha sido declarada.");
+        } else {
+            symbolTable.put(varName, varType);
+            System.out.println("Variable '" + varName + "' de tipo '" + varType + "' agregada a la tabla de símbolos.");
+        }
+    }
+
     void syntaxError(Symbol sym, String message) {
         System.err.println("Error de sintaxis en línea " + sym.left + ": " + message);
     }
@@ -100,10 +122,12 @@ CUERPO_FUNCION ::=
 ;           
 
 ERRORES_FUNCION ::= T_DATO IDENTIFIER error CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la función."); :} |
+                    T_DATO IDENTIFIER error SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error no se aceptan variables globales"); :} |
                     VOID IDENTIFIER error CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la función."); :} |
                     T_DATO IDENTIFIER IDENTIFIER CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la función."); :} |
                     VOID IDENTIFIER IDENTIFIER CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la función."); :} |
-                    IDENTIFIER LPAREN PARAMETROS RPAREN CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Falta el tipo de dato en la declaración de la función."); :} 
+                    IDENTIFIER LPAREN PARAMETROS RPAREN CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Falta el tipo de dato en la declaración de la función."); :} |
+                    IDENTIFIER LPAREN RPAREN CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Falta el tipo de dato en la declaración de la función."); :} 
 ;
 
 
@@ -144,7 +168,10 @@ CONTROL_STATEMENT ::=
 ;
 
 DECLARACION ::= 
-    T_DATO ID_LIST SEMICOLON | 
+    T_DATO:id_type ID_LIST:id SEMICOLON {:
+        System.out.println("Declaración de variable de tipo '" + id_type + "' con identificador(es) " + id);
+        addVariableToSymbolTable((String) id, (String) id_type);
+    :} | 
     CONST T_DATO ID_LIST SEMICOLON |
     VOID ID_LIST SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Una variable no puede ser declarada void."); :} |
     T_DATO SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta el identificador de la variable en la declaración."); :} |
@@ -156,7 +183,10 @@ DECLARACION ::=
 ID_LIST ::= ID_LIST COMMA IDENTIFIER |
             ID_LIST COMMA IDENTIFIER ASSIGN EXPRESIONES_LOGICAS |
             IDENTIFIER ASSIGN EXPRESIONES_LOGICAS |
-            IDENTIFIER
+            IDENTIFIER:id {:
+                System.out.println("Identificador: " + id);
+                RESULT = id;
+            :}
             // ID_LIST error IDENTIFIER {: syntaxError(((Symbol) stack.peek()), "Falta coma entre identificadores."); :} |  //hacen que el assing falle
             // ID_LIST error IDENTIFIER ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta coma entre identificadores."); :} |
             // ID_LIST COMMA IDENTIFIER ASSIGN error {: syntaxError(((Symbol) stack.peek()), "No se asignó ningun valor a la variable"); :} |
@@ -258,7 +288,7 @@ SWITCHs ::= SWITCH LPAREN EXPRESIONES_NUMERICAS RPAREN LCURLY CASES DEFAULT_STMT
             SWITCH error RPAREN LCURLY CASES DEFAULT_STMT RCURLY {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en el switch."); :} |
             SWITCH LPAREN LCURLY CASES DEFAULT_STMT RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre del switch."); :} |
             SWITCH error LCURLY CASES DEFAULT_STMT RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la condición del switch."); :} |
-            SWITCH LPAREN EXPRESIONES_NUMERICAS RPAREN LCURLY CASES DEFAULT_STMT CASES LISTA_DEFAULT CASES RCURLY {: syntaxError(((Symbol) stack.peek()), "Múltiples definiciones de default en un switch."); :}
+            SWITCH LPAREN EXPRESIONES_NUMERICAS RPAREN LCURLY CASES DEFAULT_STMT CASES LISTA_DEFAULT CASES RCURLY {: syntaxError(((Symbol) stack.peek()), "Múltiples definiciones de default en un switch."); :} 
 ;
 
 CASES ::= CASES CASE_STMT |;
@@ -295,9 +325,9 @@ READ_WRITE ::=
     READ LPAREN IDENTIFIER RPAREN {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :}  |
     READ LPAREN RPAREN {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
     WRITE LPAREN LISTA_EXPRESIONES RPAREN {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
-    WRITE LPAREN error RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta una expresión entre los paréntesis"); :} 
-    
-
+    WRITE LPAREN error RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta una expresión entre los paréntesis"); :} |
+    READ SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en la llamada read"); :} |
+    WRITE SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en la llamada write"); :} 
 ;
 
 LISTA_EXPRESIONES ::= EXPRESIONES |
@@ -307,7 +337,16 @@ LISTA_EXPRESIONES ::= EXPRESIONES |
                      LISTA_EXPRESIONES error {: syntaxError(((Symbol) stack.peek()), "Falta coma entre expresiones."); :} 
 ;
 
-T_DATO ::= INT | CHAR | LONG | SHORT | INT LONG | INT SHORT | LONG INT | SHORT INT;
+T_DATO ::= 
+    INT {: RESULT = "int"; :} |
+    CHAR {: RESULT = "char"; :} |
+    LONG {: RESULT = "long"; :} |
+    SHORT {: RESULT = "short"; :} |
+    INT LONG {: RESULT = "int long"; :} |
+    INT SHORT {: RESULT = "int short"; :} |
+    LONG INT {: RESULT = "long int"; :} |
+    SHORT INT {: RESULT = "short int"; :}
+;
 OP_RELACIONALES ::= EQ_OP | NE_OP | LT_OP | GT_OP | LE_OP | GE_OP;
 OP_LOGICOS ::= OR_OP | AND_OP | NOT_OP;
 OP_ARITMETICOS ::= PLUS | MINUS | TIMES | DIVIDE | MOD | INC_OP | DEC_OP | PLUS_ASSIGN | MINUS_ASSIGN | TIMES_ASSIGN | DIV_ASSIGN;
@@ -341,8 +380,7 @@ EXPRESION_ARITMETICA ::= EXPRESION_ARITMETICA PLUS EXPRESION_ARITMETICA |
             DIVIDE EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '/'."); :} |
             PLUS EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '+'."); :} |
             MINUS EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '-'."); :} |
-            LPAREN error {: syntaxError(((Symbol) stack.peek()), "Error en paréntesis de expresión."); :} |
-            IDENTIFIER LPAREN ARGUMENTOS {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de cierre en la llamada de función."); :}
+            LPAREN error {: syntaxError(((Symbol) stack.peek()), "Error en paréntesis de expresión."); :}
 ;
 
 
