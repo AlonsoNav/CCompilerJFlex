@@ -9,6 +9,8 @@ import java_cup.runtime.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
+import java.util.ArrayList;
+import semantic.SymbolTable;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -2228,23 +2230,22 @@ public class Parser extends java_cup.runtime.lr_parser {
 
 
     // Tabla de símbolos
-    private HashMap<String, Object> symbolTable = new HashMap<>();
+    //private HashMap<String, Object> symbolTable = new HashMap<>();
+    private SymbolTable symbolTable = new SymbolTable();
 
+    
     // Pila semántica
     private Stack<Object> semanticStack = new Stack<>();
+    
+    // Pila semántica para contextos (if, while, etc.)
+    private Stack<Integer> contextStack = new Stack<>();
+    private int nextLabel = 1;
 
-    public HashMap<String, Object> getSymbolTable() {
+    public SymbolTable getSymbolTable() {
         return symbolTable;
     }
 
-    private void addVariableToSymbolTable(String varName, String varType) {
-        if (symbolTable.containsKey(varName)) {
-            syntaxError(((Symbol) stack.peek()), "La variable '" + varName + "' ya ha sido declarada.");
-        } else {
-            symbolTable.put(varName, varType);
-            System.out.println("Variable '" + varName + "' de tipo '" + varType + "' agregada a la tabla de símbolos.");
-        }
-    }
+    
 
     void syntaxError(Symbol sym, String message) {
         System.err.println("Error de sintaxis en línea " + sym.left + ": " + message);
@@ -2773,8 +2774,9 @@ class CUP$Parser$actions {
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
 		
-        System.out.println("Declaración de variable de tipo '" + id_type + "' con identificador(es) " + id);
-        addVariableToSymbolTable((String) id, (String) id_type);
+        //System.out.println("Declaración de variable de tipo '" + id_type + "' con identificador(es) " + id);
+        //addVariableToSymbolTable((String) id, (String) id_type);
+        symbolTable.addVar((String) id, (String) id_type, "global", ((Symbol) stack.peek()).left);
     
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("DECLARACION",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -2838,7 +2840,16 @@ class CUP$Parser$actions {
           case 58: // ID_LIST ::= ID_LIST COMMA IDENTIFIER 
             {
               Object RESULT =null;
-
+		int id_listleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int id_listright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object id_list = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+                //System.out.println("Identificador: " + id);
+                RESULT = id;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("ID_LIST",17, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -2847,7 +2858,16 @@ class CUP$Parser$actions {
           case 59: // ID_LIST ::= ID_LIST COMMA IDENTIFIER ASSIGN EXPRESIONES_LOGICAS 
             {
               Object RESULT =null;
-
+		int id_listleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).left;
+		int id_listright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).right;
+		Object id_list = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-4)).value;
+		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		
+                //System.out.println("Identificador: " + id);
+                RESULT = id;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("ID_LIST",17, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -2856,7 +2876,13 @@ class CUP$Parser$actions {
           case 60: // ID_LIST ::= IDENTIFIER ASSIGN EXPRESIONES_LOGICAS 
             {
               Object RESULT =null;
-
+		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		
+                //System.out.println("Identificador: " + id);
+                RESULT = id;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("ID_LIST",17, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -2869,7 +2895,7 @@ class CUP$Parser$actions {
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-                System.out.println("Identificador: " + id);
+                //System.out.println("Identificador: " + id);
                 RESULT = id;
             
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("ID_LIST",17, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
