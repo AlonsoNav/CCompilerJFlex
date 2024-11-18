@@ -4,26 +4,27 @@ import java_cup.runtime.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
+import java.util.ArrayList;
+import semantic.SymbolTable;
 
 parser code {:
     // Tabla de símbolos
-    private HashMap<String, Object> symbolTable = new HashMap<>();
+    //private HashMap<String, Object> symbolTable = new HashMap<>();
+    private SymbolTable symbolTable = new SymbolTable();
 
+    
     // Pila semántica
     private Stack<Object> semanticStack = new Stack<>();
+    
+    // Pila semántica para contextos (if, while, etc.)
+    private Stack<Integer> contextStack = new Stack<>();
+    private int nextLabel = 1;
 
-    public HashMap<String, Object> getSymbolTable() {
+    public SymbolTable getSymbolTable() {
         return symbolTable;
     }
 
-    private void addVariableToSymbolTable(String varName, String varType) {
-        if (symbolTable.containsKey(varName)) {
-            syntaxError(((Symbol) stack.peek()), "La variable '" + varName + "' ya ha sido declarada.");
-        } else {
-            symbolTable.put(varName, varType);
-            System.out.println("Variable '" + varName + "' de tipo '" + varType + "' agregada a la tabla de símbolos.");
-        }
-    }
+    
 
     void syntaxError(Symbol sym, String message) {
         System.err.println("Error de sintaxis en línea " + sym.left + ": " + message);
@@ -169,8 +170,9 @@ CONTROL_STATEMENT ::=
 
 DECLARACION ::= 
     T_DATO:id_type ID_LIST:id SEMICOLON {:
-        System.out.println("Declaración de variable de tipo '" + id_type + "' con identificador(es) " + id);
-        addVariableToSymbolTable((String) id, (String) id_type);
+        //System.out.println("Declaración de variable de tipo '" + id_type + "' con identificador(es) " + id);
+        //addVariableToSymbolTable((String) id, (String) id_type);
+        symbolTable.addVar((String) id, (String) id_type, "global", ((Symbol) stack.peek()).left);
     :} | 
     CONST T_DATO ID_LIST SEMICOLON |
     VOID ID_LIST SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Una variable no puede ser declarada void."); :} |
@@ -180,11 +182,23 @@ DECLARACION ::=
     CONST T_DATO SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta el identificador de la variable en la declaración."); :} 
 ;
 
-ID_LIST ::= ID_LIST COMMA IDENTIFIER |
-            ID_LIST COMMA IDENTIFIER ASSIGN EXPRESIONES_LOGICAS |
-            IDENTIFIER ASSIGN EXPRESIONES_LOGICAS |
+ID_LIST ::= ID_LIST:id_list COMMA IDENTIFIER:id {:
+                //System.out.println("Identificador: " + id);
+                RESULT = id;
+            :}
+            |
+            ID_LIST:id_list COMMA IDENTIFIER:id ASSIGN EXPRESIONES_LOGICAS {:
+                //System.out.println("Identificador: " + id);
+                RESULT = id;
+            :}
+            |
+            IDENTIFIER:id ASSIGN EXPRESIONES_LOGICAS {:
+                //System.out.println("Identificador: " + id);
+                RESULT = id;
+            :}
+            |
             IDENTIFIER:id {:
-                System.out.println("Identificador: " + id);
+                //System.out.println("Identificador: " + id);
                 RESULT = id;
             :}
             // ID_LIST error IDENTIFIER {: syntaxError(((Symbol) stack.peek()), "Falta coma entre identificadores."); :} |  //hacen que el assing falle

@@ -6,6 +6,8 @@ import java_cup.runtime.Symbol;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import semantic.Var;
+import semantic.SymbolTable;
 
 public class ParserMain {
     public static void main(String[] args) {
@@ -24,11 +26,15 @@ public class ParserMain {
             Object result = parser.parse().value;
             System.out.println("Parsing process finished successfully!");
 
-            HashMap<String, Object> symbolTable = parser.getSymbolTable();
+            /*HashMap<String, Object> symbolTable = parser.getSymbolTable();
             System.out.println("\nTabla de Símbolos:");
             for (String key : symbolTable.keySet()) {
                 System.out.println("Variable: " + key + " - Tipo: " + symbolTable.get(key));
-            }
+            }*/
+
+            SymbolTable symbolTable = parser.getSymbolTable();
+            symbolTable.printTable();
+            
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
