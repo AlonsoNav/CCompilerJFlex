@@ -14,11 +14,17 @@ public class SymbolTable {
     public void addVar(String name, String type, String context, int line) {
         //System.out.println("Agregando variable '" + name + "' de tipo '" + type + "' en el contexto '" + context + "' en la línea " + line );
         if (symbolTable.containsKey(name)) {
-            System.out.println("Error: Error en la linea "+ line + " la variable '" + name + "' ya existe.");
+            System.out.println("Error semántico en la linea "+ line + ": la variable '" + name + "' ya existe.");
         } else {
             symbolTable.put(name, new Var(name, type, context, line));
         }
     }
+
+    // verifica si una variable ya existe
+    public boolean varExists(String name) {
+        return symbolTable.containsKey(name);
+    }
+
 
     //Imprime todas las variables
     public void printTable() {

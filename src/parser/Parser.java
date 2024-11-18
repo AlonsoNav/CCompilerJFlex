@@ -4238,7 +4238,18 @@ class CUP$Parser$actions {
           case 210: // EXPRESION_ARITMETICA ::= IDENTIFIER 
             {
               Object RESULT =null;
-
+		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+            // Se revisa que la variable exista
+                if (!symbolTable.varExists((String) id)) {
+                    System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+                }
+                else{
+                    RESULT = id;
+                }
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESION_ARITMETICA",25, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4436,7 +4447,18 @@ class CUP$Parser$actions {
           case 232: // EXPRESIONES_NUMERICAS ::= IDENTIFIER 
             {
               Object RESULT =null;
-
+		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+            // Se revisa que la variable exista
+                if (!symbolTable.varExists((String) id)) {
+                    System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+                }
+                else{
+                    RESULT = id;
+                }
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESIONES_NUMERICAS",36, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
