@@ -379,7 +379,16 @@ EXPRESION_ARITMETICA ::= EXPRESION_ARITMETICA PLUS EXPRESION_ARITMETICA |
             EXPRESION_ARITMETICA DIVIDE EXPRESION_ARITMETICA |
             EXPRESION_ARITMETICA MOD EXPRESION_ARITMETICA |
             LPAREN EXPRESIONES_LOGICAS RPAREN |
-            IDENTIFIER |
+            IDENTIFIER:id {:
+            // Se revisa que la variable exista
+                if (!symbolTable.varExists((String) id)) {
+                    System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+                }
+                else{
+                    RESULT = id;
+                }
+            :}
+            |
             IDENTIFIER LPAREN ARGUMENTOS RPAREN |
             IDENTIFIER LPAREN RPAREN |
             LITERALES |
@@ -404,7 +413,15 @@ EXPRESIONES_NUMERICAS ::= EXPRESIONES_NUMERICAS PLUS EXPRESIONES_NUMERICAS |
             EXPRESIONES_NUMERICAS DIVIDE EXPRESIONES_NUMERICAS |
             EXPRESIONES_NUMERICAS MOD EXPRESIONES_NUMERICAS |
             LPAREN EXPRESIONES_NUMERICAS RPAREN |
-            IDENTIFIER |
+            IDENTIFIER:id {:
+            // Se revisa que la variable exista
+                if (!symbolTable.varExists((String) id)) {
+                    System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+                }
+                else{
+                    RESULT = id;
+                }
+            :}|
             IDENTIFIER LPAREN ARGUMENTOS RPAREN |
             IDENTIFIER LPAREN RPAREN |
             LITERALES |
