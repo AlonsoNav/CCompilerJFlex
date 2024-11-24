@@ -2,7 +2,9 @@ void testAsignacionAritmetica() {
     int a = 5;
     int b = 10;
 
-    int h;
+    int h, f, j;
+
+    char x;
 
 
     // Error: Falta operando después del operador '+'
