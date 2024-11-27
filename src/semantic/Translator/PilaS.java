@@ -29,7 +29,7 @@ public class PilaS {
         return pilaS.size();
     }
     
-    public Boolean searchContext(String context) {
+    public RS searchContext(String context) {
 
         ListIterator<RS> iterator = pilaS.listIterator(pilaS.size());
         while (iterator.hasPrevious()) {

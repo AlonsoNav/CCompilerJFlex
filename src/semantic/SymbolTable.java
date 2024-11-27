@@ -13,7 +13,6 @@ public class SymbolTable {
 
     // Agrega una variable cuando esta se inicializa
     public void addVar(String name, String type, String context, int line, String categoria, String funcion) {
-        //System.out.println("Agregando variable '" + name + "' de tipo '" + type + "' en el contexto '" + context + "' en la línea " + line );
         List<Var> variables = new ArrayList<>();
         if( funcion != null){
             context = "local";
@@ -23,7 +22,7 @@ public class SymbolTable {
                 if(variables.size() == 1){
                     String contextoV = getVarContext(name);
                     if(contextoV.equals("global")){
-                        symbolTable.add(0, new Var(name, type, context, line,categoria,  funcion));
+                        symbolTable.add(0, new Var(name, type, context, line, categoria, funcion));
                     }
                     else{
                         System.out.println("Error semántico en la linea "+ line + ": la variable local '" + name + "' ya existe.");
@@ -32,20 +31,14 @@ public class SymbolTable {
                 else{
                     for (Var var : variables) {
                         
-                        //if(contextoV.equals("global")){
+                        
                             if (var.getFuncion().equals(funcion)) {
                                 System.out.println("Error semántico en la linea "+ line + ": la variable local '" + name + "' ya existe.");
                                 break;
                             }
-                            /*else{
-                                symbolTable.add(0, new Var(name, type, context, line, funcion));
-                            }*/
-                        /* }
-                        else{
-                            System.out.println("Error semántico en la linea "+ line + ": la variable local'" + name + "' ya existe.");
-                        }*/
+                            
                     }
-                    symbolTable.add(0, new Var(name, type, context, line,categoria,  funcion));
+                    symbolTable.add(0, new Var(name, type, context, line, categoria, funcion));
                 }
                 
             } else {
@@ -106,7 +99,7 @@ public class SymbolTable {
 
         System.out.println("Tabla de símbolos:");
         for (Var var : symbolTable) {
-            System.out.println("Identificador: " + var.getName() + ", Tipo: " + var.getType() + ", Categoria:" + var.getCategoria() + ", Contexto: " + var.getContext() + ", Línea: " + var.getLine());
+            System.out.println("Identificador: " + var.getName() + ", Tipo: " + var.getType() + ", Categoria: "+ var.getCategoria()+ ", Contexto: " + var.getContext() + ", Línea: " + var.getLine() + ", Función: " + var.getFuncion());
         }
     }
 }
