@@ -195,7 +195,6 @@ DECLARACION ::=
             try {
                 for (String id : (List<String>) id_list) {
                     symbolTable.addVar(id, (String) id_type, context, ((Symbol) stack.peek()).left, currentFunction);
-                    pilaSemantica.push(id); // Agrega la variable a la pila
                 }
             } catch (ClassCastException e) {
                 // Manejar el error de casting
@@ -203,7 +202,6 @@ DECLARACION ::=
             }
         } else if (id_list instanceof String) {
             symbolTable.addVar((String) id_list, (String) id_type, context, ((Symbol) stack.peek()).left, currentFunction);
-            pilaSemantica.push((String) id_list); // Agrega la variable a la pila
         } else {
             // Manejar el caso donde id_list no es ni una lista ni una cadena
             System.err.println("Error: id_list no es una instancia de List ni de String.");
