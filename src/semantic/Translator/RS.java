@@ -1,23 +1,20 @@
 package semantic.Translator;
 
-public class RS {
-    
-    private String value;
-    private String code;
-    private String type;
+import java.util.ArrayList;
 
-    public RS(String value, String code, String type) {
+public class RS {
+    private String value;
+    private String type;
+    private ArrayList<String> labels;
+
+    public RS(String value, String type) {
         this.value = value;
-        this.code = code;
         this.type = type;
+        this.labels = new ArrayList<String>();
     }
 
     public String getValue() {
         return value;
-    }
-
-    public String getCode() {
-        return code;
     }
 
     public String getType() {
@@ -26,5 +23,13 @@ public class RS {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public void addLabel(String label) {
+        labels.add(label);
+    }
+
+    public String getLabel(int index) {
+        return labels.get(index);
     }
 }

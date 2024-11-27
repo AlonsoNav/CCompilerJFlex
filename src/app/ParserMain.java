@@ -34,7 +34,10 @@ public class ParserMain {
 
             SymbolTable symbolTable = parser.getSymbolTable();
             symbolTable.printTable();
-            
+
+            String code = parser.code;
+            System.out.println("\nCódigo generado:");
+            System.out.println(code);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
