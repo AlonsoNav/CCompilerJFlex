@@ -8,6 +8,7 @@ public class Var {
     private String type;
     private String context;
     private int line;
+    private String funcion;
 
 
     // Constructor de la clase
@@ -20,14 +21,37 @@ public class Var {
     }*/
 
     
-    public Var(String name, String type, String context, int line) {
+    public Var(String name, String type, String context, int line, String funcion) {
         this.name = name;
         this.type = type;
         this.context = context;
         this.line = line;
+        this.funcion = funcion;
+
         
     }
 
+    public String getContext(){
+        return context;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getFuncion(){
+        return funcion;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public int getLine() {
+        return line;
+    }
+
+    
 
     @Override
     public String toString() {
