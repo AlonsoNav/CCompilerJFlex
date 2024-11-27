@@ -2506,7 +2506,6 @@ class CUP$Parser$actions {
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-        symbolTable.addVar((String) id, (String) type, "parameter", ((Symbol) stack.peek()).left, currentFunction);
         List<String> params = new ArrayList<>();
         params.add((String) id);
         RESULT = params;
@@ -2529,7 +2528,6 @@ class CUP$Parser$actions {
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-        symbolTable.addVar((String) id, (String) type, "parameter", ((Symbol) stack.peek()).left, currentFunction);
         ((List<String>) params).add((String) id);
         RESULT = params;
     
@@ -2790,10 +2788,12 @@ class CUP$Parser$actions {
             for (String id : (List<String>) id_list) {
                     RS nuevoSimbolo = new RS((String) id, (String) id_type);
                     pilaSemanticaVar.push(nuevoSimbolo);
+
                     RS simbolo = pilaSemanticaVar.pop();
                     symbolTable.addVar(simbolo.getValue(), simbolo.getType(), context, ((Symbol) stack.peek()).left, categoria, currentFunction);
                 }
                 
+
         } else {
             // Manejar el caso donde id_list no es ni una lista ni una cadena
             System.err.println("Error: id_list no es una instancia de List ni de String.");
@@ -2823,9 +2823,9 @@ class CUP$Parser$actions {
                     RS nuevoSimbolo = new RS((String) id, (String) id_type);
                     pilaSemanticaVar.push(nuevoSimbolo);
                     
-
+                  
                     //symbolTable.addVar(id, (String) id_type, context, ((Symbol) stack.peek()).left, currentFunction);
-                
+               
                     RS simbolo = pilaSemanticaVar.pop();
                     symbolTable.addVar(simbolo.getValue(), simbolo.getType(), context, ((Symbol) stack.peek()).left, categoria, currentFunction);
                 }
@@ -3178,7 +3178,6 @@ class CUP$Parser$actions {
 		int e2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Object e2 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-        System.out.println("Expresión relacional: " + e1 + " " + op + " " + e2);
         if (e1 != null && e2 != null) {
             String memoryAddress = ""; // Must be replaced with the generator of the memory address
             String e1Code = "";
