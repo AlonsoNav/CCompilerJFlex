@@ -293,23 +293,22 @@ EXPRESIONES_RELACIONAL ::=
     EXPRESIONES_RELACIONAL:e1 OP_RELACIONALES:op EXPRESION_ARITMETICA:e2 {:
         System.out.println("Expresión relacional: " + e1 + " " + op + " " + e2);
         if (e1 != null && e2 != null) {
-            String newCode = "";
             String memoryAddress = ""; // Must be replaced with the generator of the memory address
-            if (op.equals("==")) {
-                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
-            } else if (op.equals("!=")) {
-                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
-            } else if (op.equals("<")) {
-                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
-            } else if (op.equals(">")) {
-                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
-            } else if (op.equals("<=")) {
-                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
-            } else if (op.equals(">=")) {
-                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
+            String e1Code = "";
+            if (((RS) e1).getType == "const") {
+                e1Code = "MOV EAX, " + ((RS) e1).getValue() + "\n";
+            } else {
+                e1Code = "MOV EAX, [" + ((RS) e1).getValue() + "]\n";
             }
-            code += newCode;
-            RESULT = new RS(String.valueOf(op), "op");
+            String e2Code = "";
+            if (((RS) e2).getType == "const") {
+                e2Code = "MOV EBX, " + ((RS) e2).getValue() + "\n";
+            } else {
+                e2Code = "MOV EBX, [" + ((RS) e2).getValue() + "]\n";
+            }
+            code += "MOV EAX, " + e1Code + "\nCMP EAX, " + e2Code + "\n";
+            RS res = new RS(String.valueOf(op), "op");
+            RESULT = res;
         }
     :}
     |
@@ -340,7 +339,23 @@ INICIO_WHILE ::= LPAREN {:
     pilaSemantica.push(rs);
 :}| error {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en el while."); :} ;
 
-FIN_CONDICION_WHILE ::= RPAREN|
+FIN_CONDICION_WHILE ::= RPAREN {:
+        RS rsD0 = pilaSemantica.pop();
+        String op = rsD0.getValue();
+        if (op.equals("==")) {
+                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
+            } else if (op.equals("!=")) {
+                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
+            } else if (op.equals("<")) {
+                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
+            } else if (op.equals(">")) {
+                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
+            } else if (op.equals("<=")) {
+                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
+            } else if (op.equals(">=")) {
+                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
+            }
+    :}|
     error {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de cierre en el while."); :} ;
 
 CUERPO_WHILE ::= INICIO_SENTENCIA_WHILE SENTENCIAS CIERRE_SENTENCIA_WHILE;

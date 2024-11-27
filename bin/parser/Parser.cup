@@ -271,12 +271,47 @@ EXPRESIONES ::=
 ;
 
 EXPRESIONES_LOGICAS ::=
-    EXPRESIONES_LOGICAS OP_LOGICOS EXPRESIONES_RELACIONAL |
+    EXPRESIONES_LOGICAS:e1 OP_LOGICOS:op EXPRESIONES_RELACIONAL:e2 {:
+        // if (e1 != null && e2 != null) {
+        //     String code = "";
+        //     String memoryAddress = ""; // Must be replaced with the generator of the memory address
+        //     if (op.equals("||")) {
+        //         code += "MOV EAX, " + ((RS) e1).getValue() + "\nOR EAX, " + ((RS) e2).getValue() + "\nMOV [" + memoryAddress + "], EAX\n";
+        //     } else if (op.equals("&&")) {
+        //         code += "MOV EAX, " + ((RS) e1).getValue() + "\nAND EAX, " + ((RS) e2).getValue() + "\nMOV [" + memoryAddress + "], EAX\n";
+        //     } else if (op.equals("!")) {
+        //         code += "MOV EAX, " + ((RS) e2).getValue() + "\nNOT EAX\nMOV [" + memoryAddress + "], EAX\n";
+        //     }
+        //     RESULT = new RS(memoryAddress, code, "memory");
+        // }
+    :} 
+    |
     EXPRESIONES_RELACIONAL:e {: RESULT = e; :}
 ;
 
 EXPRESIONES_RELACIONAL ::= 
-    EXPRESIONES_RELACIONAL OP_RELACIONALES EXPRESION_ARITMETICA |
+    EXPRESIONES_RELACIONAL:e1 OP_RELACIONALES:op EXPRESION_ARITMETICA:e2 {:
+        System.out.println("Expresión relacional: " + e1 + " " + op + " " + e2);
+        if (e1 != null && e2 != null) {
+            String memoryAddress = ""; // Must be replaced with the generator of the memory address
+            String e1Code = "";
+            if (((RS) e1).getType == "const") {
+                e1Code = "MOV EAX, " + ((RS) e1).getValue() + "\n";
+            } else {
+                e1Code = "MOV EAX, [" + ((RS) e1).getValue() + "]\n";
+            }
+            String e2Code = "";
+            if (((RS) e2).getType == "const") {
+                e2Code = "MOV EBX, " + ((RS) e2).getValue() + "\n";
+            } else {
+                e2Code = "MOV EBX, [" + ((RS) e2).getValue() + "]\n";
+            }
+            code += "MOV EAX, " + e1Code + "\nCMP EAX, " + e2Code + "\n";
+            RS res = new RS(String.valueOf(op), "op");
+            RESULT = res;
+        }
+    :}
+    |
     EXPRESION_ARITMETICA:e {: RESULT = e; :}
 ;
 
@@ -304,7 +339,23 @@ INICIO_WHILE ::= LPAREN {:
     pilaSemantica.push(rs);
 :}| error {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en el while."); :} ;
 
-FIN_CONDICION_WHILE ::= RPAREN|
+FIN_CONDICION_WHILE ::= RPAREN {:
+        RS rsD0 = pilaSemantica.pop();
+        String op = rsD0.getValue();
+        if (op.equals("==")) {
+                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
+            } else if (op.equals("!=")) {
+                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
+            } else if (op.equals("<")) {
+                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
+            } else if (op.equals(">")) {
+                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
+            } else if (op.equals("<=")) {
+                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
+            } else if (op.equals(">=")) {
+                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
+            }
+    :}|
     error {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de cierre en el while."); :} ;
 
 CUERPO_WHILE ::= INICIO_SENTENCIA_WHILE SENTENCIAS CIERRE_SENTENCIA_WHILE;
@@ -414,8 +465,35 @@ T_DATO ::=
     LONG INT {: RESULT = "long int"; :} |
     SHORT INT {: RESULT = "short int"; :}
 ;
-OP_RELACIONALES ::= EQ_OP | NE_OP | LT_OP | GT_OP | LE_OP | GE_OP;
-OP_LOGICOS ::= OR_OP | AND_OP | NOT_OP;
+OP_RELACIONALES ::= 
+    EQ_OP:e {:
+        RESULT = e ;
+    :}|
+    NE_OP:e {:
+        RESULT = e;
+    :}|
+    LT_OP:e {:
+        RESULT = e;
+    :}|
+    GT_OP:e {:
+        RESULT = e;
+    :}| 
+    LE_OP:e {:
+        RESULT = e;
+    :}| 
+    GE_OP:e {:
+        RESULT = e;
+    :};
+OP_LOGICOS ::= 
+    OR_OP:e {:
+        RESULT = e;
+    :} | 
+    AND_OP:e {:
+        RESULT = e;
+    :} | 
+    NOT_OP:e {:
+        RESULT = e; 
+    :};
 OP_ARITMETICOS ::= PLUS | MINUS | TIMES | DIVIDE | MOD | INC_OP | DEC_OP | PLUS_ASSIGN | MINUS_ASSIGN | TIMES_ASSIGN | DIV_ASSIGN;
 LITERALES ::= 
     NUMBER:e {: 
