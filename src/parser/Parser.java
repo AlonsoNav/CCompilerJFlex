@@ -3001,7 +3001,29 @@ class CUP$Parser$actions {
           case 79: // EXPRESIONES_LOGICAS ::= EXPRESIONES_LOGICAS OP_LOGICOS EXPRESIONES_RELACIONAL 
             {
               Object RESULT =null;
-
+		int e1left = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int e1right = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object e1 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int opleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+		int opright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+		Object op = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		int e2left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int e2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e2 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        // if (e1 != null && e2 != null) {
+        //     String code = "";
+        //     String memoryAddress = ""; // Must be replaced with the generator of the memory address
+        //     if (op.equals("||")) {
+        //         code += "MOV EAX, " + ((RS) e1).getValue() + "\nOR EAX, " + ((RS) e2).getValue() + "\nMOV [" + memoryAddress + "], EAX\n";
+        //     } else if (op.equals("&&")) {
+        //         code += "MOV EAX, " + ((RS) e1).getValue() + "\nAND EAX, " + ((RS) e2).getValue() + "\nMOV [" + memoryAddress + "], EAX\n";
+        //     } else if (op.equals("!")) {
+        //         code += "MOV EAX, " + ((RS) e2).getValue() + "\nNOT EAX\nMOV [" + memoryAddress + "], EAX\n";
+        //     }
+        //     RESULT = new RS(memoryAddress, code, "memory");
+        // }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESIONES_LOGICAS",28, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3022,7 +3044,37 @@ class CUP$Parser$actions {
           case 81: // EXPRESIONES_RELACIONAL ::= EXPRESIONES_RELACIONAL OP_RELACIONALES EXPRESION_ARITMETICA 
             {
               Object RESULT =null;
-
+		int e1left = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int e1right = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object e1 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int opleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+		int opright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+		Object op = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		int e2left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int e2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e2 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        System.out.println("Expresión relacional: " + e1 + " " + op + " " + e2);
+        if (e1 != null && e2 != null) {
+            String newCode = "";
+            String memoryAddress = ""; // Must be replaced with the generator of the memory address
+            if (op.equals("==")) {
+                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
+            } else if (op.equals("!=")) {
+                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
+            } else if (op.equals("<")) {
+                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
+            } else if (op.equals(">")) {
+                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
+            } else if (op.equals("<=")) {
+                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
+            } else if (op.equals(">=")) {
+                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
+            }
+            code += newCode;
+            RESULT = new RS(String.valueOf(op), "op");
+        }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESIONES_RELACIONAL",26, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3847,7 +3899,12 @@ class CUP$Parser$actions {
           case 171: // OP_RELACIONALES ::= EQ_OP 
             {
               Object RESULT =null;
-
+		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        RESULT = e ;
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("OP_RELACIONALES",11, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3856,7 +3913,12 @@ class CUP$Parser$actions {
           case 172: // OP_RELACIONALES ::= NE_OP 
             {
               Object RESULT =null;
-
+		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        RESULT = e;
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("OP_RELACIONALES",11, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3865,7 +3927,12 @@ class CUP$Parser$actions {
           case 173: // OP_RELACIONALES ::= LT_OP 
             {
               Object RESULT =null;
-
+		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        RESULT = e;
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("OP_RELACIONALES",11, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3874,7 +3941,12 @@ class CUP$Parser$actions {
           case 174: // OP_RELACIONALES ::= GT_OP 
             {
               Object RESULT =null;
-
+		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        RESULT = e;
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("OP_RELACIONALES",11, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3883,7 +3955,12 @@ class CUP$Parser$actions {
           case 175: // OP_RELACIONALES ::= LE_OP 
             {
               Object RESULT =null;
-
+		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        RESULT = e;
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("OP_RELACIONALES",11, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3892,7 +3969,12 @@ class CUP$Parser$actions {
           case 176: // OP_RELACIONALES ::= GE_OP 
             {
               Object RESULT =null;
-
+		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        RESULT = e;
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("OP_RELACIONALES",11, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3901,7 +3983,12 @@ class CUP$Parser$actions {
           case 177: // OP_LOGICOS ::= OR_OP 
             {
               Object RESULT =null;
-
+		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        RESULT = e;
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("OP_LOGICOS",12, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3910,7 +3997,12 @@ class CUP$Parser$actions {
           case 178: // OP_LOGICOS ::= AND_OP 
             {
               Object RESULT =null;
-
+		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        RESULT = e;
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("OP_LOGICOS",12, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3919,7 +4011,12 @@ class CUP$Parser$actions {
           case 179: // OP_LOGICOS ::= NOT_OP 
             {
               Object RESULT =null;
-
+		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        RESULT = e; 
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("OP_LOGICOS",12, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
