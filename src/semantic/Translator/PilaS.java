@@ -23,6 +23,10 @@ public class PilaS {
         return pilaS.peek();
     }
 
+    public int size() {
+        return pilaS.size();
+    }
+
     public Boolean searchContext(String context) {
         ListIterator<RS> iterator = pilaS.listIterator(pilaS.size());
         while (iterator.hasPrevious()) {
