@@ -80,7 +80,8 @@ non terminal INICIO, SENTENCIA, DECLARACION, EXPRESION_FOR, ESTRUCTURA_IF, ESTRU
     CONTROL_STATEMENT, GLOBAL_DECLARACIONES, FUNCIONES, EXPRESION_ASIGNACION, INCREMENTO_DECREMENTO, 
     EXPRESION_ARITMETICA, EXPRESIONES_RELACIONAL, SENTENCIAS, EXPRESIONES_LOGICAS, ARGUMENTOS,
     DO_WHILE, SWITCHs, CASES, DEFAULT_STMT, CASE_STMT, DECLARACION_LIST, EXPRESIONES_NUMERICAS,
-    LISTA_EXPRESIONES, ERRORES_IF, LISTA_DEFAULT, CUERPO_FUNCION, ERRORES_FUNCION, INICIO_WHILE, FIN_CONDICION_WHILE, CUERPO_WHILE;
+    LISTA_EXPRESIONES, ERRORES_IF, LISTA_DEFAULT, CUERPO_FUNCION, ERRORES_FUNCION, INICIO_WHILE, 
+    FIN_CONDICION_WHILE, CUERPO_WHILE, INICIO_SENTENCIA_WHILE, CIERRE_SENTENCIA_WHILE;
 
 
 precedence left OR_OP;
@@ -291,14 +292,7 @@ ESTRUCTURA_ELSE ::=
 ESTRUCTURA_WHILE ::= 
     WHILE INICIO_WHILE EXPRESIONES:e FIN_CONDICION_WHILE CUERPO_WHILE {:
         
-    :}/*|
-    WHILE LPAREN {::}EXPRESIONES:e RPAREN LCURLY SENTENCIAS:s RCURLY
-    WHILE LPAREN error RPAREN LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en la condición del while."); :} |
-    WHILE error RPAREN LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en el while."); :} |
-    WHILE LPAREN EXPRESIONES LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre del while."); :} |
-    WHILE LPAREN LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre del while."); :} |
-    WHILE error LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la condición del while."); :} |
-    WHILE LPAREN EXPRESIONES RPAREN error SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en la llave de apertura del while."); :}*/
+    :}
 ;
 
 INICIO_WHILE ::= LPAREN {:
@@ -308,11 +302,16 @@ INICIO_WHILE ::= LPAREN {:
     rs.addLabel(label);
     rs.addLabel(labelGenerator.generateLabel());
     pilaSemantica.push(rs);
-:};
+:}| error {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en el while."); :} ;
 
-FIN_CONDICION_WHILE ::= RPAREN;
+FIN_CONDICION_WHILE ::= RPAREN|
+    error {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de cierre en el while."); :} ;
 
-CUERPO_WHILE ::= LCURLY SENTENCIAS RCURLY;
+CUERPO_WHILE ::= INICIO_SENTENCIA_WHILE SENTENCIAS CIERRE_SENTENCIA_WHILE;
+
+INICIO_SENTENCIA_WHILE ::= LCURLY | {: syntaxError(((Symbol) stack.peek()), "Falta llave de apertura en el while."); :} ;
+
+CIERRE_SENTENCIA_WHILE ::= RCURLY;
 
 DO_WHILE ::= DO LCURLY SENTENCIAS RCURLY WHILE LPAREN EXPRESIONES RPAREN SEMICOLON |
     DO LCURLY SENTENCIAS RCURLY WHILE LPAREN error RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error en la condición del do-while."); :} |
