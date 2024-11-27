@@ -157,8 +157,17 @@ ERRORES_FUNCION ::= T_DATO IDENTIFIER error CUERPO_FUNCION {: syntaxError(((Symb
 
 
 PARAMETROS ::= 
-    T_DATO IDENTIFIER |
-    PARAMETROS COMMA T_DATO IDENTIFIER |
+    T_DATO:type IDENTIFIER:id {:
+        symbolTable.addVar((String) id, (String) type, "parameter", ((Symbol) stack.peek()).left, currentFunction);
+        List<String> params = new ArrayList<>();
+        params.add((String) id);
+        RESULT = params;
+    :} |
+    PARAMETROS:params COMMA T_DATO:type IDENTIFIER:id {:
+        symbolTable.addVar((String) id, (String) type, "parameter", ((Symbol) stack.peek()).left, currentFunction);
+        ((List<String>) params).add((String) id);
+        RESULT = params;
+    :} |
     error IDENTIFIER {: syntaxError(((Symbol) stack.peek()), "Falta el tipo de dato en el parámetro."); :} |
     T_DATO {: syntaxError(((Symbol) stack.peek()), "El parámetro debe tener un identificador."); :} | 
     PARAMETROS COMMA T_DATO {: syntaxError(((Symbol) stack.peek()), "El parámetro debe tener un identificador."); :} |
