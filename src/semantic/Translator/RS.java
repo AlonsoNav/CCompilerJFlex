@@ -4,23 +4,17 @@ import java.util.ArrayList;
 
 public class RS {
     private String value;
-    private String code;
     private String type;
     private ArrayList<String> labels;
 
-    public RS(String value, String code, String type) {
+    public RS(String value, String type) {
         this.value = value;
-        this.code = code;
         this.type = type;
         this.labels = new ArrayList<String>();
     }
 
     public String getValue() {
         return value;
-    }
-
-    public String getCode() {
-        return code;
     }
 
     public String getType() {
