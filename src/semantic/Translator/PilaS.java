@@ -6,7 +6,7 @@ import java.util.List;
 public class PilaS {
     
     //lista de registros
-    private List<RegistrosS> pilaS;
+    private List<RS> pilaS;
 
     public PilaS() {
         this.pilaS = new ArrayList<>();
@@ -19,14 +19,14 @@ public class PilaS {
 
     // va a guardar en la posicion 0 de la pila
     public void push(String value) {
-        pilaS.add(new RegistrosS(value));
+        pilaS.add(new RS(value, "", ""));
     }
 
 
 
     public void push_end(String value)
     {
-        pilaS.add(pilaS.size(), new RegistrosS(value));
+        pilaS.add(pilaS.size(), new RS(value, "", ""));
     }
 
     /*public void pop() {
@@ -34,7 +34,7 @@ public class PilaS {
     }*/
 
     // Elimina y devuelve el elemento del tope de la pila
-    public RegistrosS pop() {
+    public RS pop() {
         if (pilaS.isEmpty()) {
             throw new IllegalStateException("La pila está vacía");
         }
@@ -51,7 +51,7 @@ public class PilaS {
     }
 
     // Devuelve el elemento del tope de la pila sin eliminarlo
-    public RegistrosS peek() {
+    public RS peek() {
         if (pilaS.isEmpty()) {
             throw new IllegalStateException("La pila está vacía");
         }

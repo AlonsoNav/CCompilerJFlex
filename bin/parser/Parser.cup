@@ -2,14 +2,32 @@ package parser;
 
 import java_cup.runtime.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Stack;
+import java.util.ArrayList;
+import semantic.SymbolTable;
+import semantic.Translator.PilaS;
+import semantic.Translator.RS;
 
 parser code {:
     // Tabla de símbolos
-    private HashMap<String, Object> symbolTable = new HashMap<>();
+    //private HashMap<String, Object> symbolTable = new HashMap<>();
+    private SymbolTable symbolTable = new SymbolTable();
+
+    // Para saber si la variable es global o no
+    private boolean isGlobal = true;
+    private String currentFunction = null; 
 
     // Pila semántica
-    private Stack<Object> semanticStack = new Stack<>();
+    private PilaS pilaSemantica = new PilaS();
+    
+    // Pila semántica para contextos (if, while, etc.)
+    private Stack<Integer> contextStack = new Stack<>();
+    private int nextLabel = 1;
+
+    public SymbolTable getSymbolTable() {
+        return symbolTable;
+    }
 
     void syntaxError(Symbol sym, String message) {
         System.err.println("Error de sintaxis en línea " + sym.left + ": " + message);
@@ -92,10 +110,26 @@ FUNCIONES ::= FUNCION |
 ;
 
 FUNCION ::= 
-    T_DATO IDENTIFIER LPAREN PARAMETROS RPAREN CUERPO_FUNCION |
-    T_DATO IDENTIFIER LPAREN RPAREN CUERPO_FUNCION |
-    VOID IDENTIFIER LPAREN RPAREN CUERPO_FUNCION |
-    VOID IDENTIFIER LPAREN PARAMETROS RPAREN CUERPO_FUNCION |
+    T_DATO IDENTIFIER:id LPAREN PARAMETROS RPAREN CUERPO_FUNCION {:
+        isGlobal = false;
+        currentFunction = (String) id;
+    :}
+    |
+    T_DATO IDENTIFIER:id LPAREN RPAREN CUERPO_FUNCION {: 
+        isGlobal = false;
+        currentFunction = (String) id;
+    :}
+    |
+    VOID IDENTIFIER:id LPAREN RPAREN CUERPO_FUNCION {: 
+        isGlobal = false;
+        currentFunction = (String) id;
+    :}
+    |
+    VOID IDENTIFIER:id LPAREN PARAMETROS RPAREN CUERPO_FUNCION {: 
+        isGlobal = false;
+        currentFunction = (String) id;
+    :}
+    |
     ERRORES_FUNCION  
 ;
 
@@ -108,10 +142,12 @@ CUERPO_FUNCION ::=
 ;           
 
 ERRORES_FUNCION ::= T_DATO IDENTIFIER error CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la función."); :} |
+                    T_DATO IDENTIFIER error SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Error no se aceptan variables globales"); :} |
                     VOID IDENTIFIER error CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la función."); :} |
                     T_DATO IDENTIFIER IDENTIFIER CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la función."); :} |
                     VOID IDENTIFIER IDENTIFIER CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la función."); :} |
-                    IDENTIFIER LPAREN PARAMETROS RPAREN CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Falta el tipo de dato en la declaración de la función."); :} 
+                    IDENTIFIER LPAREN PARAMETROS RPAREN CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Falta el tipo de dato en la declaración de la función."); :} |
+                    IDENTIFIER LPAREN RPAREN CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Falta el tipo de dato en la declaración de la función."); :} 
 ;
 
 
@@ -152,7 +188,26 @@ CONTROL_STATEMENT ::=
 ;
 
 DECLARACION ::= 
-    T_DATO ID_LIST SEMICOLON | 
+    T_DATO:id_type ID_LIST:id_list SEMICOLON {:
+        String context = isGlobal ? "global" : "local";
+        if (id_list instanceof List<?>) {
+            try {
+                for (String id : (List<String>) id_list) {
+                    symbolTable.addVar(id, (String) id_type, context, ((Symbol) stack.peek()).left, currentFunction);
+                    pilaSemantica.push(id); // Agrega la variable a la pila
+                }
+            } catch (ClassCastException e) {
+                // Manejar el error de casting
+                System.err.println("Error: id_list no es una lista de cadenas.");
+            }
+        } else if (id_list instanceof String) {
+            symbolTable.addVar((String) id_list, (String) id_type, context, ((Symbol) stack.peek()).left, currentFunction);
+            pilaSemantica.push((String) id_list); // Agrega la variable a la pila
+        } else {
+            // Manejar el caso donde id_list no es ni una lista ni una cadena
+            System.err.println("Error: id_list no es una instancia de List ni de String.");
+        }
+    :} | 
     CONST T_DATO ID_LIST SEMICOLON |
     VOID ID_LIST SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Una variable no puede ser declarada void."); :} |
     T_DATO SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta el identificador de la variable en la declaración."); :} |
@@ -161,10 +216,27 @@ DECLARACION ::=
     CONST T_DATO SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta el identificador de la variable en la declaración."); :} 
 ;
 
-ID_LIST ::= ID_LIST COMMA IDENTIFIER |
-            ID_LIST COMMA IDENTIFIER ASSIGN EXPRESIONES_LOGICAS |
-            IDENTIFIER ASSIGN EXPRESIONES_LOGICAS |
-            IDENTIFIER
+ID_LIST ::= IDENTIFIER:id {:
+                List<String> ids = new ArrayList<>();
+                ids.add((String) id);
+                RESULT = ids;
+            :}
+            |
+            ID_LIST:id_list COMMA IDENTIFIER:id {:
+                ((List<String>) id_list).add((String) id);
+                RESULT = id_list;
+            :}
+            |
+            ID_LIST:id_list COMMA IDENTIFIER:id ASSIGN EXPRESIONES_LOGICAS {:
+                ((List<String>) id_list).add((String) id);
+                RESULT = id_list;
+            :}
+            |
+            IDENTIFIER:id ASSIGN EXPRESIONES_LOGICAS {:
+                //System.out.println("Identificador: " + id);
+                RESULT = id;
+            :}
+            
             // ID_LIST error IDENTIFIER {: syntaxError(((Symbol) stack.peek()), "Falta coma entre identificadores."); :} |  //hacen que el assing falle
             // ID_LIST error IDENTIFIER ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta coma entre identificadores."); :} |
             // ID_LIST COMMA IDENTIFIER ASSIGN error {: syntaxError(((Symbol) stack.peek()), "No se asignó ningun valor a la variable"); :} |
@@ -266,7 +338,7 @@ SWITCHs ::= SWITCH LPAREN EXPRESIONES_NUMERICAS RPAREN LCURLY CASES DEFAULT_STMT
             SWITCH error RPAREN LCURLY CASES DEFAULT_STMT RCURLY {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en el switch."); :} |
             SWITCH LPAREN LCURLY CASES DEFAULT_STMT RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre del switch."); :} |
             SWITCH error LCURLY CASES DEFAULT_STMT RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la condición del switch."); :} |
-            SWITCH LPAREN EXPRESIONES_NUMERICAS RPAREN LCURLY CASES DEFAULT_STMT CASES LISTA_DEFAULT CASES RCURLY {: syntaxError(((Symbol) stack.peek()), "Múltiples definiciones de default en un switch."); :}
+            SWITCH LPAREN EXPRESIONES_NUMERICAS RPAREN LCURLY CASES DEFAULT_STMT CASES LISTA_DEFAULT CASES RCURLY {: syntaxError(((Symbol) stack.peek()), "Múltiples definiciones de default en un switch."); :} 
 ;
 
 CASES ::= CASES CASE_STMT |;
@@ -303,9 +375,9 @@ READ_WRITE ::=
     READ LPAREN IDENTIFIER RPAREN {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :}  |
     READ LPAREN RPAREN {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
     WRITE LPAREN LISTA_EXPRESIONES RPAREN {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |
-    WRITE LPAREN error RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta una expresión entre los paréntesis"); :} 
-    
-
+    WRITE LPAREN error RPAREN SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta una expresión entre los paréntesis"); :} |
+    READ SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en la llamada read"); :} |
+    WRITE SEMICOLON {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en la llamada write"); :} 
 ;
 
 LISTA_EXPRESIONES ::= EXPRESIONES |
@@ -315,7 +387,16 @@ LISTA_EXPRESIONES ::= EXPRESIONES |
                      LISTA_EXPRESIONES error {: syntaxError(((Symbol) stack.peek()), "Falta coma entre expresiones."); :} 
 ;
 
-T_DATO ::= INT | CHAR | LONG | SHORT | INT LONG | INT SHORT | LONG INT | SHORT INT;
+T_DATO ::= 
+    INT {: RESULT = "int"; :} |
+    CHAR {: RESULT = "char"; :} |
+    LONG {: RESULT = "long"; :} |
+    SHORT {: RESULT = "short"; :} |
+    INT LONG {: RESULT = "int long"; :} |
+    INT SHORT {: RESULT = "int short"; :} |
+    LONG INT {: RESULT = "long int"; :} |
+    SHORT INT {: RESULT = "short int"; :}
+;
 OP_RELACIONALES ::= EQ_OP | NE_OP | LT_OP | GT_OP | LE_OP | GE_OP;
 OP_LOGICOS ::= OR_OP | AND_OP | NOT_OP;
 OP_ARITMETICOS ::= PLUS | MINUS | TIMES | DIVIDE | MOD | INC_OP | DEC_OP | PLUS_ASSIGN | MINUS_ASSIGN | TIMES_ASSIGN | DIV_ASSIGN;
@@ -328,82 +409,384 @@ ARGUMENTOS ::= EXPRESIONES_LOGICAS |
                COMMA EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "falta un argumento antes de la coma." ); :} 
 ;
 
-EXPRESION_ARITMETICA ::= EXPRESION_ARITMETICA PLUS EXPRESION_ARITMETICA |
-            EXPRESION_ARITMETICA MINUS EXPRESION_ARITMETICA |
-            EXPRESION_ARITMETICA TIMES EXPRESION_ARITMETICA |
-            EXPRESION_ARITMETICA DIVIDE EXPRESION_ARITMETICA |
-            EXPRESION_ARITMETICA MOD EXPRESION_ARITMETICA |
-            LPAREN EXPRESIONES_LOGICAS RPAREN |
-            IDENTIFIER |
-            IDENTIFIER LPAREN ARGUMENTOS RPAREN |
-            IDENTIFIER LPAREN RPAREN |
-            LITERALES |
-            INCREMENTO_DECREMENTO |
-            EXPRESION_ARITMETICA PLUS error {: syntaxError(((Symbol) stack.peek()), "Error en la expresión"); :} |
-            EXPRESION_ARITMETICA MINUS error {: syntaxError(((Symbol) stack.peek()), "Error en la expresión"); :} |
-            EXPRESION_ARITMETICA TIMES error {: syntaxError(((Symbol) stack.peek()), "Error en la expresión"); :} |
-            EXPRESION_ARITMETICA DIVIDE error {: syntaxError(((Symbol) stack.peek()), "Error en la expresión"); :} |
-            EXPRESION_ARITMETICA MOD error {: syntaxError(((Symbol) stack.peek()), "Error en la expresión"); :} |
-            LPAREN error RPAREN {: syntaxError(((Symbol) stack.peek()), "Expresión inválida dentro de paréntesis."); :} |
-            TIMES EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '*'."); :} |
-            DIVIDE EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '/'."); :} |
-            PLUS EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '+'."); :} |
-            MINUS EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '-'."); :} |
-            LPAREN error {: syntaxError(((Symbol) stack.peek()), "Error en paréntesis de expresión."); :}
+EXPRESION_ARITMETICA ::= 
+    EXPRESION_ARITMETICA:e1 PLUS EXPRESION_ARITMETICA:e2 {:
+        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) + Integer.parseInt(((RS) e2).getValue())), "", "const");
+        } else {
+            String code = "MOV EAX, ";
+            String memoryAddress = ""; // Must be replaced with the generator of the memory address
+            if (((RS) e1).getType() == "const") {
+                code += ((RS) e1).getValue();
+            } else {
+                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+            }
+            code += "\nADD EAX, ";
+            if (((RS) e2).getType() == "const") {
+                code += ((RS) e2).getValue();
+            } else {
+                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+            }
+            code += "\nMOV [" + memoryAddress + "], EAX\n";
+            RESULT = new RS(memoryAddress, code, "memory");
+        } 
+    :}|
+    EXPRESION_ARITMETICA:e1 MINUS EXPRESION_ARITMETICA:e2 {:
+        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) - Integer.parseInt(((RS) e2).getValue())), "", "const");
+        } else {
+            String code = "MOV EAX, ";
+            String memoryAddress = ""; // Must be replaced with the generator of the memory address
+            if (((RS) e1).getType() == "const") {
+                code += ((RS) e1).getValue();
+            } else {
+                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+            }
+            code += "\nSUB EAX, ";
+            if (((RS) e2).getType() == "const") {
+                code += ((RS) e2).getValue();
+            } else {
+                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+            }
+            code += "\nMOV [" + memoryAddress + "], EAX\n";
+            RESULT = new RS(memoryAddress, code, "memory");
+        }
+    :}|
+    EXPRESION_ARITMETICA:e1 TIMES EXPRESION_ARITMETICA:e2 {:
+        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) * Integer.parseInt(((RS) e2).getValue())), "", "const");
+        } else {
+            String code = "MOV EAX, ";
+            String memoryAddress = ""; // Must be replaced with the generator of the memory address
+            if (((RS) e1).getType() == "const") {
+                code += ((RS) e1).getValue();
+            } else {
+                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+            }
+            code += "\nIMUL EAX, ";
+            if (((RS) e2).getType() == "const") {
+                code += ((RS) e2).getValue();
+            } else {
+                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+            }
+            code += "\nMOV [" + memoryAddress + "], EAX\n";
+            RESULT = new RS(memoryAddress, code, "memory");
+        }
+    :}|
+    EXPRESION_ARITMETICA:e1 DIVIDE EXPRESION_ARITMETICA:e2 {:
+        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) / Integer.parseInt(((RS) e2).getValue())), "", "const");
+        } else {
+            String code = "MOV EAX, ";
+            String memoryAddress = ""; // Must be replaced with the generator of the memory address
+            if (((RS) e1).getType() == "const") {
+                code += ((RS) e1).getValue();
+            } else {
+                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+            }
+            code += "\nIDIV EAX, ";
+            if (((RS) e2).getType() == "const") {
+                code += ((RS) e2).getValue();
+            } else {
+                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+            }
+            code += "\nMOV [" + memoryAddress + "], EAX\n";
+            RESULT = new RS(memoryAddress, code, "memory");
+        }
+    :}|
+    EXPRESION_ARITMETICA MOD EXPRESION_ARITMETICA|
+    LPAREN EXPRESIONES_LOGICAS:e RPAREN {:
+        RESULT = e;
+    :}|
+    IDENTIFIER:id {:
+        // Se revisa que la variable exista
+        if (!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else{
+            RESULT = new RS((String) id, "", "memory");
+        }
+    :}|
+    IDENTIFIER LPAREN ARGUMENTOS RPAREN |
+    IDENTIFIER LPAREN RPAREN |
+    LITERALES:l {:
+        RESULT = new RS((String) l, "", "const");
+    :}|
+    INCREMENTO_DECREMENTO:e {:
+        RESULT = e;
+    :}|
+    EXPRESION_ARITMETICA PLUS error {: syntaxError(((Symbol) stack.peek()), "Error en la expresión"); :} |
+    EXPRESION_ARITMETICA MINUS error {: syntaxError(((Symbol) stack.peek()), "Error en la expresión"); :} |
+    EXPRESION_ARITMETICA TIMES error {: syntaxError(((Symbol) stack.peek()), "Error en la expresión"); :} |
+    EXPRESION_ARITMETICA DIVIDE error {: syntaxError(((Symbol) stack.peek()), "Error en la expresión"); :} |
+    EXPRESION_ARITMETICA MOD error {: syntaxError(((Symbol) stack.peek()), "Error en la expresión"); :} |
+    LPAREN error RPAREN {: syntaxError(((Symbol) stack.peek()), "Expresión inválida dentro de paréntesis."); :} |
+    TIMES EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '*'."); :} |
+    DIVIDE EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '/'."); :} |
+    PLUS EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '+'."); :} |
+    MINUS EXPRESION_ARITMETICA {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '-'."); :} |
+    LPAREN error {: syntaxError(((Symbol) stack.peek()), "Error en paréntesis de expresión."); :}
 ;
 
 
-EXPRESIONES_NUMERICAS ::= EXPRESIONES_NUMERICAS PLUS EXPRESIONES_NUMERICAS |
-            EXPRESIONES_NUMERICAS MINUS EXPRESIONES_NUMERICAS |
-            EXPRESIONES_NUMERICAS TIMES EXPRESIONES_NUMERICAS |
-            EXPRESIONES_NUMERICAS DIVIDE EXPRESIONES_NUMERICAS |
-            EXPRESIONES_NUMERICAS MOD EXPRESIONES_NUMERICAS |
-            LPAREN EXPRESIONES_NUMERICAS RPAREN |
-            IDENTIFIER |
-            IDENTIFIER LPAREN ARGUMENTOS RPAREN |
-            IDENTIFIER LPAREN RPAREN |
-            LITERALES |
-            INCREMENTO_DECREMENTO |
-            EXPRESIONES_NUMERICAS PLUS error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '+'."); :} |
-            EXPRESIONES_NUMERICAS MINUS error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '-'."); :} |
-            EXPRESIONES_NUMERICAS TIMES error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '*'."); :} |
-            EXPRESIONES_NUMERICAS DIVIDE error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '/'."); :} |
-            EXPRESIONES_NUMERICAS MOD error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '%'."); :} |
-            error PLUS EXPRESIONES_NUMERICAS {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '+'."); :} |
-            error MINUS EXPRESIONES_NUMERICAS {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '-'."); :} |
-            error TIMES EXPRESIONES_NUMERICAS {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '*'."); :} |
-            error DIVIDE EXPRESIONES_NUMERICAS {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '/'."); :} |
-            error MOD EXPRESIONES_NUMERICAS {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '%'."); :} |
-            LPAREN error RPAREN {: syntaxError(((Symbol) stack.peek()), "Expresión inválida dentro de paréntesis."); :}
+EXPRESIONES_NUMERICAS ::= 
+    EXPRESIONES_NUMERICAS:e1 PLUS EXPRESIONES_NUMERICAS:e2 {:
+        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) + Integer.parseInt(((RS) e2).getValue())), "", "const");
+        } else {
+            String code = "MOV EAX, ";
+            String memoryAddress = ""; // Must be replaced with the generator of the memory address
+            if (((RS) e1).getType() == "const") {
+                code += ((RS) e1).getValue();
+            } else {
+                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+            }
+            code += "\nADD EAX, ";
+            if (((RS) e2).getType() == "const") {
+                code += ((RS) e2).getValue();
+            } else {
+                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+            }
+            code += "\nMOV [" + memoryAddress + "], EAX\n";
+            RESULT = new RS(memoryAddress, code, "memory");
+        }
+    :}|
+    EXPRESIONES_NUMERICAS:e1 MINUS EXPRESIONES_NUMERICAS:e2 {:
+        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) - Integer.parseInt(((RS) e2).getValue())), "", "const");
+        } else {
+            String code = "MOV EAX, ";
+            String memoryAddress = ""; // Must be replaced with the generator of the memory address
+            if (((RS) e1).getType() == "const") {
+                code += ((RS) e1).getValue();
+            } else {
+                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+            }
+            code += "\nSUB EAX, ";
+            if (((RS) e2).getType() == "const") {
+                code += ((RS) e2).getValue();
+            } else {
+                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+            }
+            code += "\nMOV [" + memoryAddress + "], EAX\n";
+            RESULT = new RS(memoryAddress, code, "memory");
+        }
+    :}|
+    EXPRESIONES_NUMERICAS:e1 TIMES EXPRESIONES_NUMERICAS:e2 {:
+        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) * Integer.parseInt(((RS) e2).getValue())), "", "const");
+        } else {
+            String code = "MOV EAX, ";
+            String memoryAddress = ""; // Must be replaced with the generator of the memory address
+            if (((RS) e1).getType() == "const") {
+                code += ((RS) e1).getValue();
+            } else {
+                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+            }
+            code += "\nIMUL EAX, ";
+            if (((RS) e2).getType() == "const") {
+                code += ((RS) e2).getValue();
+            } else {
+                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+            }
+            code += "\nMOV [" + memoryAddress + "], EAX\n";
+            RESULT = new RS(memoryAddress, code, "memory");
+        }
+    :}|
+    EXPRESIONES_NUMERICAS:e1 DIVIDE EXPRESIONES_NUMERICAS:e2 {:
+        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) / Integer.parseInt(((RS) e2).getValue())), "", "const");
+        } else {
+            String code = "MOV EAX, ";
+            String memoryAddress = ""; // Must be replaced with the generator of the memory address
+            if (((RS) e1).getType() == "const") {
+                code += ((RS) e1).getValue();
+            } else {
+                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+            }
+            code += "\nIDIV EAX, ";
+            if (((RS) e2).getType() == "const") {
+                code += ((RS) e2).getValue();
+            } else {
+                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+            }
+            code += "\nMOV [" + memoryAddress + "], EAX\n";
+            RESULT = new RS(memoryAddress, code, "memory");
+        }
+    :} |
+    EXPRESIONES_NUMERICAS MOD EXPRESIONES_NUMERICAS |
+    LPAREN EXPRESIONES_NUMERICAS:e RPAREN {:
+        RESULT = e;
+    :}|
+    IDENTIFIER:id {:
+    // Se revisa que la variable exista
+        if (!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else{
+            RESULT = new RS((String) id, "", "memory");
+        }
+    :}|
+    IDENTIFIER LPAREN ARGUMENTOS RPAREN |
+    IDENTIFIER LPAREN RPAREN |
+    LITERALES:l {:
+        RESULT = new RS((String) l, "", "const");
+    :}|
+    INCREMENTO_DECREMENTO:e {:
+        RESULT = e;
+    :}|
+    EXPRESIONES_NUMERICAS PLUS error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '+'."); :} |
+    EXPRESIONES_NUMERICAS MINUS error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '-'."); :} |
+    EXPRESIONES_NUMERICAS TIMES error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '*'."); :} |
+    EXPRESIONES_NUMERICAS DIVIDE error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '/'."); :} |
+    EXPRESIONES_NUMERICAS MOD error {: syntaxError(((Symbol) stack.peek()), "Falta operando después de '%'."); :} |
+    error PLUS EXPRESIONES_NUMERICAS {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '+'."); :} |
+    error MINUS EXPRESIONES_NUMERICAS {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '-'."); :} |
+    error TIMES EXPRESIONES_NUMERICAS {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '*'."); :} |
+    error DIVIDE EXPRESIONES_NUMERICAS {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '/'."); :} |
+    error MOD EXPRESIONES_NUMERICAS {: syntaxError(((Symbol) stack.peek()), "Falta operando antes de '%'."); :} |
+    LPAREN error RPAREN {: syntaxError(((Symbol) stack.peek()), "Expresión inválida dentro de paréntesis."); :}
 ;
 
-INCREMENTO_DECREMENTO ::= IDENTIFIER INC_OP |
-                          IDENTIFIER DEC_OP | 
-                          INC_OP IDENTIFIER | 
-                          DEC_OP IDENTIFIER |
-                          DEC_OP error {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes o despues de '--'."); :} |
-                          INC_OP error {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes o despues de '++'."); :}    
+INCREMENTO_DECREMENTO ::= 
+    IDENTIFIER:id INC_OP {:
+        // Se revisa que la variable exista
+        if (!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else{
+            RESULT = new RS((String) id, "INC [" + (String) id + "]\n", "memory");
+        }
+    :}|
+    IDENTIFIER:id DEC_OP {:
+        // Se revisa que la variable exista
+        if (!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else{
+            RESULT = new RS((String) id, "DEC [" + (String) id + "]\n", "memory");
+        }
+    :}| 
+    INC_OP IDENTIFIER:id {:
+        // Se revisa que la variable exista
+        if (!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else{
+            RESULT = new RS((String) id, "INC [" + (String) id + "]\n", "memory");
+        }
+    :}| 
+    DEC_OP IDENTIFIER:id {:
+        // Se revisa que la variable exista
+        if (!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else{
+            RESULT = new RS((String) id, "DEC [" + (String) id + "]\n", "memory");
+        }
+    :}|
+    DEC_OP error {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes o despues de '--'."); :} |
+    INC_OP error {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes o despues de '++'."); :}    
 ;
 
-EXPRESION_ASIGNACION ::= IDENTIFIER PLUS_ASSIGN EXPRESIONES_LOGICAS |
-                         IDENTIFIER MINUS_ASSIGN EXPRESIONES_LOGICAS |
-                         IDENTIFIER TIMES_ASSIGN EXPRESIONES_LOGICAS |
-                         IDENTIFIER DIV_ASSIGN EXPRESIONES_LOGICAS |
-                         IDENTIFIER ASSIGN EXPRESIONES_LOGICAS |
-                         IDENTIFIER ASSIGN EXPRESION_ASIGNACION |
-                         IDENTIFIER PLUS_ASSIGN error {: syntaxError(((Symbol) stack.peek()), "Expresión inválida después de '+=' en asignación compuesta."); :} |
-                         IDENTIFIER MINUS_ASSIGN error {: syntaxError(((Symbol) stack.peek()), "Expresión inválida después de '-=' en asignación compuesta."); :} |
-                         IDENTIFIER TIMES_ASSIGN error {: syntaxError(((Symbol) stack.peek()), "Expresión inválida después de '*=' en asignación compuesta."); :} |
-                         IDENTIFIER DIV_ASSIGN error {: syntaxError(((Symbol) stack.peek()), "Expresión inválida después de '/=' en asignación compuesta."); :} |
-                         IDENTIFIER ASSIGN error {: syntaxError(((Symbol) stack.peek()), "Expresión inválida después de '=' en asignación."); :} |
-                         PLUS_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes de '+='."); :} |
-                         MINUS_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes de '-='."); :} |
-                         TIMES_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes de '*='."); :} |
-                         DIV_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes de '/='."); :} |
-                         ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes de '=' en asignación."); :} |
-                         EXPRESIONES_LOGICAS ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Error antes de '=' en asignación."); :} |
-                         EXPRESIONES_LOGICAS DIV_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Error antes de '/=' en asignación."); :} |
-                         EXPRESIONES_LOGICAS TIMES_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Error antes de '*=' en asignación."); :} |
-                         EXPRESIONES_LOGICAS MINUS_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Error antes de '-=' en asignación."); :} |
-                         EXPRESIONES_LOGICAS PLUS_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Error antes de '+=' en asignación."); :} 
+EXPRESION_ASIGNACION ::= 
+    IDENTIFIER:id PLUS_ASSIGN EXPRESIONES_LOGICAS:e {:
+        if (!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else{
+            String code = "ADD [" + (String) id + "]";
+            if (((RS)e).getType() == "const") {
+                code += ", " + ((RS) e).getValue() + "\n";
+            } else {
+                code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+            }
+            RESULT = new RS((String) id, code, "memory");
+        }
+    :}|
+    IDENTIFIER:id MINUS_ASSIGN EXPRESIONES_LOGICAS:e {:
+        if (!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else{
+            String code = "SUB [" + (String) id + "]";
+            if (((RS) e).getType() == "const") {
+                code += ", " + ((RS) e).getValue() + "\n";
+            } else {
+                code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+            }
+            RESULT = new RS((String) id, code, "memory");
+        }
+    :}|
+    IDENTIFIER:id TIMES_ASSIGN EXPRESIONES_LOGICAS:e {:
+        if (!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else{
+            String code = "IMUL [" + (String) id + "]";
+            if (((RS) e).getType() == "const") {
+                code += ", " + ((RS) e).getValue() + "\n";
+            } else {
+                code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+            }
+            RESULT = new RS((String) id, code, "memory");
+        }
+    :}|
+    IDENTIFIER:id DIV_ASSIGN EXPRESIONES_LOGICAS:e {:
+        if (!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else{
+            String code = "IDIV [" + (String) id + "]";
+            if (((RS) e).getType() == "const") {
+                code += ", " + ((RS) e).getValue() + "\n";
+            } else {
+                code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+            }
+            RESULT = new RS((String) id, code, "memory");
+        }
+    :}|
+    IDENTIFIER:id ASSIGN EXPRESIONES_LOGICAS:e {:
+        if(!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else {
+            String code = "MOV [" + (String) id + "]";
+            if (((RS) e).getType() == "const") {
+                code += ", " + ((RS) e).getValue() + "\n";
+            } else {
+                code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+            }
+            RESULT = new RS((String) id, code, "memory");
+        }
+    :}|
+    IDENTIFIER:id ASSIGN EXPRESION_ASIGNACION:e {:
+        if(!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else {
+            String code = "MOV [" + (String) id + "]";
+            if (((RS) e).getType() == "const") {
+                code += ", " + ((RS) e).getValue() + "\n";
+            } else {
+                code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+            }
+            RESULT = new RS((String) id, code, "memory");
+        }
+    :}|
+    IDENTIFIER PLUS_ASSIGN error {: syntaxError(((Symbol) stack.peek()), "Expresión inválida después de '+=' en asignación compuesta."); :} |
+    IDENTIFIER MINUS_ASSIGN error {: syntaxError(((Symbol) stack.peek()), "Expresión inválida después de '-=' en asignación compuesta."); :} |
+    IDENTIFIER TIMES_ASSIGN error {: syntaxError(((Symbol) stack.peek()), "Expresión inválida después de '*=' en asignación compuesta."); :} |
+    IDENTIFIER DIV_ASSIGN error {: syntaxError(((Symbol) stack.peek()), "Expresión inválida después de '/=' en asignación compuesta."); :} |
+    IDENTIFIER ASSIGN error {: syntaxError(((Symbol) stack.peek()), "Expresión inválida después de '=' en asignación."); :} |
+    PLUS_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes de '+='."); :} |
+    MINUS_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes de '-='."); :} |
+    TIMES_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes de '*='."); :} |
+    DIV_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes de '/='."); :} |
+    ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes de '=' en asignación."); :} |
+    EXPRESIONES_LOGICAS ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Error antes de '=' en asignación."); :} |
+    EXPRESIONES_LOGICAS DIV_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Error antes de '/=' en asignación."); :} |
+    EXPRESIONES_LOGICAS TIMES_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Error antes de '*=' en asignación."); :} |
+    EXPRESIONES_LOGICAS MINUS_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Error antes de '-=' en asignación."); :} |
+    EXPRESIONES_LOGICAS PLUS_ASSIGN EXPRESIONES_LOGICAS {: syntaxError(((Symbol) stack.peek()), "Error antes de '+=' en asignación."); :} 
 ;

@@ -12,6 +12,7 @@ import java.util.Stack;
 import java.util.ArrayList;
 import semantic.SymbolTable;
 import semantic.Translator.PilaS;
+import semantic.Translator.RS;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -2249,8 +2250,6 @@ public class Parser extends java_cup.runtime.lr_parser {
         return symbolTable;
     }
 
-    
-
     void syntaxError(Symbol sym, String message) {
         System.err.println("Error de sintaxis en línea " + sym.left + ": " + message);
     }
@@ -4228,7 +4227,33 @@ class CUP$Parser$actions {
           case 204: // EXPRESION_ARITMETICA ::= EXPRESION_ARITMETICA PLUS EXPRESION_ARITMETICA 
             {
               Object RESULT =null;
-
+		int e1left = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int e1right = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object e1 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int e2left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int e2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e2 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) + Integer.parseInt(((RS) e2).getValue())), "", "const");
+        } else {
+            String code = "MOV EAX, ";
+            String memoryAddress = ""; // Must be replaced with the generator of the memory address
+            if (((RS) e1).getType() == "const") {
+                code += ((RS) e1).getValue();
+            } else {
+                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+            }
+            code += "\nADD EAX, ";
+            if (((RS) e2).getType() == "const") {
+                code += ((RS) e2).getValue();
+            } else {
+                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+            }
+            code += "\nMOV [" + memoryAddress + "], EAX\n";
+            RESULT = new RS(memoryAddress, code, "memory");
+        } 
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESION_ARITMETICA",25, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4237,7 +4262,33 @@ class CUP$Parser$actions {
           case 205: // EXPRESION_ARITMETICA ::= EXPRESION_ARITMETICA MINUS EXPRESION_ARITMETICA 
             {
               Object RESULT =null;
-
+		int e1left = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int e1right = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object e1 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int e2left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int e2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e2 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) - Integer.parseInt(((RS) e2).getValue())), "", "const");
+        } else {
+            String code = "MOV EAX, ";
+            String memoryAddress = ""; // Must be replaced with the generator of the memory address
+            if (((RS) e1).getType() == "const") {
+                code += ((RS) e1).getValue();
+            } else {
+                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+            }
+            code += "\nSUB EAX, ";
+            if (((RS) e2).getType() == "const") {
+                code += ((RS) e2).getValue();
+            } else {
+                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+            }
+            code += "\nMOV [" + memoryAddress + "], EAX\n";
+            RESULT = new RS(memoryAddress, code, "memory");
+        }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESION_ARITMETICA",25, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4246,7 +4297,33 @@ class CUP$Parser$actions {
           case 206: // EXPRESION_ARITMETICA ::= EXPRESION_ARITMETICA TIMES EXPRESION_ARITMETICA 
             {
               Object RESULT =null;
-
+		int e1left = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int e1right = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object e1 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int e2left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int e2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e2 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) * Integer.parseInt(((RS) e2).getValue())), "", "const");
+        } else {
+            String code = "MOV EAX, ";
+            String memoryAddress = ""; // Must be replaced with the generator of the memory address
+            if (((RS) e1).getType() == "const") {
+                code += ((RS) e1).getValue();
+            } else {
+                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+            }
+            code += "\nIMUL EAX, ";
+            if (((RS) e2).getType() == "const") {
+                code += ((RS) e2).getValue();
+            } else {
+                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+            }
+            code += "\nMOV [" + memoryAddress + "], EAX\n";
+            RESULT = new RS(memoryAddress, code, "memory");
+        }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESION_ARITMETICA",25, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4255,7 +4332,33 @@ class CUP$Parser$actions {
           case 207: // EXPRESION_ARITMETICA ::= EXPRESION_ARITMETICA DIVIDE EXPRESION_ARITMETICA 
             {
               Object RESULT =null;
-
+		int e1left = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int e1right = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object e1 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int e2left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int e2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e2 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) / Integer.parseInt(((RS) e2).getValue())), "", "const");
+        } else {
+            String code = "MOV EAX, ";
+            String memoryAddress = ""; // Must be replaced with the generator of the memory address
+            if (((RS) e1).getType() == "const") {
+                code += ((RS) e1).getValue();
+            } else {
+                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+            }
+            code += "\nIDIV EAX, ";
+            if (((RS) e2).getType() == "const") {
+                code += ((RS) e2).getValue();
+            } else {
+                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+            }
+            code += "\nMOV [" + memoryAddress + "], EAX\n";
+            RESULT = new RS(memoryAddress, code, "memory");
+        }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESION_ARITMETICA",25, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4273,7 +4376,12 @@ class CUP$Parser$actions {
           case 209: // EXPRESION_ARITMETICA ::= LPAREN EXPRESIONES_LOGICAS RPAREN 
             {
               Object RESULT =null;
-
+		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		
+        RESULT = e;
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESION_ARITMETICA",25, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4286,14 +4394,14 @@ class CUP$Parser$actions {
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-            // Se revisa que la variable exista
-                if (!symbolTable.varExists((String) id)) {
-                    System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
-                }
-                else{
-                    RESULT = id;
-                }
-            
+        // Se revisa que la variable exista
+        if (!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else{
+            RESULT = new RS((String) id, "", "memory");
+        }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESION_ARITMETICA",25, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4320,7 +4428,12 @@ class CUP$Parser$actions {
           case 213: // EXPRESION_ARITMETICA ::= LITERALES 
             {
               Object RESULT =null;
-
+		int lleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int lright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object l = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        RESULT = new RS((String) l, "", "const");
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESION_ARITMETICA",25, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4329,7 +4442,12 @@ class CUP$Parser$actions {
           case 214: // EXPRESION_ARITMETICA ::= INCREMENTO_DECREMENTO 
             {
               Object RESULT =null;
-
+		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        RESULT = e;
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESION_ARITMETICA",25, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4437,7 +4555,33 @@ class CUP$Parser$actions {
           case 226: // EXPRESIONES_NUMERICAS ::= EXPRESIONES_NUMERICAS PLUS EXPRESIONES_NUMERICAS 
             {
               Object RESULT =null;
-
+		int e1left = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int e1right = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object e1 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int e2left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int e2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e2 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) + Integer.parseInt(((RS) e2).getValue())), "", "const");
+        } else {
+            String code = "MOV EAX, ";
+            String memoryAddress = ""; // Must be replaced with the generator of the memory address
+            if (((RS) e1).getType() == "const") {
+                code += ((RS) e1).getValue();
+            } else {
+                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+            }
+            code += "\nADD EAX, ";
+            if (((RS) e2).getType() == "const") {
+                code += ((RS) e2).getValue();
+            } else {
+                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+            }
+            code += "\nMOV [" + memoryAddress + "], EAX\n";
+            RESULT = new RS(memoryAddress, code, "memory");
+        }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESIONES_NUMERICAS",36, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4446,7 +4590,33 @@ class CUP$Parser$actions {
           case 227: // EXPRESIONES_NUMERICAS ::= EXPRESIONES_NUMERICAS MINUS EXPRESIONES_NUMERICAS 
             {
               Object RESULT =null;
-
+		int e1left = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int e1right = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object e1 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int e2left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int e2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e2 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) - Integer.parseInt(((RS) e2).getValue())), "", "const");
+        } else {
+            String code = "MOV EAX, ";
+            String memoryAddress = ""; // Must be replaced with the generator of the memory address
+            if (((RS) e1).getType() == "const") {
+                code += ((RS) e1).getValue();
+            } else {
+                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+            }
+            code += "\nSUB EAX, ";
+            if (((RS) e2).getType() == "const") {
+                code += ((RS) e2).getValue();
+            } else {
+                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+            }
+            code += "\nMOV [" + memoryAddress + "], EAX\n";
+            RESULT = new RS(memoryAddress, code, "memory");
+        }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESIONES_NUMERICAS",36, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4455,7 +4625,33 @@ class CUP$Parser$actions {
           case 228: // EXPRESIONES_NUMERICAS ::= EXPRESIONES_NUMERICAS TIMES EXPRESIONES_NUMERICAS 
             {
               Object RESULT =null;
-
+		int e1left = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int e1right = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object e1 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int e2left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int e2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e2 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) * Integer.parseInt(((RS) e2).getValue())), "", "const");
+        } else {
+            String code = "MOV EAX, ";
+            String memoryAddress = ""; // Must be replaced with the generator of the memory address
+            if (((RS) e1).getType() == "const") {
+                code += ((RS) e1).getValue();
+            } else {
+                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+            }
+            code += "\nIMUL EAX, ";
+            if (((RS) e2).getType() == "const") {
+                code += ((RS) e2).getValue();
+            } else {
+                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+            }
+            code += "\nMOV [" + memoryAddress + "], EAX\n";
+            RESULT = new RS(memoryAddress, code, "memory");
+        }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESIONES_NUMERICAS",36, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4464,7 +4660,33 @@ class CUP$Parser$actions {
           case 229: // EXPRESIONES_NUMERICAS ::= EXPRESIONES_NUMERICAS DIVIDE EXPRESIONES_NUMERICAS 
             {
               Object RESULT =null;
-
+		int e1left = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int e1right = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object e1 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int e2left = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int e2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e2 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) / Integer.parseInt(((RS) e2).getValue())), "", "const");
+        } else {
+            String code = "MOV EAX, ";
+            String memoryAddress = ""; // Must be replaced with the generator of the memory address
+            if (((RS) e1).getType() == "const") {
+                code += ((RS) e1).getValue();
+            } else {
+                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+            }
+            code += "\nIDIV EAX, ";
+            if (((RS) e2).getType() == "const") {
+                code += ((RS) e2).getValue();
+            } else {
+                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+            }
+            code += "\nMOV [" + memoryAddress + "], EAX\n";
+            RESULT = new RS(memoryAddress, code, "memory");
+        }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESIONES_NUMERICAS",36, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4482,7 +4704,12 @@ class CUP$Parser$actions {
           case 231: // EXPRESIONES_NUMERICAS ::= LPAREN EXPRESIONES_NUMERICAS RPAREN 
             {
               Object RESULT =null;
-
+		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		
+        RESULT = e;
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESIONES_NUMERICAS",36, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4495,14 +4722,14 @@ class CUP$Parser$actions {
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-            // Se revisa que la variable exista
-                if (!symbolTable.varExists((String) id)) {
-                    System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
-                }
-                else{
-                    RESULT = id;
-                }
-            
+    // Se revisa que la variable exista
+        if (!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else{
+            RESULT = new RS((String) id, "", "memory");
+        }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESIONES_NUMERICAS",36, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4529,7 +4756,12 @@ class CUP$Parser$actions {
           case 235: // EXPRESIONES_NUMERICAS ::= LITERALES 
             {
               Object RESULT =null;
-
+		int lleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int lright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object l = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        RESULT = new RS((String) l, "", "const");
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESIONES_NUMERICAS",36, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4538,7 +4770,12 @@ class CUP$Parser$actions {
           case 236: // EXPRESIONES_NUMERICAS ::= INCREMENTO_DECREMENTO 
             {
               Object RESULT =null;
-
+		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        RESULT = e;
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESIONES_NUMERICAS",36, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4646,7 +4883,18 @@ class CUP$Parser$actions {
           case 248: // INCREMENTO_DECREMENTO ::= IDENTIFIER INC_OP 
             {
               Object RESULT =null;
-
+		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		
+        // Se revisa que la variable exista
+        if (!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else{
+            RESULT = new RS((String) id, "INC [" + (String) id + "]\n", "memory");
+        }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("INCREMENTO_DECREMENTO",24, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4655,7 +4903,18 @@ class CUP$Parser$actions {
           case 249: // INCREMENTO_DECREMENTO ::= IDENTIFIER DEC_OP 
             {
               Object RESULT =null;
-
+		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		
+        // Se revisa que la variable exista
+        if (!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else{
+            RESULT = new RS((String) id, "DEC [" + (String) id + "]\n", "memory");
+        }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("INCREMENTO_DECREMENTO",24, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4664,7 +4923,18 @@ class CUP$Parser$actions {
           case 250: // INCREMENTO_DECREMENTO ::= INC_OP IDENTIFIER 
             {
               Object RESULT =null;
-
+		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        // Se revisa que la variable exista
+        if (!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else{
+            RESULT = new RS((String) id, "INC [" + (String) id + "]\n", "memory");
+        }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("INCREMENTO_DECREMENTO",24, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4673,7 +4943,18 @@ class CUP$Parser$actions {
           case 251: // INCREMENTO_DECREMENTO ::= DEC_OP IDENTIFIER 
             {
               Object RESULT =null;
-
+		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        // Se revisa que la variable exista
+        if (!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else{
+            RESULT = new RS((String) id, "DEC [" + (String) id + "]\n", "memory");
+        }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("INCREMENTO_DECREMENTO",24, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4700,7 +4981,26 @@ class CUP$Parser$actions {
           case 254: // EXPRESION_ASIGNACION ::= IDENTIFIER PLUS_ASSIGN EXPRESIONES_LOGICAS 
             {
               Object RESULT =null;
-
+		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        if (!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else{
+            String code = "ADD [" + (String) id + "]";
+            if (((RS)e).getType() == "const") {
+                code += ", " + ((RS) e).getValue() + "\n";
+            } else {
+                code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+            }
+            RESULT = new RS((String) id, code, "memory");
+        }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESION_ASIGNACION",23, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4709,7 +5009,26 @@ class CUP$Parser$actions {
           case 255: // EXPRESION_ASIGNACION ::= IDENTIFIER MINUS_ASSIGN EXPRESIONES_LOGICAS 
             {
               Object RESULT =null;
-
+		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        if (!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else{
+            String code = "SUB [" + (String) id + "]";
+            if (((RS) e).getType() == "const") {
+                code += ", " + ((RS) e).getValue() + "\n";
+            } else {
+                code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+            }
+            RESULT = new RS((String) id, code, "memory");
+        }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESION_ASIGNACION",23, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4718,7 +5037,26 @@ class CUP$Parser$actions {
           case 256: // EXPRESION_ASIGNACION ::= IDENTIFIER TIMES_ASSIGN EXPRESIONES_LOGICAS 
             {
               Object RESULT =null;
-
+		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        if (!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else{
+            String code = "IMUL [" + (String) id + "]";
+            if (((RS) e).getType() == "const") {
+                code += ", " + ((RS) e).getValue() + "\n";
+            } else {
+                code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+            }
+            RESULT = new RS((String) id, code, "memory");
+        }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESION_ASIGNACION",23, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4727,7 +5065,26 @@ class CUP$Parser$actions {
           case 257: // EXPRESION_ASIGNACION ::= IDENTIFIER DIV_ASSIGN EXPRESIONES_LOGICAS 
             {
               Object RESULT =null;
-
+		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        if (!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else{
+            String code = "IDIV [" + (String) id + "]";
+            if (((RS) e).getType() == "const") {
+                code += ", " + ((RS) e).getValue() + "\n";
+            } else {
+                code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+            }
+            RESULT = new RS((String) id, code, "memory");
+        }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESION_ASIGNACION",23, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4736,7 +5093,26 @@ class CUP$Parser$actions {
           case 258: // EXPRESION_ASIGNACION ::= IDENTIFIER ASSIGN EXPRESIONES_LOGICAS 
             {
               Object RESULT =null;
-
+		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        if(!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else {
+            String code = "MOV [" + (String) id + "]";
+            if (((RS) e).getType() == "const") {
+                code += ", " + ((RS) e).getValue() + "\n";
+            } else {
+                code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+            }
+            RESULT = new RS((String) id, code, "memory");
+        }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESION_ASIGNACION",23, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -4745,7 +5121,26 @@ class CUP$Parser$actions {
           case 259: // EXPRESION_ASIGNACION ::= IDENTIFIER ASSIGN EXPRESION_ASIGNACION 
             {
               Object RESULT =null;
-
+		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+        if(!symbolTable.varExists((String) id)) {
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+        }
+        else {
+            String code = "MOV [" + (String) id + "]";
+            if (((RS) e).getType() == "const") {
+                code += ", " + ((RS) e).getValue() + "\n";
+            } else {
+                code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+            }
+            RESULT = new RS((String) id, code, "memory");
+        }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESION_ASIGNACION",23, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
