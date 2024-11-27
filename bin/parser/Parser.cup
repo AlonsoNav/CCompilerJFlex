@@ -181,8 +181,22 @@ SENTENCIA ::=
 ;
 
 CONTROL_STATEMENT ::= 
-    BREAK SEMICOLON |
-    CONTINUE SEMICOLON |
+    BREAK SEMICOLON {:
+        RS rs_while = pilaSemantica.searchContext("while");
+        if (rs_while == null) {
+            syntaxError(((Symbol) stack.peek()), "Break fuera de una estructura iterativa.");
+        } else {
+            code += "JMP " + rs_while.getLabel(1) + "\n";
+        }
+    :}|
+    CONTINUE SEMICOLON {:
+        RS rs_while = pilaSemantica.searchContext("while");
+        if (rs_while == null) {
+            syntaxError(((Symbol) stack.peek()), "Continue fuera de una estructura iterativa.");
+        } else {
+            code += "JMP " + rs_while.getLabel(0) + "\n";
+        }
+    :}|
     RETURN SEMICOLON |
     RETURN EXPRESION_ARITMETICA SEMICOLON|
     BREAK {: syntaxError(((Symbol) stack.peek()), "Falta punto y coma."); :} |

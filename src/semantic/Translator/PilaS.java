@@ -23,14 +23,14 @@ public class PilaS {
         return pilaS.peek();
     }
 
-    public Boolean searchContext(String context) {
+    public RS searchContext(String context) {
         ListIterator<RS> iterator = pilaS.listIterator(pilaS.size());
         while (iterator.hasPrevious()) {
             RS register = iterator.previous();
             if (register.getType().equals(context)) {
-                return true;
+                return register;
             }
         }
-        return false;
+        return null;
     }
 }
