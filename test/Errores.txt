@@ -3,7 +3,7 @@
  
 void main(){
  y= z + 2; // z Variable no definida;
- break; break fuera de lugar
+ break; // break fuera de lugar
 }
 
 int funcion (int a) { 
