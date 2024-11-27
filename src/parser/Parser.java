@@ -3087,23 +3087,23 @@ class CUP$Parser$actions {
 		
         System.out.println("Expresión relacional: " + e1 + " " + op + " " + e2);
         if (e1 != null && e2 != null) {
-            String newCode = "";
             String memoryAddress = ""; // Must be replaced with the generator of the memory address
-            if (op.equals("==")) {
-                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
-            } else if (op.equals("!=")) {
-                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
-            } else if (op.equals("<")) {
-                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
-            } else if (op.equals(">")) {
-                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
-            } else if (op.equals("<=")) {
-                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
-            } else if (op.equals(">=")) {
-                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
+            String e1Code = "";
+            if (((RS) e1).getType() == "const") {
+                e1Code = ((RS) e1).getValue();
+            } else {
+                e1Code = "[" + ((RS) e1).getValue() + "]";
             }
-            code += newCode;
-            RESULT = new RS(String.valueOf(op), "op");
+            String e2Code = "";
+            if (((RS) e2).getType() == "const") {
+                e2Code = ((RS) e2).getValue();
+            } else {
+                e2Code = "[" + ((RS) e2).getValue() + "]";
+            }
+            code += "MOV EAX, " + e1Code + "\nCMP EAX, " + e2Code + "\n";
+            RS res = new RS(String.valueOf(op), "op");
+            pilaSemantica.push(res);
+            RESULT = res;
         }
     
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESIONES_RELACIONAL",26, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
@@ -3183,9 +3183,7 @@ class CUP$Parser$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
-		
-        
-    
+
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("ESTRUCTURA_WHILE",6, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3219,7 +3217,20 @@ class CUP$Parser$actions {
           case 92: // FIN_CONDICION_WHILE ::= RPAREN 
             {
               Object RESULT =null;
-
+		
+        RS rsD0 = pilaSemantica.pop();
+        String exitLabel = pilaSemantica.peek().getLabel(1);
+        String op = rsD0.getValue();
+        if (op.equals("==")) {
+                code += "JNE " + exitLabel + "\n";
+            } else if (op.equals("!=")) {
+                code += "JE " + exitLabel + "\n";
+            } else if (op.equals("<")) {
+                code += "JGE " + exitLabel + "\n";
+            } else if (op.equals(">")) {
+                code += "JLE " + exitLabel + "\n";
+            }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("FIN_CONDICION_WHILE",43, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3237,6 +3248,10 @@ class CUP$Parser$actions {
           case 94: // CUERPO_WHILE ::= INICIO_SENTENCIA_WHILE SENTENCIAS CIERRE_SENTENCIA_WHILE 
             {
               Object RESULT =null;
+		
+    RS rs_while = pilaSemantica.pop();
+    code += "JMP " + rs_while.getLabel(0) + "\n";
+    code += rs_while.getLabel(1) + ":\n";
 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("CUERPO_WHILE",44, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }

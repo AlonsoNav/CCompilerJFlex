@@ -293,23 +293,23 @@ EXPRESIONES_RELACIONAL ::=
     EXPRESIONES_RELACIONAL:e1 OP_RELACIONALES:op EXPRESION_ARITMETICA:e2 {:
         System.out.println("Expresión relacional: " + e1 + " " + op + " " + e2);
         if (e1 != null && e2 != null) {
-            String newCode = "";
             String memoryAddress = ""; // Must be replaced with the generator of the memory address
-            if (op.equals("==")) {
-                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
-            } else if (op.equals("!=")) {
-                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
-            } else if (op.equals("<")) {
-                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
-            } else if (op.equals(">")) {
-                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
-            } else if (op.equals("<=")) {
-                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
-            } else if (op.equals(">=")) {
-                newCode += "MOV EAX, " + ((RS) e1).getValue() + "\nCMP EAX, " + ((RS) e2).getValue() + "\n";
+            String e1Code = "";
+            if (((RS) e1).getType() == "const") {
+                e1Code = ((RS) e1).getValue();
+            } else {
+                e1Code = "[" + ((RS) e1).getValue() + "]";
             }
-            code += newCode;
-            RESULT = new RS(String.valueOf(op), "op");
+            String e2Code = "";
+            if (((RS) e2).getType() == "const") {
+                e2Code = ((RS) e2).getValue();
+            } else {
+                e2Code = "[" + ((RS) e2).getValue() + "]";
+            }
+            code += "MOV EAX, " + e1Code + "\nCMP EAX, " + e2Code + "\n";
+            RS res = new RS(String.valueOf(op), "op");
+            pilaSemantica.push(res);
+            RESULT = res;
         }
     :}
     |
@@ -326,9 +326,7 @@ ESTRUCTURA_ELSE ::=
 ;
 
 ESTRUCTURA_WHILE ::= 
-    WHILE INICIO_WHILE EXPRESIONES:e FIN_CONDICION_WHILE CUERPO_WHILE {:
-        
-    :}
+    WHILE INICIO_WHILE EXPRESIONES:e FIN_CONDICION_WHILE CUERPO_WHILE 
 ;
 
 INICIO_WHILE ::= LPAREN {:
@@ -340,10 +338,27 @@ INICIO_WHILE ::= LPAREN {:
     pilaSemantica.push(rs);
 :}| error {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en el while."); :} ;
 
-FIN_CONDICION_WHILE ::= RPAREN|
+FIN_CONDICION_WHILE ::= RPAREN {:
+        RS rsD0 = pilaSemantica.pop();
+        String exitLabel = pilaSemantica.peek().getLabel(1);
+        String op = rsD0.getValue();
+        if (op.equals("==")) {
+                code += "JNE " + exitLabel + "\n";
+            } else if (op.equals("!=")) {
+                code += "JE " + exitLabel + "\n";
+            } else if (op.equals("<")) {
+                code += "JGE " + exitLabel + "\n";
+            } else if (op.equals(">")) {
+                code += "JLE " + exitLabel + "\n";
+            }
+    :}|
     error {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de cierre en el while."); :} ;
 
-CUERPO_WHILE ::= INICIO_SENTENCIA_WHILE SENTENCIAS CIERRE_SENTENCIA_WHILE;
+CUERPO_WHILE ::= INICIO_SENTENCIA_WHILE SENTENCIAS CIERRE_SENTENCIA_WHILE{:
+    RS rs_while = pilaSemantica.pop();
+    code += "JMP " + rs_while.getLabel(0) + "\n";
+    code += rs_while.getLabel(1) + ":\n";
+:};
 
 INICIO_SENTENCIA_WHILE ::= LCURLY | {: syntaxError(((Symbol) stack.peek()), "Falta llave de apertura en el while."); :} ;
 
