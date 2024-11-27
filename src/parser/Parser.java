@@ -2651,7 +2651,14 @@ class CUP$Parser$actions {
           case 43: // CONTROL_STATEMENT ::= BREAK SEMICOLON 
             {
               Object RESULT =null;
-
+		
+        RS rs_while = pilaSemantica.searchContext("while");
+        if (rs_while == null) {
+            syntaxError(((Symbol) stack.peek()), "Break fuera de una estructura iterativa.");
+        } else {
+            code += "JMP " + rs_while.getLabel(1) + "\n";
+        }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("CONTROL_STATEMENT",20, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -2660,7 +2667,14 @@ class CUP$Parser$actions {
           case 44: // CONTROL_STATEMENT ::= CONTINUE SEMICOLON 
             {
               Object RESULT =null;
-
+		
+        RS rs_while = pilaSemantica.searchContext("while");
+        if (rs_while == null) {
+            syntaxError(((Symbol) stack.peek()), "Continue fuera de una estructura iterativa.");
+        } else {
+            code += "JMP " + rs_while.getLabel(0) + "\n";
+        }
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("CONTROL_STATEMENT",20, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
