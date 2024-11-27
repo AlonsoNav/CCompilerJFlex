@@ -9,7 +9,6 @@ public class Var {
     private String context;
     private int line;
     private String funcion;
-    private String categoria;
 
 
     // Constructor de la clase
@@ -22,14 +21,12 @@ public class Var {
     }*/
 
     
-    public Var(String name, String type, String context, int line, String categoria, String funcion) {
+    public Var(String name, String type, String context, int line, String funcion) {
         this.name = name;
         this.type = type;
         this.context = context;
         this.line = line;
         this.funcion = funcion;
-        this.categoria = categoria;
-        
 
         
     }
@@ -52,10 +49,6 @@ public class Var {
 
     public int getLine() {
         return line;
-    }
-
-    public String getCategoria(){
-        return categoria;
     }
 
     
