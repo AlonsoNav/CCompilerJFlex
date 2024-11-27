@@ -158,13 +158,11 @@ ERRORES_FUNCION ::= T_DATO IDENTIFIER error CUERPO_FUNCION {: syntaxError(((Symb
 
 PARAMETROS ::= 
     T_DATO:type IDENTIFIER:id {:
-        symbolTable.addVar((String) id, (String) type, "parameter", ((Symbol) stack.peek()).left, currentFunction);
         List<String> params = new ArrayList<>();
         params.add((String) id);
         RESULT = params;
     :} |
     PARAMETROS:params COMMA T_DATO:type IDENTIFIER:id {:
-        symbolTable.addVar((String) id, (String) type, "parameter", ((Symbol) stack.peek()).left, currentFunction);
         ((List<String>) params).add((String) id);
         RESULT = params;
     :} |
@@ -367,7 +365,6 @@ EXPRESIONES_LOGICAS ::=
 
 EXPRESIONES_RELACIONAL ::= 
     EXPRESIONES_RELACIONAL:e1 OP_RELACIONALES:op EXPRESION_ARITMETICA:e2 {:
-        System.out.println("Expresión relacional: " + e1 + " " + op + " " + e2);
         if (e1 != null && e2 != null) {
             String memoryAddress = ""; // Must be replaced with the generator of the memory address
             String e1Code = "";

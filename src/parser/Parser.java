@@ -2170,6 +2170,7 @@ public class Parser extends java_cup.runtime.lr_parser {
 
     // Pila semántica
     private PilaS pilaSemantica = new PilaS();
+    private PilaS pilaSemanticaVar = new PilaS();
     
     // Pila semántica para contextos (if, while, etc.)
     private Stack<Integer> contextStack = new Stack<>();
@@ -2505,7 +2506,6 @@ class CUP$Parser$actions {
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-        symbolTable.addVar((String) id, (String) type, "parameter", ((Symbol) stack.peek()).left, currentFunction);
         List<String> params = new ArrayList<>();
         params.add((String) id);
         RESULT = params;
@@ -2528,7 +2528,6 @@ class CUP$Parser$actions {
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-        symbolTable.addVar((String) id, (String) type, "parameter", ((Symbol) stack.peek()).left, currentFunction);
         ((List<String>) params).add((String) id);
         RESULT = params;
     
@@ -2770,16 +2769,32 @@ class CUP$Parser$actions {
 		
         String context = isGlobal ? "global" : "local";
         if (id_list instanceof List<?>) {
+            String categoria = "variable";
             try {
                 for (String id : (List<String>) id_list) {
-                    symbolTable.addVar(id, (String) id_type, context, ((Symbol) stack.peek()).left, currentFunction);
+                    RS nuevoSimbolo = new RS((String) id, (String) id_type);
+                    pilaSemanticaVar.push(nuevoSimbolo);
+
+                    //symbolTable.addVar(id, (String) id_type, context, ((Symbol) stack.peek()).left, currentFunction);
+                }
+                for (int i = 0; i < pilaSemanticaVar.size(); i++) {
+                    RS simbolo = pilaSemanticaVar.pop();
+                    symbolTable.addVar(simbolo.getValue(), simbolo.getType(), context, ((Symbol) stack.peek()).left, categoria, currentFunction);
                 }
             } catch (ClassCastException e) {
                 // Manejar el error de casting
                 System.err.println("Error: id_list no es una lista de cadenas.");
             }
         } else if (id_list instanceof String) {
-            symbolTable.addVar((String) id_list, (String) id_type, context, ((Symbol) stack.peek()).left, currentFunction);
+            String categoria = "variable";
+            for (String id : (List<String>) id_list) {
+                    RS nuevoSimbolo = new RS((String) id, (String) id_type);
+                    pilaSemanticaVar.push(nuevoSimbolo);
+                }
+                for (int i = 0; i < pilaSemanticaVar.size(); i++) {
+                    RS simbolo = pilaSemanticaVar.pop();
+                    symbolTable.addVar(simbolo.getValue(), simbolo.getType(), context, ((Symbol) stack.peek()).left, categoria, currentFunction);
+                }
         } else {
             // Manejar el caso donde id_list no es ni una lista ni una cadena
             System.err.println("Error: id_list no es una instancia de List ni de String.");
@@ -2793,7 +2808,49 @@ class CUP$Parser$actions {
           case 52: // DECLARACION ::= CONST T_DATO ID_LIST SEMICOLON 
             {
               Object RESULT =null;
+		int id_typeleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int id_typeright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object id_type = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int id_listleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+		int id_listright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+		Object id_list = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		
+    String context = isGlobal ? "global" : "local";
+        if (id_list instanceof List<?>) {
+            String categoria = "constante";
+            try {
+                
+                for (String id : (List<String>) id_list) {
+                    RS nuevoSimbolo = new RS((String) id, (String) id_type);
+                    pilaSemanticaVar.push(nuevoSimbolo);
 
+                    //symbolTable.addVar(id, (String) id_type, context, ((Symbol) stack.peek()).left, currentFunction);
+                }
+                for (int i = 0; i < pilaSemanticaVar.size(); i++) {
+                    RS simbolo = pilaSemanticaVar.pop();
+                    symbolTable.addVar(simbolo.getValue(), simbolo.getType(), context, ((Symbol) stack.peek()).left, categoria, currentFunction);
+                }
+            } catch (ClassCastException e) {
+                // Manejar el error de casting
+                System.err.println("Error: id_list no es una lista de cadenas.");
+            }
+        } else if (id_list instanceof String) {
+            String categoria = "constante";
+            for (String id : (List<String>) id_list) {
+                    RS nuevoSimbolo = new RS((String) id, (String) id_type);
+                    pilaSemanticaVar.push(nuevoSimbolo);
+                }
+                for (int i = 0; i < pilaSemanticaVar.size(); i++) {
+                    RS simbolo = pilaSemanticaVar.pop();
+                    symbolTable.addVar(simbolo.getValue(), simbolo.getType(), context, ((Symbol) stack.peek()).left, categoria, currentFunction);
+                }
+        } else {
+            // Manejar el caso donde id_list no es ni una lista ni una cadena
+            System.err.println("Error: id_list no es una instancia de List ni de String.");
+        }
+    
+    
+    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("DECLARACION",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3123,7 +3180,6 @@ class CUP$Parser$actions {
 		int e2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Object e2 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-        System.out.println("Expresión relacional: " + e1 + " " + op + " " + e2);
         if (e1 != null && e2 != null) {
             String memoryAddress = ""; // Must be replaced with the generator of the memory address
             String e1Code = "";
