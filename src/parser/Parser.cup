@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import semantic.SymbolTable;
 import semantic.Translator.PilaS;
 import semantic.Translator.RS;
+import semantic.LabelGenerator;
 
 parser code {:
     // Tabla de símbolos
@@ -287,7 +288,7 @@ ESTRUCTURA_ELSE ::=
     ELSE ERRORES_IF
 ;
 
-ESTRUCTURA_WHILE ::= WHILE LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY |
+ESTRUCTURA_WHILE ::= WHILE LPAREN EXPRESIONES:e RPAREN LCURLY SENTENCIAS:s RCURLY |
     WHILE LPAREN error RPAREN LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en la condición del while."); :} |
     WHILE error RPAREN LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en el while."); :} |
     WHILE LPAREN EXPRESIONES LCURLY SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en el paréntesis de cierre del while."); :} |
@@ -424,87 +425,95 @@ ARGUMENTOS ::= EXPRESIONES_LOGICAS |
 
 EXPRESION_ARITMETICA ::= 
     EXPRESION_ARITMETICA:e1 PLUS EXPRESION_ARITMETICA:e2 {:
-        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
-            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) + Integer.parseInt(((RS) e2).getValue())), "", "const");
-        } else {
-            String code = "MOV EAX, ";
-            String memoryAddress = ""; // Must be replaced with the generator of the memory address
-            if (((RS) e1).getType() == "const") {
-                code += ((RS) e1).getValue();
+        if (e1 != null && e2 != null) {
+            if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+                RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) + Integer.parseInt(((RS) e2).getValue())), "", "const");
             } else {
-                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                String code = "MOV EAX, ";
+                String memoryAddress = ""; // Must be replaced with the generator of the memory address
+                if (((RS) e1).getType() == "const") {
+                    code += ((RS) e1).getValue();
+                } else {
+                    code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                }
+                code += "\nADD EAX, ";
+                if (((RS) e2).getType() == "const") {
+                    code += ((RS) e2).getValue();
+                } else {
+                    code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+                }
+                code += "\nMOV [" + memoryAddress + "], EAX\n";
+                RESULT = new RS(memoryAddress, code, "memory");
             }
-            code += "\nADD EAX, ";
-            if (((RS) e2).getType() == "const") {
-                code += ((RS) e2).getValue();
-            } else {
-                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
-            }
-            code += "\nMOV [" + memoryAddress + "], EAX\n";
-            RESULT = new RS(memoryAddress, code, "memory");
-        } 
+        }
     :}|
     EXPRESION_ARITMETICA:e1 MINUS EXPRESION_ARITMETICA:e2 {:
-        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
-            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) - Integer.parseInt(((RS) e2).getValue())), "", "const");
-        } else {
-            String code = "MOV EAX, ";
-            String memoryAddress = ""; // Must be replaced with the generator of the memory address
-            if (((RS) e1).getType() == "const") {
-                code += ((RS) e1).getValue();
+        if (e1 != null && e2 != null) {
+            if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+                RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) - Integer.parseInt(((RS) e2).getValue())), "", "const");
             } else {
-                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                String code = "MOV EAX, ";
+                String memoryAddress = ""; // Must be replaced with the generator of the memory address
+                if (((RS) e1).getType() == "const") {
+                    code += ((RS) e1).getValue();
+                } else {
+                    code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                }
+                code += "\nSUB EAX, ";
+                if (((RS) e2).getType() == "const") {
+                    code += ((RS) e2).getValue();
+                } else {
+                    code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+                }
+                code += "\nMOV [" + memoryAddress + "], EAX\n";
+                RESULT = new RS(memoryAddress, code, "memory");
             }
-            code += "\nSUB EAX, ";
-            if (((RS) e2).getType() == "const") {
-                code += ((RS) e2).getValue();
-            } else {
-                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
-            }
-            code += "\nMOV [" + memoryAddress + "], EAX\n";
-            RESULT = new RS(memoryAddress, code, "memory");
         }
     :}|
     EXPRESION_ARITMETICA:e1 TIMES EXPRESION_ARITMETICA:e2 {:
-        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
-            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) * Integer.parseInt(((RS) e2).getValue())), "", "const");
-        } else {
-            String code = "MOV EAX, ";
-            String memoryAddress = ""; // Must be replaced with the generator of the memory address
-            if (((RS) e1).getType() == "const") {
-                code += ((RS) e1).getValue();
+        if(e1 != null && e2 != null) {
+            if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+                RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) * Integer.parseInt(((RS) e2).getValue())), "", "const");
             } else {
-                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                String code = "MOV EAX, ";
+                String memoryAddress = ""; // Must be replaced with the generator of the memory address
+                if (((RS) e1).getType() == "const") {
+                    code += ((RS) e1).getValue();
+                } else {
+                    code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                }
+                code += "\nIMUL EAX, ";
+                if (((RS) e2).getType() == "const") {
+                    code += ((RS) e2).getValue();
+                } else {
+                    code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+                }
+                code += "\nMOV [" + memoryAddress + "], EAX\n";
+                RESULT = new RS(memoryAddress, code, "memory");
             }
-            code += "\nIMUL EAX, ";
-            if (((RS) e2).getType() == "const") {
-                code += ((RS) e2).getValue();
-            } else {
-                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
-            }
-            code += "\nMOV [" + memoryAddress + "], EAX\n";
-            RESULT = new RS(memoryAddress, code, "memory");
         }
     :}|
     EXPRESION_ARITMETICA:e1 DIVIDE EXPRESION_ARITMETICA:e2 {:
-        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
-            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) / Integer.parseInt(((RS) e2).getValue())), "", "const");
-        } else {
-            String code = "MOV EAX, ";
-            String memoryAddress = ""; // Must be replaced with the generator of the memory address
-            if (((RS) e1).getType() == "const") {
-                code += ((RS) e1).getValue();
+        if (e1 != null && e2 != null) {
+            if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+                RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) / Integer.parseInt(((RS) e2).getValue())), "", "const");
             } else {
-                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                String code = "MOV EAX, ";
+                String memoryAddress = ""; // Must be replaced with the generator of the memory address
+                if (((RS) e1).getType() == "const") {
+                    code += ((RS) e1).getValue();
+                } else {
+                    code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                }
+                code += "\nIDIV EAX, ";
+                if (((RS) e2).getType() == "const") {
+                    code += ((RS) e2).getValue();
+                } else {
+                    code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+                }
+                code += "\nMOV [" + memoryAddress + "], EAX\n";
+                RESULT = new RS(memoryAddress, code, "memory");
             }
-            code += "\nIDIV EAX, ";
-            if (((RS) e2).getType() == "const") {
-                code += ((RS) e2).getValue();
-            } else {
-                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
-            }
-            code += "\nMOV [" + memoryAddress + "], EAX\n";
-            RESULT = new RS(memoryAddress, code, "memory");
         }
     :}|
     EXPRESION_ARITMETICA MOD EXPRESION_ARITMETICA|
@@ -512,18 +521,21 @@ EXPRESION_ARITMETICA ::=
         RESULT = e;
     :}|
     IDENTIFIER:id {:
-        // Se revisa que la variable exista
-        if (!symbolTable.varExists((String) id)) {
-            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
-        }
-        else{
-            RESULT = new RS((String) id, "", "memory");
+        if (id != null) {
+            if (!symbolTable.varExists((String) id)) {
+                System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+            }
+            else{
+                RESULT = new RS((String) id, "", "memory");
+            }
         }
     :}|
     IDENTIFIER LPAREN ARGUMENTOS RPAREN |
     IDENTIFIER LPAREN RPAREN |
     LITERALES:l {:
-        RESULT = new RS(String.valueOf(l), "", "const");
+        if (l != null) {
+            RESULT = new RS(String.valueOf(l), "", "const");
+        }
     :}|
     INCREMENTO_DECREMENTO:e {:
         RESULT = e;
@@ -544,106 +556,117 @@ EXPRESION_ARITMETICA ::=
 
 EXPRESIONES_NUMERICAS ::= 
     EXPRESIONES_NUMERICAS:e1 PLUS EXPRESIONES_NUMERICAS:e2 {:
-        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
-            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) + Integer.parseInt(((RS) e2).getValue())), "", "const");
-        } else {
-            String code = "MOV EAX, ";
-            String memoryAddress = ""; // Must be replaced with the generator of the memory address
-            if (((RS) e1).getType() == "const") {
-                code += ((RS) e1).getValue();
+        if(e1 != null && e2 != null) {
+            if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+                RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) + Integer.parseInt(((RS) e2).getValue())), "", "const");
             } else {
-                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                String code = "MOV EAX, ";
+                String memoryAddress = ""; // Must be replaced with the generator of the memory address
+                if (((RS) e1).getType() == "const") {
+                    code += ((RS) e1).getValue();
+                } else {
+                    code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                }
+                code += "\nADD EAX, ";
+                if (((RS) e2).getType() == "const") {
+                    code += ((RS) e2).getValue();
+                } else {
+                    code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+                }
+                code += "\nMOV [" + memoryAddress + "], EAX\n";
+                RESULT = new RS(memoryAddress, code, "memory");
             }
-            code += "\nADD EAX, ";
-            if (((RS) e2).getType() == "const") {
-                code += ((RS) e2).getValue();
-            } else {
-                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
-            }
-            code += "\nMOV [" + memoryAddress + "], EAX\n";
-            RESULT = new RS(memoryAddress, code, "memory");
         }
     :}|
     EXPRESIONES_NUMERICAS:e1 MINUS EXPRESIONES_NUMERICAS:e2 {:
-        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
-            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) - Integer.parseInt(((RS) e2).getValue())), "", "const");
-        } else {
-            String code = "MOV EAX, ";
-            String memoryAddress = ""; // Must be replaced with the generator of the memory address
-            if (((RS) e1).getType() == "const") {
-                code += ((RS) e1).getValue();
+        if(e1 != null && e2 != null) {
+            if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+                RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) - Integer.parseInt(((RS) e2).getValue())), "", "const");
             } else {
-                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                String code = "MOV EAX, ";
+                String memoryAddress = ""; // Must be replaced with the generator of the memory address
+                if (((RS) e1).getType() == "const") {
+                    code += ((RS) e1).getValue();
+                } else {
+                    code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                }
+                code += "\nSUB EAX, ";
+                if (((RS) e2).getType() == "const") {
+                    code += ((RS) e2).getValue();
+                } else {
+                    code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+                }
+                code += "\nMOV [" + memoryAddress + "], EAX\n";
+                RESULT = new RS(memoryAddress, code, "memory");
             }
-            code += "\nSUB EAX, ";
-            if (((RS) e2).getType() == "const") {
-                code += ((RS) e2).getValue();
-            } else {
-                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
-            }
-            code += "\nMOV [" + memoryAddress + "], EAX\n";
-            RESULT = new RS(memoryAddress, code, "memory");
         }
     :}|
     EXPRESIONES_NUMERICAS:e1 TIMES EXPRESIONES_NUMERICAS:e2 {:
-        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
-            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) * Integer.parseInt(((RS) e2).getValue())), "", "const");
-        } else {
-            String code = "MOV EAX, ";
-            String memoryAddress = ""; // Must be replaced with the generator of the memory address
-            if (((RS) e1).getType() == "const") {
-                code += ((RS) e1).getValue();
+        if(e1 != null && e2 != null) {
+            if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+                RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) * Integer.parseInt(((RS) e2).getValue())), "", "const");
             } else {
-                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                String code = "MOV EAX, ";
+                String memoryAddress = ""; // Must be replaced with the generator of the memory address
+                if (((RS) e1).getType() == "const") {
+                    code += ((RS) e1).getValue();
+                } else {
+                    code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                }
+                code += "\nIMUL EAX, ";
+                if (((RS) e2).getType() == "const") {
+                    code += ((RS) e2).getValue();
+                } else {
+                    code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+                }
+                code += "\nMOV [" + memoryAddress + "], EAX\n";
+                RESULT = new RS(memoryAddress, code, "memory");
             }
-            code += "\nIMUL EAX, ";
-            if (((RS) e2).getType() == "const") {
-                code += ((RS) e2).getValue();
-            } else {
-                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
-            }
-            code += "\nMOV [" + memoryAddress + "], EAX\n";
-            RESULT = new RS(memoryAddress, code, "memory");
         }
     :}|
     EXPRESIONES_NUMERICAS:e1 DIVIDE EXPRESIONES_NUMERICAS:e2 {:
-        if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
-            RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) / Integer.parseInt(((RS) e2).getValue())), "", "const");
-        } else {
-            String code = "MOV EAX, ";
-            String memoryAddress = ""; // Must be replaced with the generator of the memory address
-            if (((RS) e1).getType() == "const") {
-                code += ((RS) e1).getValue();
+        if(e1 != null && e2 != null) {
+            if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
+                RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) / Integer.parseInt(((RS) e2).getValue())), "", "const");
             } else {
-                code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                String code = "MOV EAX, ";
+                String memoryAddress = ""; // Must be replaced with the generator of the memory address
+                if (((RS) e1).getType() == "const") {
+                    code += ((RS) e1).getValue();
+                } else {
+                    code += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                }
+                code += "\nIDIV EAX, ";
+                if (((RS) e2).getType() == "const") {
+                    code += ((RS) e2).getValue();
+                } else {
+                    code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
+                }
+                code += "\nMOV [" + memoryAddress + "], EAX\n";
+                RESULT = new RS(memoryAddress, code, "memory");
             }
-            code += "\nIDIV EAX, ";
-            if (((RS) e2).getType() == "const") {
-                code += ((RS) e2).getValue();
-            } else {
-                code += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
-            }
-            code += "\nMOV [" + memoryAddress + "], EAX\n";
-            RESULT = new RS(memoryAddress, code, "memory");
         }
-    :} |
+    :}|
     EXPRESIONES_NUMERICAS MOD EXPRESIONES_NUMERICAS |
     LPAREN EXPRESIONES_NUMERICAS:e RPAREN {:
         RESULT = e;
     :}|
     IDENTIFIER:id {:
-    // Se revisa que la variable exista
-        if (!symbolTable.varExists((String) id)) {
-            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
-        }
-        else{
-            RESULT = new RS((String) id, "", "memory");
+        if(id != null) {
+            if (!symbolTable.varExists((String) id)) {
+                System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+            }
+            else{
+                RESULT = new RS((String) id, "", "memory");
+            }
         }
     :}|
     IDENTIFIER LPAREN ARGUMENTOS RPAREN |
     IDENTIFIER LPAREN RPAREN |
     LITERALES:l {:
-        RESULT = new RS(String.valueOf(l), "", "const");
+        if (l != null) {
+            RESULT = new RS(String.valueOf(l), "", "const");
+        }
     :}|
     INCREMENTO_DECREMENTO:e {:
         RESULT = e;
@@ -663,39 +686,43 @@ EXPRESIONES_NUMERICAS ::=
 
 INCREMENTO_DECREMENTO ::= 
     IDENTIFIER:id INC_OP {:
-        // Se revisa que la variable exista
-        if (!symbolTable.varExists((String) id)) {
-            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
-        }
-        else{
-            RESULT = new RS((String) id, "INC [" + (String) id + "]\n", "memory");
+        if (id != null){
+            if (!symbolTable.varExists((String) id)) {
+                System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+            }
+            else{
+                RESULT = new RS((String) id, "INC [" + (String) id + "]\n", "memory");
+            }
         }
     :}|
     IDENTIFIER:id DEC_OP {:
-        // Se revisa que la variable exista
-        if (!symbolTable.varExists((String) id)) {
-            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
-        }
-        else{
-            RESULT = new RS((String) id, "DEC [" + (String) id + "]\n", "memory");
+        if (id != null) {
+            if (!symbolTable.varExists((String) id)) {
+                System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+            }
+            else{
+                RESULT = new RS((String) id, "DEC [" + (String) id + "]\n", "memory");
+            }
         }
     :}| 
     INC_OP IDENTIFIER:id {:
-        // Se revisa que la variable exista
-        if (!symbolTable.varExists((String) id)) {
-            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
-        }
-        else{
-            RESULT = new RS((String) id, "INC [" + (String) id + "]\n", "memory");
+        if (id != null) {
+            if (!symbolTable.varExists((String) id)) {
+                System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+            }
+            else{
+                RESULT = new RS((String) id, "INC [" + (String) id + "]\n", "memory");
+            }
         }
     :}| 
     DEC_OP IDENTIFIER:id {:
-        // Se revisa que la variable exista
-        if (!symbolTable.varExists((String) id)) {
-            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
-        }
-        else{
-            RESULT = new RS((String) id, "DEC [" + (String) id + "]\n", "memory");
+        if (id != null) {
+            if (!symbolTable.varExists((String) id)) {
+                System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
+            }
+            else{
+                RESULT = new RS((String) id, "DEC [" + (String) id + "]\n", "memory");
+            }
         }
     :}|
     DEC_OP error {: syntaxError(((Symbol) stack.peek()), "Falta el identificador antes o despues de '--'."); :} |
@@ -704,87 +731,99 @@ INCREMENTO_DECREMENTO ::=
 
 EXPRESION_ASIGNACION ::= 
     IDENTIFIER:id PLUS_ASSIGN EXPRESIONES_LOGICAS:e {:
-        if (!symbolTable.varExists((String) id)) {
-            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
-        }
-        else{
-            String code = "ADD [" + (String) id + "]";
-            if (((RS)e).getType() == "const") {
-                code += ", " + ((RS) e).getValue() + "\n";
-            } else {
-                code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+        if (id != null && e != null) {
+            if (!symbolTable.varExists((String) id)) {
+                System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
-            RESULT = new RS((String) id, code, "memory");
+            else{
+                String code = "ADD [" + (String) id + "]";
+                if (((RS) e).getType() == "const") {
+                    code += ", " + ((RS) e).getValue() + "\n";
+                } else {
+                    code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+                }
+                RESULT = new RS((String) id, code, "memory");
+            }
         }
     :}|
     IDENTIFIER:id MINUS_ASSIGN EXPRESIONES_LOGICAS:e {:
-        if (!symbolTable.varExists((String) id)) {
-            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
-        }
-        else{
-            String code = "SUB [" + (String) id + "]";
-            if (((RS) e).getType() == "const") {
-                code += ", " + ((RS) e).getValue() + "\n";
-            } else {
-                code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+        if (id != null && e != null) {
+            if (!symbolTable.varExists((String) id)) {
+                System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
-            RESULT = new RS((String) id, code, "memory");
+            else{
+                String code = "SUB [" + (String) id + "]";
+                if (((RS) e).getType() == "const") {
+                    code += ", " + ((RS) e).getValue() + "\n";
+                } else {
+                    code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+                }
+                RESULT = new RS((String) id, code, "memory");
+            }
         }
     :}|
     IDENTIFIER:id TIMES_ASSIGN EXPRESIONES_LOGICAS:e {:
-        if (!symbolTable.varExists((String) id)) {
-            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
-        }
-        else{
-            String code = "IMUL [" + (String) id + "]";
-            if (((RS) e).getType() == "const") {
-                code += ", " + ((RS) e).getValue() + "\n";
-            } else {
-                code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+        if (id != null && e != null) {
+            if (!symbolTable.varExists((String) id)) {
+                System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
-            RESULT = new RS((String) id, code, "memory");
+            else{
+                String code = "IMUL [" + (String) id + "]";
+                if (((RS) e).getType() == "const") {
+                    code += ", " + ((RS) e).getValue() + "\n";
+                } else {
+                    code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+                }
+                RESULT = new RS((String) id, code, "memory");
+            }
         }
     :}|
     IDENTIFIER:id DIV_ASSIGN EXPRESIONES_LOGICAS:e {:
-        if (!symbolTable.varExists((String) id)) {
-            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
-        }
-        else{
-            String code = "IDIV [" + (String) id + "]";
-            if (((RS) e).getType() == "const") {
-                code += ", " + ((RS) e).getValue() + "\n";
-            } else {
-                code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+        if (id != null && e != null) {
+            if (!symbolTable.varExists((String) id)) {
+                System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
-            RESULT = new RS((String) id, code, "memory");
+            else{
+                String code = "IDIV [" + (String) id + "]";
+                if (((RS) e).getType() == "const") {
+                    code += ", " + ((RS) e).getValue() + "\n";
+                } else {
+                    code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+                }
+                RESULT = new RS((String) id, code, "memory");
+            }
         }
     :}|
     IDENTIFIER:id ASSIGN EXPRESIONES_LOGICAS:e {:
-        if(!symbolTable.varExists((String) id)) {
-            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
-        }
-        else {
-            String code = "MOV [" + (String) id + "]";
-            if (((RS) e).getType() == "const") {
-                code += ", " + ((RS) e).getValue() + "\n";
-            } else {
-                code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+        if (id != null && e != null) {
+            if (!symbolTable.varExists((String) id)) {
+                System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
-            RESULT = new RS((String) id, code, "memory");
+            else{
+                String code = "MOV [" + (String) id + "]";
+                if (((RS) e).getType() == "const") {
+                    code += ", " + ((RS) e).getValue() + "\n";
+                } else {
+                    code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+                }
+                RESULT = new RS((String) id, code, "memory");
+            }
         }
     :}|
     IDENTIFIER:id ASSIGN EXPRESION_ASIGNACION:e {:
-        if(!symbolTable.varExists((String) id)) {
-            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
-        }
-        else {
-            String code = "MOV [" + (String) id + "]";
-            if (((RS) e).getType() == "const") {
-                code += ", " + ((RS) e).getValue() + "\n";
-            } else {
-                code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+        if (id != null && e != null) {
+            if(!symbolTable.varExists((String) id)) {
+                System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
-            RESULT = new RS((String) id, code, "memory");
+            else {
+                String code = "MOV [" + (String) id + "]";
+                if (((RS) e).getType() == "const") {
+                    code += ", " + ((RS) e).getValue() + "\n";
+                } else {
+                    code = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + code + ", EAX\n";
+                }
+                RESULT = new RS((String) id, code, "memory");
+            }
         }
     :}|
     IDENTIFIER PLUS_ASSIGN error {: syntaxError(((Symbol) stack.peek()), "Expresión inválida después de '+=' en asignación compuesta."); :} |
