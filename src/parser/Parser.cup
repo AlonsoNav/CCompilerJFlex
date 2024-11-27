@@ -15,8 +15,7 @@ parser code {:
 
     // Para saber si la variable es global o no
     private boolean isGlobal = true;
-    public String currentFunction = null; 
-    private ArrayList<String> funciones = new ArrayList<String>();
+    private String currentFunction = null; 
 
     // Pila semántica
     private PilaS pilaSemantica = new PilaS();
@@ -107,52 +106,40 @@ GLOBAL_DECLARACIONES ::= DECLARACION |
                         GLOBAL_DECLARACIONES DECLARACION
 ;
 
-FUNCIONES ::= FUNCION
-             | FUNCIONES FUNCION
-
+FUNCIONES ::= FUNCION |
+              FUNCIONES FUNCION
 ;
 
 FUNCION ::= 
     T_DATO IDENTIFIER:id LPAREN PARAMETROS RPAREN CUERPO_FUNCION {:
         isGlobal = false;
-                currentFunction = id.toString();
-                System.out.println("Función declarada: " + currentFunction);
+        currentFunction = (String) id;
     :}
     |
     T_DATO IDENTIFIER:id LPAREN RPAREN CUERPO_FUNCION {: 
         isGlobal = false;
-                currentFunction = id.toString();
-                System.out.println("Función declarada: " + currentFunction);
+        currentFunction = (String) id;
     :}
     |
     VOID IDENTIFIER:id LPAREN RPAREN CUERPO_FUNCION {: 
-       isGlobal = false;
-                currentFunction = id.toString();
-                System.out.println("Función declarada: " + currentFunction);
+        isGlobal = false;
+        currentFunction = (String) id;
     :}
     |
     VOID IDENTIFIER:id LPAREN PARAMETROS RPAREN CUERPO_FUNCION {: 
         isGlobal = false;
-        currentFunction = id.toString();
-        System.out.println("Función declarada: " + currentFunction);
-
+        currentFunction = (String) id;
     :}
     |
     ERRORES_FUNCION  
 ;
 
 CUERPO_FUNCION ::= 
-                LCURLY {:isGlobal = false;:} GLOBAL_DECLARACIONES SENTENCIAS RCURLY {:
-        isGlobal = true;
-        currentFunction = null;
-    :}|
-                LCURLY SENTENCIAS RCURLY 
-                |
+                LCURLY GLOBAL_DECLARACIONES SENTENCIAS RCURLY|
+                LCURLY SENTENCIAS RCURLY |
                 //error  {: syntaxError(((Symbol) stack.peek()), "Error en las llaves de la función."); :} 
                 // LCURLY SENTENCIAS error {: syntaxError(((Symbol) stack.peek()), "Falta la llave de cierre."); :} //falla
-                error GLOBAL_DECLARACIONES SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en las llaves de la función."); 
-                /*currentFunction = null;
-        isGlobal = true*/:} 
+                error GLOBAL_DECLARACIONES SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en las llaves de la función."); :} 
 ;           
 
 ERRORES_FUNCION ::= T_DATO IDENTIFIER error CUERPO_FUNCION {: syntaxError(((Symbol) stack.peek()), "Error en los paréntesis de la función."); :} |
