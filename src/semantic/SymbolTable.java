@@ -1,36 +1,112 @@
 package semantic;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SymbolTable {
 
-    private HashMap<String, Var> symbolTable; // HashMap para los símbolos
+    private List<Var> symbolTable;
 
     public SymbolTable() {
-        this.symbolTable = new HashMap<>();
+        this.symbolTable = new ArrayList<>();
     }
 
     // Agrega una variable cuando esta se inicializa
     public void addVar(String name, String type, String context, int line, String funcion) {
         //System.out.println("Agregando variable '" + name + "' de tipo '" + type + "' en el contexto '" + context + "' en la línea " + line );
-        if (symbolTable.containsKey(name)) {
-            System.out.println("Error semántico en la linea "+ line + ": la variable '" + name + "' ya existe.");
-        } else {
-            symbolTable.put(name, new Var(name, type, context, line));
+        List<Var> variables = new ArrayList<>();
+        if( funcion != null){
+            context = "local";
+            if (varExists(name)) {
+                variables = getVar(name);
+                
+                if(variables.size() == 1){
+                    String contextoV = getVarContext(name);
+                    if(contextoV.equals("global")){
+                        symbolTable.add(0, new Var(name, type, context, line, funcion));
+                    }
+                    else{
+                        System.out.println("Error semántico en la linea "+ line + ": la variable local '" + name + "' ya existe.");
+                    }
+                }
+                else{
+                    for (Var var : variables) {
+                        
+                        //if(contextoV.equals("global")){
+                            if (var.getFuncion().equals(funcion)) {
+                                System.out.println("Error semántico en la linea "+ line + ": la variable local PUTA'" + name + "' ya existe.");
+                                break;
+                            }
+                            /*else{
+                                symbolTable.add(0, new Var(name, type, context, line, funcion));
+                            }*/
+                        /* }
+                        else{
+                            System.out.println("Error semántico en la linea "+ line + ": la variable local'" + name + "' ya existe.");
+                        }*/
+                    }
+                    symbolTable.add(0, new Var(name, type, context, line, funcion));
+                }
+                
+            } else {
+                symbolTable.add(0, new Var(name, type, context, line, funcion));
+            }
         }
+        else {
+            if (varExists(name)) {
+                System.out.println("Error semántico en la linea "+ line + ": la variable '" + name + "' ya existe.");
+            } else {
+                symbolTable.add(0, new Var(name, type, context, line, funcion));
+            }
+        }
+        
     }
 
-    // verifica si una variable ya existe
-    public boolean varExists(String name) {
-        return symbolTable.containsKey(name);
+
+    // da el contexto de la variable
+    public String getVarContext(String name) {
+        for (Var var : symbolTable) {
+            if (var.getName().equals(name)) {
+                return var.getContext();
+            }
+        }
+        return null;
     }
+
+    // da las variables con el mismo nombre
+    public List getVar(String name) {
+        List<Var> variablesMN = new ArrayList<>();
+        for (Var var : symbolTable) {
+            if (var.getName().equals(name)&& var.getContext().equals("local")) {
+                variablesMN.add(var);
+            }
+        }
+        return  variablesMN;
+    }
+
+
+
+    // Verifica si una variable ya existe
+    public boolean varExists(String name) {
+        
+        for (Var var : symbolTable) {
+            if (var.getName().equals(name) && (var.getContext().equals("global") || var.getFuncion() == null)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Obtiene una variable de la tabla de símbolos
+
 
 
     //Imprime todas las variables
     public void printTable() {
+
         System.out.println("Tabla de símbolos:");
-        for (String clave : symbolTable.keySet()) {
-            System.out.println("Identificador: " + clave + ", Valor: " + symbolTable.get(clave));
+        for (Var var : symbolTable) {
+            System.out.println("Identificador: " + var.getName() + ", Tipo: " + var.getType() + ", Contexto: " + var.getContext() + ", Línea: " + var.getLine() + ", Función: " + var.getFuncion());
         }
     }
 }
