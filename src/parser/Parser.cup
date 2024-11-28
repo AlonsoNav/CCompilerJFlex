@@ -82,7 +82,8 @@ non terminal INICIO, SENTENCIA, DECLARACION, EXPRESION_FOR, ESTRUCTURA_IF, ESTRU
     EXPRESION_ARITMETICA, EXPRESIONES_RELACIONAL, SENTENCIAS, EXPRESIONES_LOGICAS, ARGUMENTOS,
     DO_WHILE, SWITCHs, CASES, DEFAULT_STMT, CASE_STMT, DECLARACION_LIST, EXPRESIONES_NUMERICAS,
     LISTA_EXPRESIONES, ERRORES_IF, LISTA_DEFAULT, CUERPO_FUNCION, ERRORES_FUNCION, INICIO_WHILE, 
-    FIN_CONDICION_WHILE, CUERPO_WHILE, INICIO_SENTENCIA_WHILE, CIERRE_SENTENCIA_WHILE;
+    FIN_CONDICION_WHILE, CUERPO_WHILE, INICIO_SENTENCIA_WHILE, CIERRE_SENTENCIA_WHILE, CUERPO_IF,
+    INICIO_IF, FIN_CONDICION_IF, INICIO_SENTENCIA_IF, CIERRE_SENTENCIA_IF;
 
 
 precedence left OR_OP;
@@ -370,10 +371,53 @@ ID_LIST ::= IDENTIFIER:id {:
             // IDENTIFIER ASSIGN error {: syntaxError(((Symbol) stack.peek()), "No se asignó ningun valor a la variable"); :}
 ;
 
-ESTRUCTURA_IF ::= IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE |
+ESTRUCTURA_IF ::= IF INICIO_IF EXPRESIONES:e FIN_CONDICION_IF CUERPO_IF ESTRUCTURA_ELSE |
+    
     IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY |
     ERRORES_IF
 ;
+
+
+INICIO_IF ::= LPAREN {:
+    String labelIf = labelGenerator.generateLabel();  
+    String labelElse = labelGenerator.generateLabel(); 
+    String exitLabel = labelGenerator.generateLabel();
+
+    code += labelIf + ":\n";
+    RS rs_if = new RS("if", "if");
+    rs_if.addLabel(labelIf);  
+    rs_if.addLabel(labelElse); 
+    rs_if.addLabel(exitLabel); 
+    pilaSemantica.push(rs_if);
+:}| error {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en el if."); :} ;
+
+
+FIN_CONDICION_IF ::= RPAREN {:
+    RS rsD0 = pilaSemantica.pop();
+    RS rs_if = pilaSemantica.peek();
+    String elseLabel = rs_if.getLabel(1);
+    String op = rsD0.getValue();
+    if (op.equals("==")) {
+        code += "JNE " + elseLabel + "\n";  
+    } else if (op.equals("!=")) {
+        code += "JE " + elseLabel + "\n";
+    } else if (op.equals("<")) {
+        code += "JGE " + elseLabel + "\n";
+    } else if (op.equals(">")) {
+        code += "JLE " + elseLabel + "\n";
+    }
+:}| error {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de cierre en el if."); :} ;
+
+CUERPO_IF ::= INICIO_SENTENCIA_IF SENTENCIAS:e CIERRE_SENTENCIA_IF {:
+    RS rs_if = pilaSemantica.peek();
+    String exitLabel = rs_if.getLabel(2); 
+    code += "JMP " + exitLabel + "\n"; 
+    code += rs_if.getLabel(1) + ":\n"; 
+:};
+
+INICIO_SENTENCIA_IF ::= LCURLY | {: syntaxError(((Symbol) stack.peek()), "Falta llave de apertura en el while."); :} ;
+
+CIERRE_SENTENCIA_IF ::= RCURLY;
 
 ERRORES_IF ::=
     IF LPAREN error RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Error en la condición del if."); :} |
@@ -435,7 +479,12 @@ EXPRESIONES_RELACIONAL ::=
 ESTRUCTURA_ELSE ::= 
     ELSE IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE |
     ELSE IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY |
-    ELSE LCURLY SENTENCIAS RCURLY |
+    ELSE LCURLY SENTENCIAS:e RCURLY {:
+    RS rs_if = pilaSemantica.pop();
+    String exitLabel = rs_if.getLabel(2);
+    code += "JMP " + exitLabel + "\n";
+    code += rs_if.getLabel(2) + ":\n";
+    :}|
     ELSE LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Múltiples else en estructura if."); :} |
     ELSE error SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en la llave de apertura del else."); :} |
     ELSE ERRORES_IF
