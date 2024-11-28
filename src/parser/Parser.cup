@@ -115,9 +115,34 @@ FUNCIONES ::= FUNCION |
 ;
 
 FUNCION ::= 
-    T_DATO IDENTIFIER:id LPAREN PARAMETROS RPAREN CUERPO_FUNCION {:
+    T_DATO IDENTIFIER:id LPAREN PARAMETROS:params RPAREN CUERPO_FUNCION {:
+        System.out.println("Parametros: " + params);
         isGlobal = false;
         currentFunction = (String) id;
+
+        if (params instanceof List<?>) {
+            String c= "parameter";
+            try {
+                for (List<String> param : (List<List<String>>) params) {
+                    if (param.size() == 2) {
+                        String type = param.get(0);
+                        String identifier = param.get(1);
+
+                        RS nuevoSimbolo = new RS((String) identifier, (String) type);
+                        pilaSemanticaVar.push(nuevoSimbolo);
+
+                        RS simbolo = pilaSemanticaVar.pop();
+                        symbolTable.addVar(simbolo.getValue(), simbolo.getType(), c, ((Symbol) stack.peek()).left, "variable", currentFunction);
+                    } else {
+                        // Manejar el error de la lista de parámetros
+                        System.err.println("Error: param no es una lista de dos elementos.");
+                    }
+                }
+            } catch (ClassCastException e) {
+                // Manejar el error de casting
+                System.err.println("Error: params no es una lista de listas de cadenas.");
+            }
+        }
     :}
     |
     T_DATO IDENTIFIER:id LPAREN RPAREN CUERPO_FUNCION {: 
@@ -130,9 +155,33 @@ FUNCION ::=
         currentFunction = (String) id;
     :}
     |
-    VOID IDENTIFIER:id LPAREN PARAMETROS RPAREN CUERPO_FUNCION {: 
+    VOID IDENTIFIER:id LPAREN PARAMETROS:params RPAREN CUERPO_FUNCION {:
+        System.out.println("Parametros: " + params); 
         isGlobal = false;
         currentFunction = (String) id;
+        if (params instanceof List<?>) {
+            String context= "parameter";
+            try {
+                for (List<String> param : (List<List<String>>) params) {
+                    if (param.size() == 2) {
+                        String type = param.get(0);
+                        String identifier = param.get(1);
+
+                        RS nuevoSimbolo = new RS((String) identifier, (String) type);
+                        pilaSemanticaVar.push(nuevoSimbolo);
+
+                        RS simbolo = pilaSemanticaVar.pop();
+                        symbolTable.addVar(simbolo.getValue(), simbolo.getType(), context, ((Symbol) stack.peek()).left, "variable", currentFunction);
+                    } else {
+                        // Manejar el error de la lista de parámetros
+                        System.err.println("Error: param no es una lista de dos elementos.");
+                    }
+                }
+            } catch (ClassCastException e) {
+                // Manejar el error de casting
+                System.err.println("Error: params no es una lista de listas de cadenas.");
+            }
+        }
     :}
     |
     ERRORES_FUNCION  
@@ -158,12 +207,18 @@ ERRORES_FUNCION ::= T_DATO IDENTIFIER error CUERPO_FUNCION {: syntaxError(((Symb
 
 PARAMETROS ::= 
     T_DATO:type IDENTIFIER:id {:
-        List<String> params = new ArrayList<>();
-        params.add((String) id);
+        List<List<String>> params = new ArrayList<>();
+        List<String> param = new ArrayList<>();
+        param.add((String) type);
+        param.add((String) id);
+        params.add(param);
         RESULT = params;
     :} |
     PARAMETROS:params COMMA T_DATO:type IDENTIFIER:id {:
-        ((List<String>) params).add((String) id);
+        List<String> param = new ArrayList<>();
+        param.add((String) type);
+        param.add((String) id);
+        ((List<List<String>>) params).add(param);
         RESULT = params;
     :} |
     error IDENTIFIER {: syntaxError(((Symbol) stack.peek()), "Falta el tipo de dato en el parámetro."); :} |
