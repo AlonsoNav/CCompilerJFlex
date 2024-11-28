@@ -2677,7 +2677,7 @@ class CUP$Parser$actions {
 		
         RS rs_while = pilaSemantica.searchContext("while");
         if (rs_while == null) {
-            syntaxError(((Symbol) stack.peek()), "Break fuera de una estructura iterativa.");
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": break fuera de una estructura iterativa.");
         } else {
             code += "JMP " + rs_while.getLabel(1) + "\n";
         }
@@ -2693,7 +2693,7 @@ class CUP$Parser$actions {
 		
         RS rs_while = pilaSemantica.searchContext("while");
         if (rs_while == null) {
-            syntaxError(((Symbol) stack.peek()), "Continue fuera de una estructura iterativa.");
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": continue fuera de una estructura iterativa.");
         } else {
             code += "JMP " + rs_while.getLabel(0) + "\n";
         }
@@ -3133,19 +3133,6 @@ class CUP$Parser$actions {
 		int e2right = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Object e2 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-        // if (e1 != null && e2 != null) {
-        //     String code = "";
-        //     String memoryAddress = ""; // Must be replaced with the generator of the memory address
-        //     if (op.equals("||")) {
-        //         code += "MOV EAX, " + ((RS) e1).getValue() + "\nOR EAX, " + ((RS) e2).getValue() + "\nMOV [" + memoryAddress + "], EAX\n";
-        //     } else if (op.equals("&&")) {
-        //         code += "MOV EAX, " + ((RS) e1).getValue() + "\nAND EAX, " + ((RS) e2).getValue() + "\nMOV [" + memoryAddress + "], EAX\n";
-        //     } else if (op.equals("!")) {
-        //         code += "MOV EAX, " + ((RS) e2).getValue() + "\nNOT EAX\nMOV [" + memoryAddress + "], EAX\n";
-        //     }
-        //     RESULT = new RS(memoryAddress, code, "memory");
-        // }
-    
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("EXPRESIONES_LOGICAS",28, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3177,20 +3164,26 @@ class CUP$Parser$actions {
 		Object e2 = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
         if (e1 != null && e2 != null) {
-            String memoryAddress = ""; // Must be replaced with the generator of the memory address
             String e1Code = "";
+            if (((RS) e2).getType() == "register") {
+                code += "POP EBX\n";
+            }
             if (((RS) e1).getType() == "const") {
-                e1Code = ((RS) e1).getValue();
+                e1Code = "MOV EAX, " + ((RS) e1).getValue();
+            } else if (((RS) e1).getType() == "register") {
+                e1Code = "POP EAX";
             } else {
-                e1Code = "[" + ((RS) e1).getValue() + "]";
+                e1Code = "MOV EAX, [" + ((RS) e1).getValue() + "]";
             }
             String e2Code = "";
             if (((RS) e2).getType() == "const") {
                 e2Code = ((RS) e2).getValue();
+            } else if (((RS) e2).getType() == "register") {
+                e2Code = "EBX";
             } else {
                 e2Code = "[" + ((RS) e2).getValue() + "]";
             }
-            code += "MOV EAX, " + e1Code + "\nCMP EAX, " + e2Code + "\n";
+            code += e1Code + "\nCMP EAX, " + e2Code + "\n";
             RS res = new RS(String.valueOf(op), "op");
             pilaSemantica.push(res);
             RESULT = res;
@@ -4431,22 +4424,28 @@ class CUP$Parser$actions {
             if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
                 RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) + Integer.parseInt(((RS) e2).getValue())), "const");
             } else {
-                String newCode = "MOV EAX, ";
-                String memoryAddress = ""; // Must be replaced with the generator of the memory address
+                String newCode = "";
+                if (((RS) e1).getType() == "register") {
+                    newCode += "POP EAX\nMOV EBX, EAX\n";
+                }
                 if (((RS) e1).getType() == "const") {
-                    newCode += ((RS) e1).getValue();
+                    newCode += "MOV EAX, " + ((RS) e1).getValue();
+                } else if (((RS) e1).getType() == "register") {
+                    newCode += "POP EAX";
                 } else {
-                    newCode += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                    newCode += "MOV EAX, [" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
                 }
                 newCode += "\nADD EAX, ";
                 if (((RS) e2).getType() == "const") {
                     newCode += ((RS) e2).getValue();
+                } else if (((RS) e2).getType() == "register") {
+                    newCode += "EBX";
                 } else {
                     newCode += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
                 }
-                newCode = "\nMOV [" + memoryAddress + "], EAX\n";
+                newCode = "\nPUSH EAX\n";
                 code += newCode;
-                RESULT = new RS(memoryAddress, "memory");
+                RESULT = new RS("", "register");
             }
         }
     
@@ -4469,22 +4468,28 @@ class CUP$Parser$actions {
             if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
                 RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) - Integer.parseInt(((RS) e2).getValue())), "const");
             } else {
-                String newCode = "MOV EAX, ";
-                String memoryAddress = ""; // Must be replaced with the generator of the memory address
+                String newCode = "";
+                if (((RS) e1).getType() == "register") {
+                    newCode += "POP EAX\nMOV EBX, EAX\n";
+                }
                 if (((RS) e1).getType() == "const") {
-                    newCode += ((RS) e1).getValue();
+                    newCode += "MOV EAX, " + ((RS) e1).getValue();
+                } else if (((RS) e1).getType() == "register") {
+                    newCode += "POP EAX";
                 } else {
-                    newCode += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                    newCode += "MOV EAX, [" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
                 }
                 newCode += "\nSUB EAX, ";
                 if (((RS) e2).getType() == "const") {
                     newCode += ((RS) e2).getValue();
+                } else if (((RS) e2).getType() == "register") {
+                    newCode += "EBX";
                 } else {
                     newCode += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
                 }
-                newCode += "\nMOV [" + memoryAddress + "], EAX\n";
+                newCode += "\nPUSH EAX\n";
                 code += newCode;
-                RESULT = new RS(memoryAddress, "memory");
+                RESULT = new RS("", "register");
             }
         }
     
@@ -4507,22 +4512,28 @@ class CUP$Parser$actions {
             if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
                 RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) * Integer.parseInt(((RS) e2).getValue())), "const");
             } else {
-                String newCode = "MOV EAX, ";
-                String memoryAddress = ""; // Must be replaced with the generator of the memory address
+                String newCode = "";
+                if (((RS) e1).getType() == "register") {
+                    newCode += "POP EBX\n";
+                }
                 if (((RS) e1).getType() == "const") {
-                    newCode += ((RS) e1).getValue();
+                    newCode += "MOV EAX, " + ((RS) e1).getValue();
+                } else if(((RS) e1).getType() == "register") {
+                    newCode += "POP EAX";
                 } else {
-                    newCode += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                    newCode += "MOV EAX, [" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
                 }
                 newCode += "\nIMUL EAX, ";
                 if (((RS) e2).getType() == "const") {
                     newCode += ((RS) e2).getValue();
+                } else if(((RS) e2).getType() == "register") {
+                    newCode += "EBX";
                 } else {
                     newCode += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
                 }
-                newCode += "\nMOV [" + memoryAddress + "], EAX\n";
+                newCode += "\nPUSH EAX\n";
                 code += newCode;
-                RESULT = new RS(memoryAddress, "memory");
+                RESULT = new RS("", "register");
             }
         }
     
@@ -4545,22 +4556,28 @@ class CUP$Parser$actions {
             if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
                 RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) / Integer.parseInt(((RS) e2).getValue())), "const");
             } else {
-                String newCode = "MOV EAX, ";
-                String memoryAddress = ""; // Must be replaced with the generator of the memory address
+                String newCode = "";
+                if (((RS) e1).getType() == "register") {
+                    newCode += "POP EBX\n";
+                }
                 if (((RS) e1).getType() == "const") {
-                    newCode += ((RS) e1).getValue();
+                    newCode += "MOV EAX, " + ((RS) e1).getValue();
+                } else if(((RS) e1).getType() == "register") {
+                    newCode += "POP EAX";
                 } else {
-                    newCode += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                    newCode += "MOV EAX, [" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
                 }
                 newCode += "\nIDIV EAX, ";
                 if (((RS) e2).getType() == "const") {
                     newCode += ((RS) e2).getValue();
+                } else if(((RS) e2).getType() == "register") {
+                    newCode += "EBX";
                 } else {
                     newCode += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
                 }
-                newCode += "\nMOV [" + memoryAddress + "], EAX\n";
+                newCode += "\nPUSH EAX\n";
                 code += newCode;
-                RESULT = new RS(memoryAddress, "memory");
+                RESULT = new RS("", "register");
             }
         }
     
@@ -4774,22 +4791,29 @@ class CUP$Parser$actions {
             if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
                 RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) + Integer.parseInt(((RS) e2).getValue())), "const");
             } else {
-                String newCode = "MOV EAX, ";
-                String memoryAddress = ""; // Must be replaced with the generator of the memory address
+                String newCode = "";
+                if (((RS) e2).getType() == "register") {
+                    newCode += "POP EBX\n";
+                }
                 if (((RS) e1).getType() == "const") {
-                    newCode += ((RS) e1).getValue();
+                    newCode += "MOV EAX, " + ((RS) e1).getValue();
+                } else if(((RS) e1).getType() == "register") {
+                    newCode += "POP EAX";
                 } else {
-                    newCode += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                    newCode += "MOV EAX, [" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
                 }
                 code += "\nADD EAX, ";
                 if (((RS) e2).getType() == "const") {
                     newCode += ((RS) e2).getValue();
-                } else {
+                } else if(((RS) e2).getType() == "register") {
+                    newCode += "EBX";
+                }
+                else {
                     newCode += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
                 }
-                newCode += "\nMOV [" + memoryAddress + "], EAX\n";
+                newCode += "\nPUSH EAX\n";
                 code += newCode;
-                RESULT = new RS(memoryAddress, "memory");
+                RESULT = new RS("", "register");
             }
         }
     
@@ -4812,22 +4836,28 @@ class CUP$Parser$actions {
             if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
                 RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) - Integer.parseInt(((RS) e2).getValue())), "const");
             } else {
-                String newCode = "MOV EAX, ";
-                String memoryAddress = ""; // Must be replaced with the generator of the memory address
+                String newCode = "";
+                if (((RS) e2).getType() == "register") {
+                    newCode += "POP EBX\n";
+                }
                 if (((RS) e1).getType() == "const") {
-                    newCode += ((RS) e1).getValue();
+                    newCode += "MOV EAX, " + ((RS) e1).getValue();
+                } else if(((RS) e1).getType() == "register") {
+                    newCode += "POP EAX";
                 } else {
-                    newCode += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                    newCode += "MOV EAX, [" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
                 }
                 newCode += "\nSUB EAX, ";
                 if (((RS) e2).getType() == "const") {
                     newCode += ((RS) e2).getValue();
+                } else if(((RS) e2).getType() == "register") {
+                    newCode += "EBX";
                 } else {
                     newCode += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
                 }
-                newCode += "\nMOV [" + memoryAddress + "], EAX\n";
+                newCode += "\nPUSH EAX\n";
                 code += newCode;
-                RESULT = new RS(memoryAddress, "memory");
+                RESULT = new RS("", "register");
             }
         }
     
@@ -4850,22 +4880,28 @@ class CUP$Parser$actions {
             if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
                 RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) * Integer.parseInt(((RS) e2).getValue())), "const");
             } else {
-                String newCode = "MOV EAX, ";
-                String memoryAddress = ""; // Must be replaced with the generator of the memory address
+                String newCode = "";
+                if (((RS) e2).getType() == "register") {
+                    newCode += "POP EBX\n";
+                }
                 if (((RS) e1).getType() == "const") {
-                    newCode += ((RS) e1).getValue();
+                    newCode += "MOV EAX, " + ((RS) e1).getValue();
+                } else if (((RS) e1).getType() == "register") {
+                    newCode += "POP EAX";
                 } else {
-                    newCode += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                    newCode += "MOV EAX, [" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
                 }
                 newCode += "\nIMUL EAX, ";
                 if (((RS) e2).getType() == "const") {
                     newCode += ((RS) e2).getValue();
+                } else if(((RS) e2).getType() == "register") {
+                    newCode += "EBX";
                 } else {
                     newCode += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
                 }
-                newCode += "\nMOV [" + memoryAddress + "], EAX\n";
+                newCode += "\nPUSH EAX\n";
                 code += newCode;
-                RESULT = new RS(memoryAddress, "memory");
+                RESULT = new RS("", "register");
             }
         }
     
@@ -4888,22 +4924,28 @@ class CUP$Parser$actions {
             if (((RS) e1).getType() == "const" && ((RS) e2).getType() == "const") {
                 RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) / Integer.parseInt(((RS) e2).getValue())), "const");
             } else {
-                String newCode = "MOV EAX, ";
-                String memoryAddress = ""; // Must be replaced with the generator of the memory address
+                String newCode = "";
+                if (((RS) e2).getType() == "register") {
+                    newCode += "POP EBX\n";
+                }
                 if (((RS) e1).getType() == "const") {
-                    newCode += ((RS) e1).getValue();
+                    newCode += "MOV EAX, " + ((RS) e1).getValue();
+                } if (((RS) e1).getType() == "register") {
+                    newCode += "POP EAX";
                 } else {
-                    newCode += "[" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
+                    newCode += "MOV EAX, [" + ((RS) e1).getValue() + "]"; // e1 is a memory address 
                 }
                 newCode += "\nIDIV EAX, ";
                 if (((RS) e2).getType() == "const") {
                     newCode += ((RS) e2).getValue();
+                } else if(((RS) e2).getType() == "register") {
+                    newCode += "EBX";
                 } else {
                     newCode += "[" + ((RS) e2).getValue() + "]"; // e2 is a memory address
                 }
-                newCode += "\nMOV [" + memoryAddress + "], EAX\n";
+                newCode += "\nPUSH EAX\n";
                 code += newCode;
-                RESULT = new RS(memoryAddress, "memory");
+                RESULT = new RS("", "register");
             }
         }
     
@@ -5227,6 +5269,8 @@ class CUP$Parser$actions {
                 String newCode = "ADD [" + (String) id + "]";
                 if (((RS) e).getType() == "const") {
                     newCode += ", " + ((RS) e).getValue() + "\n";
+                } else if (((RS) e).getType() == "register") {
+                    newCode = "POP EAX\n" + newCode + ", EAX\n";
                 } else {
                     newCode = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + newCode + ", EAX\n";
                 }
@@ -5258,6 +5302,8 @@ class CUP$Parser$actions {
                 String newCode = "SUB [" + (String) id + "]";
                 if (((RS) e).getType() == "const") {
                     newCode += ", " + ((RS) e).getValue() + "\n";
+                } else if (((RS) e).getType() == "register") {
+                    newCode = "POP EAX\n" + newCode + ", EAX\n";
                 } else {
                     newCode = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + newCode + ", EAX\n";
                 }
@@ -5289,6 +5335,8 @@ class CUP$Parser$actions {
                 String newCode = "IMUL [" + (String) id + "]";
                 if (((RS) e).getType() == "const") {
                     newCode += ", " + ((RS) e).getValue() + "\n";
+                } else if (((RS) e).getType() == "register") {
+                    newCode = "POP EAX\n" + newCode + ", EAX\n";
                 } else {
                     newCode = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + newCode + ", EAX\n";
                 }
@@ -5320,6 +5368,8 @@ class CUP$Parser$actions {
                 String newCode = "IDIV [" + (String) id + "]";
                 if (((RS) e).getType() == "const") {
                     newCode += ", " + ((RS) e).getValue() + "\n";
+                } else if (((RS) e).getType() == "register") {
+                    newCode = "POP EAX\n" + newCode + ", EAX\n";
                 } else {
                     newCode = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + newCode + ", EAX\n";
                 }
@@ -5351,6 +5401,8 @@ class CUP$Parser$actions {
                 String newCode = "MOV [" + (String) id + "]";
                 if (((RS) e).getType() == "const") {
                     newCode += ", " + ((RS) e).getValue() + "\n";
+                } else if (((RS) e).getType() == "register") {
+                    newCode = "POP EAX\n" + newCode + ", EAX\n";
                 } else {
                     newCode = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + newCode + ", EAX\n";
                 }
@@ -5382,6 +5434,8 @@ class CUP$Parser$actions {
                 String newCode = "MOV [" + (String) id + "]";
                 if (((RS) e).getType() == "const") {
                     newCode += ", " + ((RS) e).getValue() + "\n";
+                } else if (((RS) e).getType() == "register") {
+                    newCode = "POP EAX\n" + newCode + ", EAX\n";
                 } else {
                     newCode = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + newCode + ", EAX\n";
                 }
