@@ -3362,10 +3362,11 @@ class CUP$Parser$actions {
             {
               Object RESULT =null;
 		
-        RS rsD0 = pilaSemantica.pop();
-        String exitLabel = pilaSemantica.peek().getLabel(1);
-        String op = rsD0.getValue();
-        if (op.equals("==")) {
+        try {
+            RS rsD0 = pilaSemantica.pop();
+            String exitLabel = pilaSemantica.peek().getLabel(1);
+            String op = rsD0.getValue();
+            if (op.equals("==")) {
                 code += "JNE " + exitLabel + "\n";
             } else if (op.equals("!=")) {
                 code += "JE " + exitLabel + "\n";
@@ -3374,6 +3375,8 @@ class CUP$Parser$actions {
             } else if (op.equals(">")) {
                 code += "JLE " + exitLabel + "\n";
             }
+        } catch (Exception e) {
+        }
     
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("FIN_CONDICION_WHILE",43, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -3393,9 +3396,12 @@ class CUP$Parser$actions {
             {
               Object RESULT =null;
 		
-    RS rs_while = pilaSemantica.pop();
-    code += "JMP " + rs_while.getLabel(0) + "\n";
-    code += rs_while.getLabel(1) + ":\n";
+    try {
+        RS rs_while = pilaSemantica.pop();
+        code += "JMP " + rs_while.getLabel(0) + "\n";
+        code += rs_while.getLabel(1) + ":\n";
+    } catch (Exception e) {
+    }
 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("CUERPO_WHILE",44, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }

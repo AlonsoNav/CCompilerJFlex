@@ -455,10 +455,11 @@ INICIO_WHILE ::= LPAREN {:
 :}| error {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de apertura en el while."); :} ;
 
 FIN_CONDICION_WHILE ::= RPAREN {:
-        RS rsD0 = pilaSemantica.pop();
-        String exitLabel = pilaSemantica.peek().getLabel(1);
-        String op = rsD0.getValue();
-        if (op.equals("==")) {
+        try {
+            RS rsD0 = pilaSemantica.pop();
+            String exitLabel = pilaSemantica.peek().getLabel(1);
+            String op = rsD0.getValue();
+            if (op.equals("==")) {
                 code += "JNE " + exitLabel + "\n";
             } else if (op.equals("!=")) {
                 code += "JE " + exitLabel + "\n";
@@ -467,13 +468,18 @@ FIN_CONDICION_WHILE ::= RPAREN {:
             } else if (op.equals(">")) {
                 code += "JLE " + exitLabel + "\n";
             }
+        } catch (Exception e) {
+        }
     :}|
     error {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de cierre en el while."); :} ;
 
 CUERPO_WHILE ::= INICIO_SENTENCIA_WHILE SENTENCIAS CIERRE_SENTENCIA_WHILE{:
-    RS rs_while = pilaSemantica.pop();
-    code += "JMP " + rs_while.getLabel(0) + "\n";
-    code += rs_while.getLabel(1) + ":\n";
+    try {
+        RS rs_while = pilaSemantica.pop();
+        code += "JMP " + rs_while.getLabel(0) + "\n";
+        code += rs_while.getLabel(1) + ":\n";
+    } catch (Exception e) {
+    }
 :};
 
 INICIO_SENTENCIA_WHILE ::= LCURLY | {: syntaxError(((Symbol) stack.peek()), "Falta llave de apertura en el while."); :} ;
