@@ -393,29 +393,35 @@ INICIO_IF ::= LPAREN {:
 
 
 FIN_CONDICION_IF ::= RPAREN {:
-    RS rsD0 = pilaSemantica.pop();
-    RS rs_if = pilaSemantica.peek();
-    String elseLabel = rs_if.getLabel(1);
-    String op = rsD0.getValue();
-    if (op.equals("==")) {
-        code += "JNE " + elseLabel + "\n";  
-    } else if (op.equals("!=")) {
-        code += "JE " + elseLabel + "\n";
-    } else if (op.equals("<")) {
-        code += "JGE " + elseLabel + "\n";
-    } else if (op.equals(">")) {
-        code += "JLE " + elseLabel + "\n";
+    try {
+        RS rsD0 = pilaSemantica.pop();
+        RS rs_if = pilaSemantica.peek();
+        String elseLabel = rs_if.getLabel(1);
+        String op = rsD0.getValue();
+        if (op.equals("==")) {
+            code += "JNE " + elseLabel + "\n";  
+        } else if (op.equals("!=")) {
+            code += "JE " + elseLabel + "\n";
+        } else if (op.equals("<")) {
+            code += "JGE " + elseLabel + "\n";
+        } else if (op.equals(">")) {
+            code += "JLE " + elseLabel + "\n";
+        }
+    } catch (Exception error) {
     }
 :}| error {: syntaxError(((Symbol) stack.peek()), "Falta paréntesis de cierre en el if."); :} ;
 
 CUERPO_IF ::= INICIO_SENTENCIA_IF SENTENCIAS:e CIERRE_SENTENCIA_IF {:
-    RS rs_if = pilaSemantica.peek();
-    String exitLabel = rs_if.getLabel(2); 
-    code += "JMP " + exitLabel + "\n"; 
-    code += rs_if.getLabel(1) + ":\n"; 
+    try {
+        RS rs_if = pilaSemantica.peek();
+        String exitLabel = rs_if.getLabel(2); 
+        code += "JMP " + exitLabel + "\n"; 
+        code += rs_if.getLabel(1) + ":\n"; 
+    } catch (Exception error) {
+    }
 :};
 
-INICIO_SENTENCIA_IF ::= LCURLY | {: syntaxError(((Symbol) stack.peek()), "Falta llave de apertura en el while."); :} ;
+INICIO_SENTENCIA_IF ::= LCURLY | {: syntaxError(((Symbol) stack.peek()), "Falta llave de apertura en el if."); :} ;
 
 CIERRE_SENTENCIA_IF ::= RCURLY;
 
@@ -480,10 +486,13 @@ ESTRUCTURA_ELSE ::=
     ELSE IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE |
     ELSE IF LPAREN EXPRESIONES RPAREN LCURLY SENTENCIAS RCURLY |
     ELSE LCURLY SENTENCIAS:e RCURLY {:
-    RS rs_if = pilaSemantica.pop();
-    String exitLabel = rs_if.getLabel(2);
-    code += "JMP " + exitLabel + "\n";
-    code += rs_if.getLabel(2) + ":\n";
+    try {
+        RS rs_if = pilaSemantica.pop();
+        String exitLabel = rs_if.getLabel(2);
+        code += "JMP " + exitLabel + "\n";
+        code += rs_if.getLabel(2) + ":\n";
+    } catch (Exception error) {
+    }
     :}|
     ELSE LCURLY SENTENCIAS RCURLY ESTRUCTURA_ELSE {: syntaxError(((Symbol) stack.peek()), "Múltiples else en estructura if."); :} |
     ELSE error SENTENCIAS RCURLY {: syntaxError(((Symbol) stack.peek()), "Error en la llave de apertura del else."); :} |

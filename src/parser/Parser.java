@@ -3219,18 +3219,21 @@ class CUP$Parser$actions {
             {
               Object RESULT =null;
 		
-    RS rsD0 = pilaSemantica.pop();
-    RS rs_if = pilaSemantica.peek();
-    String elseLabel = rs_if.getLabel(1);
-    String op = rsD0.getValue();
-    if (op.equals("==")) {
-        code += "JNE " + elseLabel + "\n";  
-    } else if (op.equals("!=")) {
-        code += "JE " + elseLabel + "\n";
-    } else if (op.equals("<")) {
-        code += "JGE " + elseLabel + "\n";
-    } else if (op.equals(">")) {
-        code += "JLE " + elseLabel + "\n";
+    try {
+        RS rsD0 = pilaSemantica.pop();
+        RS rs_if = pilaSemantica.peek();
+        String elseLabel = rs_if.getLabel(1);
+        String op = rsD0.getValue();
+        if (op.equals("==")) {
+            code += "JNE " + elseLabel + "\n";  
+        } else if (op.equals("!=")) {
+            code += "JE " + elseLabel + "\n";
+        } else if (op.equals("<")) {
+            code += "JGE " + elseLabel + "\n";
+        } else if (op.equals(">")) {
+            code += "JLE " + elseLabel + "\n";
+        }
+    } catch (Exception error) {
     }
 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("FIN_CONDICION_IF",49, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
@@ -3254,10 +3257,13 @@ class CUP$Parser$actions {
 		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
 		
-    RS rs_if = pilaSemantica.peek();
-    String exitLabel = rs_if.getLabel(2); 
-    code += "JMP " + exitLabel + "\n"; 
-    code += rs_if.getLabel(1) + ":\n"; 
+    try {
+        RS rs_if = pilaSemantica.peek();
+        String exitLabel = rs_if.getLabel(2); 
+        code += "JMP " + exitLabel + "\n"; 
+        code += rs_if.getLabel(1) + ":\n"; 
+    } catch (Exception error) {
+    }
 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("CUERPO_IF",47, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -3276,7 +3282,7 @@ class CUP$Parser$actions {
           case 75: // INICIO_SENTENCIA_IF ::= 
             {
               Object RESULT =null;
-		 syntaxError(((Symbol) stack.peek()), "Falta llave de apertura en el while."); 
+		 syntaxError(((Symbol) stack.peek()), "Falta llave de apertura en el if."); 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("INICIO_SENTENCIA_IF",50, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3531,10 +3537,13 @@ class CUP$Parser$actions {
 		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
 		
-    RS rs_if = pilaSemantica.pop();
-    String exitLabel = rs_if.getLabel(2);
-    code += "JMP " + exitLabel + "\n";
-    code += rs_if.getLabel(2) + ":\n";
+    try {
+        RS rs_if = pilaSemantica.pop();
+        String exitLabel = rs_if.getLabel(2);
+        code += "JMP " + exitLabel + "\n";
+        code += rs_if.getLabel(2) + ":\n";
+    } catch (Exception error) {
+    }
     
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("ESTRUCTURA_ELSE",5, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
