@@ -192,7 +192,7 @@ CONTROL_STATEMENT ::=
     BREAK SEMICOLON {:
         RS rs_while = pilaSemantica.searchContext("while");
         if (rs_while == null) {
-            syntaxError(((Symbol) stack.peek()), "Break fuera de una estructura iterativa.");
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": break fuera de una estructura iterativa.");
         } else {
             code += "JMP " + rs_while.getLabel(1) + "\n";
         }
@@ -200,7 +200,7 @@ CONTROL_STATEMENT ::=
     CONTINUE SEMICOLON {:
         RS rs_while = pilaSemantica.searchContext("while");
         if (rs_while == null) {
-            syntaxError(((Symbol) stack.peek()), "Continue fuera de una estructura iterativa.");
+            System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": continue fuera de una estructura iterativa.");
         } else {
             code += "JMP " + rs_while.getLabel(0) + "\n";
         }
@@ -223,12 +223,10 @@ DECLARACION ::=
                     RS nuevoSimbolo = new RS((String) id, (String) id_type);
                     pilaSemanticaVar.push(nuevoSimbolo);
 
-                    //symbolTable.addVar(id, (String) id_type, context, ((Symbol) stack.peek()).left, currentFunction);
-                }
-                for (int i = 0; i < pilaSemanticaVar.size(); i++) {
                     RS simbolo = pilaSemanticaVar.pop();
                     symbolTable.addVar(simbolo.getValue(), simbolo.getType(), context, ((Symbol) stack.peek()).left, categoria, currentFunction);
                 }
+                
             } catch (ClassCastException e) {
                 // Manejar el error de casting
                 System.err.println("Error: id_list no es una lista de cadenas.");
@@ -238,11 +236,10 @@ DECLARACION ::=
             for (String id : (List<String>) id_list) {
                     RS nuevoSimbolo = new RS((String) id, (String) id_type);
                     pilaSemanticaVar.push(nuevoSimbolo);
-                }
-                for (int i = 0; i < pilaSemanticaVar.size(); i++) {
                     RS simbolo = pilaSemanticaVar.pop();
                     symbolTable.addVar(simbolo.getValue(), simbolo.getType(), context, ((Symbol) stack.peek()).left, categoria, currentFunction);
                 }
+                
         } else {
             // Manejar el caso donde id_list no es ni una lista ni una cadena
             System.err.println("Error: id_list no es una instancia de List ni de String.");
@@ -257,10 +254,10 @@ DECLARACION ::=
                 for (String id : (List<String>) id_list) {
                     RS nuevoSimbolo = new RS((String) id, (String) id_type);
                     pilaSemanticaVar.push(nuevoSimbolo);
+                    
 
                     //symbolTable.addVar(id, (String) id_type, context, ((Symbol) stack.peek()).left, currentFunction);
-                }
-                for (int i = 0; i < pilaSemanticaVar.size(); i++) {
+                
                     RS simbolo = pilaSemanticaVar.pop();
                     symbolTable.addVar(simbolo.getValue(), simbolo.getType(), context, ((Symbol) stack.peek()).left, categoria, currentFunction);
                 }
@@ -273,8 +270,7 @@ DECLARACION ::=
             for (String id : (List<String>) id_list) {
                     RS nuevoSimbolo = new RS((String) id, (String) id_type);
                     pilaSemanticaVar.push(nuevoSimbolo);
-                }
-                for (int i = 0; i < pilaSemanticaVar.size(); i++) {
+                
                     RS simbolo = pilaSemanticaVar.pop();
                     symbolTable.addVar(simbolo.getValue(), simbolo.getType(), context, ((Symbol) stack.peek()).left, categoria, currentFunction);
                 }

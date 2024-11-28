@@ -2788,12 +2788,10 @@ class CUP$Parser$actions {
             for (String id : (List<String>) id_list) {
                     RS nuevoSimbolo = new RS((String) id, (String) id_type);
                     pilaSemanticaVar.push(nuevoSimbolo);
-
                     RS simbolo = pilaSemanticaVar.pop();
                     symbolTable.addVar(simbolo.getValue(), simbolo.getType(), context, ((Symbol) stack.peek()).left, categoria, currentFunction);
                 }
                 
-
         } else {
             // Manejar el caso donde id_list no es ni una lista ni una cadena
             System.err.println("Error: id_list no es una instancia de List ni de String.");
@@ -2823,9 +2821,9 @@ class CUP$Parser$actions {
                     RS nuevoSimbolo = new RS((String) id, (String) id_type);
                     pilaSemanticaVar.push(nuevoSimbolo);
                     
-                  
+
                     //symbolTable.addVar(id, (String) id_type, context, ((Symbol) stack.peek()).left, currentFunction);
-               
+                
                     RS simbolo = pilaSemanticaVar.pop();
                     symbolTable.addVar(simbolo.getValue(), simbolo.getType(), context, ((Symbol) stack.peek()).left, categoria, currentFunction);
                 }
