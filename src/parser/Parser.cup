@@ -115,8 +115,7 @@ FUNCIONES ::= FUNCION |
 ;
 
 FUNCION ::= 
-    T_DATO IDENTIFIER:id LPAREN PARAMETROS:params RPAREN CUERPO_FUNCION {:
-        System.out.println("Parametros: " + params);
+    T_DATO IDENTIFIER:id LPAREN PARAMETROS:params {:
         isGlobal = false;
         currentFunction = (String) id;
 
@@ -143,19 +142,16 @@ FUNCION ::=
                 System.err.println("Error: params no es una lista de listas de cadenas.");
             }
         }
-    :}
-    |
-    T_DATO IDENTIFIER:id LPAREN RPAREN CUERPO_FUNCION {: 
+    :} RPAREN CUERPO_FUNCION |
+    T_DATO IDENTIFIER:id LPAREN  {: 
         isGlobal = false;
         currentFunction = (String) id;
-    :}
-    |
-    VOID IDENTIFIER:id LPAREN RPAREN CUERPO_FUNCION {: 
+    :} RPAREN CUERPO_FUNCION |
+    VOID IDENTIFIER:id LPAREN  {: 
         isGlobal = false;
         currentFunction = (String) id;
-    :}
-    |
-    VOID IDENTIFIER:id LPAREN PARAMETROS:params RPAREN CUERPO_FUNCION {:
+    :} RPAREN CUERPO_FUNCION |
+    VOID IDENTIFIER:id LPAREN PARAMETROS:params  {:
         System.out.println("Parametros: " + params); 
         isGlobal = false;
         currentFunction = (String) id;
@@ -182,8 +178,7 @@ FUNCION ::=
                 System.err.println("Error: params no es una lista de listas de cadenas.");
             }
         }
-    :}
-    |
+    :} RPAREN CUERPO_FUNCION |
     ERRORES_FUNCION  
 ;
 
