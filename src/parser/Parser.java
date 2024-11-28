@@ -4682,7 +4682,7 @@ class CUP$Parser$actions {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
-                RESULT = new RS((String) id, "memory");
+                RESULT = new RS(symbolTable.getVarName((String) id), "memory");
             }
         }
     
@@ -5050,7 +5050,7 @@ class CUP$Parser$actions {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
-                RESULT = new RS((String) id, "memory");
+                RESULT = new RS(symbolTable.getVarName((String) id), "memory");
             }
         }
     
@@ -5218,7 +5218,7 @@ class CUP$Parser$actions {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
-                code += "INC [" + (String) id + "]\n";
+                code += "INC [" + symbolTable.getVarName((String) id) + "]\n";
                 RESULT = new RS((String) id, "memory");
             }
         }
@@ -5240,7 +5240,7 @@ class CUP$Parser$actions {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
-                code += "DEC [" + (String) id + "]\n";
+                code += "DEC [" + symbolTable.getVarName((String) id) + "]\n";
                 RESULT = new RS((String) id, "memory");
             }
         }
@@ -5262,7 +5262,7 @@ class CUP$Parser$actions {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
-                code += "INC [" + (String) id + "]\n";
+                code += "INC [" + symbolTable.getVarName((String) id) + "]\n";
                 RESULT = new RS((String) id, "memory");
             }
         }
@@ -5284,7 +5284,7 @@ class CUP$Parser$actions {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
-                code += "DEC [" + (String) id + "]\n";
+                code += "DEC [" + symbolTable.getVarName((String) id) + "]\n";
                 RESULT = new RS((String) id, "memory");
             }
         }
@@ -5333,7 +5333,7 @@ class CUP$Parser$actions {
                 } else if (((RS) e).getType() == "register") {
                     newCode = "POP EAX\n" + newCode + ", EAX\n";
                 } else {
-                    newCode = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + newCode + ", EAX\n";
+                    newCode = "MOV EAX, [" + symbolTable.getVarName(((RS) e).getValue()) + "]\n" + newCode + ", EAX\n";
                 }
                 code += newCode;
                 RESULT = new RS((String) id, "memory");
@@ -5366,7 +5366,7 @@ class CUP$Parser$actions {
                 } else if (((RS) e).getType() == "register") {
                     newCode = "POP EAX\n" + newCode + ", EAX\n";
                 } else {
-                    newCode = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + newCode + ", EAX\n";
+                    newCode = "MOV EAX, [" + symbolTable.getVarName(((RS) e).getValue()) + "]\n" + newCode + ", EAX\n";
                 }
                 code += newCode;
                 RESULT = new RS((String) id, "memory");
@@ -5399,7 +5399,7 @@ class CUP$Parser$actions {
                 } else if (((RS) e).getType() == "register") {
                     newCode = "POP EAX\n" + newCode + ", EAX\n";
                 } else {
-                    newCode = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + newCode + ", EAX\n";
+                    newCode = "MOV EAX, [" + symbolTable.getVarName(((RS) e).getValue()) + "]\n" + newCode + ", EAX\n";
                 }
                 code += newCode;
                 RESULT = new RS((String) id, "memory");
@@ -5432,7 +5432,7 @@ class CUP$Parser$actions {
                 } else if (((RS) e).getType() == "register") {
                     newCode = "POP EAX\n" + newCode + ", EAX\n";
                 } else {
-                    newCode = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + newCode + ", EAX\n";
+                    newCode = "MOV EAX, [" + symbolTable.getVarName(((RS) e).getValue()) + "]\n" + newCode + ", EAX\n";
                 }
                 code += newCode;
                 RESULT = new RS((String) id, "memory");
@@ -5465,7 +5465,7 @@ class CUP$Parser$actions {
                 } else if (((RS) e).getType() == "register") {
                     newCode = "POP EAX\n" + newCode + ", EAX\n";
                 } else {
-                    newCode = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + newCode + ", EAX\n";
+                    newCode = "MOV EAX, [" + symbolTable.getVarName(((RS) e).getValue()) + "]\n" + newCode + ", EAX\n";
                 }
                 code += newCode;
                 RESULT = new RS((String) id, "memory");
@@ -5498,7 +5498,7 @@ class CUP$Parser$actions {
                 } else if (((RS) e).getType() == "register") {
                     newCode = "POP EAX\n" + newCode + ", EAX\n";
                 } else {
-                    newCode = "MOV EAX, [" + ((RS) e).getValue() + "]\n" + newCode + ", EAX\n";
+                    newCode = "MOV EAX, [" + symbolTable.getVarName(((RS) e).getValue()) + "]\n" + newCode + ", EAX\n";
                 }
                 code += newCode;
                 RESULT = new RS((String) id, "memory");

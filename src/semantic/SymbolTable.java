@@ -90,6 +90,18 @@ public class SymbolTable {
     }
 
     // Obtiene una variable de la tabla de símbolos
+    public String getVarName(String name){
+        for (Var var : symbolTable) {
+            if (var.getName().equals(name)) {
+                String newName = name;
+                if (var.getFuncion() != null) {
+                    newName = var.getFuncion() + "." + name;
+                }
+                return name;
+            }
+        }
+        return null;
+    }
 
 
 
