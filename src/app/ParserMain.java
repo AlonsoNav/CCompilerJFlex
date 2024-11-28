@@ -4,6 +4,7 @@ import scanner.CLexer;
 import parser.Parser;  
 import java_cup.runtime.Symbol;  
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import semantic.Var;
@@ -17,6 +18,7 @@ public class ParserMain {
         }
 
         String inputFile = args[0];
+        String outputFile = inputFile.substring(0, inputFile.lastIndexOf('.')) + ".asm";
 
         try {
             CLexer lexer = new CLexer(new FileReader(inputFile));
@@ -37,8 +39,9 @@ public class ParserMain {
 
             String code = parser.code;
             code = symbolTable.getRestCode() + code;
-            System.out.println("\nCódigo generado:");
-            System.out.println(code);
+            try (FileWriter writer = new FileWriter(outputFile)) {
+                writer.write(code);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
