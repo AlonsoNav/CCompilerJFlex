@@ -57,10 +57,10 @@ public class SymbolTable {
 
 
     // Verifica si una variable ya existe
-    public boolean varExists(String name) {
+    public boolean varExists(String name, String funcion) {
         
         for (Var var : symbolTable) {
-            if (var.getName().equals(name)) {
+            if ((var.getFuncion() == null || var.getFuncion().equals(funcion)) && var.getName().equals(name)) {
                 return true;
             }
         }

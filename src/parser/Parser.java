@@ -4931,7 +4931,7 @@ class CUP$Parser$actions {
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
         if (id != null) {
-            if (!symbolTable.varExists((String) id)) {
+            if (!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
@@ -5299,7 +5299,7 @@ class CUP$Parser$actions {
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
         if(id != null) {
-            if (!symbolTable.varExists((String) id)) {
+            if (!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
@@ -5467,7 +5467,7 @@ class CUP$Parser$actions {
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
 		
         if (id != null){
-            if (!symbolTable.varExists((String) id)) {
+            if (!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
@@ -5489,7 +5489,7 @@ class CUP$Parser$actions {
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
 		
         if (id != null) {
-            if (!symbolTable.varExists((String) id)) {
+            if (!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
@@ -5511,7 +5511,7 @@ class CUP$Parser$actions {
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
         if (id != null) {
-            if (!symbolTable.varExists((String) id)) {
+            if (!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
@@ -5533,7 +5533,7 @@ class CUP$Parser$actions {
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
         if (id != null) {
-            if (!symbolTable.varExists((String) id)) {
+            if (!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
@@ -5576,7 +5576,7 @@ class CUP$Parser$actions {
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
         if (id != null && e != null) {
-            if (!symbolTable.varExists((String) id)) {
+            if (!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
@@ -5609,7 +5609,7 @@ class CUP$Parser$actions {
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
         if (id != null && e != null) {
-            if (!symbolTable.varExists((String) id)) {
+            if (!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
@@ -5642,7 +5642,7 @@ class CUP$Parser$actions {
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
         if (id != null && e != null) {
-            if (!symbolTable.varExists((String) id)) {
+            if (!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
@@ -5675,7 +5675,7 @@ class CUP$Parser$actions {
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
         if (id != null && e != null) {
-            if (!symbolTable.varExists((String) id)) {
+            if (!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
@@ -5708,7 +5708,7 @@ class CUP$Parser$actions {
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
         if (id != null && e != null) {
-            if (!symbolTable.varExists((String) id)) {
+            if (!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
@@ -5741,7 +5741,7 @@ class CUP$Parser$actions {
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
         if (id != null && e != null) {
-            if(!symbolTable.varExists((String) id)) {
+            if(!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else {

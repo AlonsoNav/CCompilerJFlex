@@ -815,7 +815,7 @@ EXPRESION_ARITMETICA ::=
     :}|
     IDENTIFIER:id {:
         if (id != null) {
-            if (!symbolTable.varExists((String) id)) {
+            if (!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
@@ -975,7 +975,7 @@ EXPRESIONES_NUMERICAS ::=
     :}|
     IDENTIFIER:id {:
         if(id != null) {
-            if (!symbolTable.varExists((String) id)) {
+            if (!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
@@ -1009,7 +1009,7 @@ EXPRESIONES_NUMERICAS ::=
 INCREMENTO_DECREMENTO ::= 
     IDENTIFIER:id INC_OP {:
         if (id != null){
-            if (!symbolTable.varExists((String) id)) {
+            if (!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
@@ -1020,7 +1020,7 @@ INCREMENTO_DECREMENTO ::=
     :}|
     IDENTIFIER:id DEC_OP {:
         if (id != null) {
-            if (!symbolTable.varExists((String) id)) {
+            if (!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
@@ -1031,7 +1031,7 @@ INCREMENTO_DECREMENTO ::=
     :}| 
     INC_OP IDENTIFIER:id {:
         if (id != null) {
-            if (!symbolTable.varExists((String) id)) {
+            if (!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
@@ -1042,7 +1042,7 @@ INCREMENTO_DECREMENTO ::=
     :}| 
     DEC_OP IDENTIFIER:id {:
         if (id != null) {
-            if (!symbolTable.varExists((String) id)) {
+            if (!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
@@ -1058,7 +1058,7 @@ INCREMENTO_DECREMENTO ::=
 EXPRESION_ASIGNACION ::= 
     IDENTIFIER:id PLUS_ASSIGN EXPRESIONES_LOGICAS:e {:
         if (id != null && e != null) {
-            if (!symbolTable.varExists((String) id)) {
+            if (!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
@@ -1077,7 +1077,7 @@ EXPRESION_ASIGNACION ::=
     :}|
     IDENTIFIER:id MINUS_ASSIGN EXPRESIONES_LOGICAS:e {:
         if (id != null && e != null) {
-            if (!symbolTable.varExists((String) id)) {
+            if (!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
@@ -1096,7 +1096,7 @@ EXPRESION_ASIGNACION ::=
     :}|
     IDENTIFIER:id TIMES_ASSIGN EXPRESIONES_LOGICAS:e {:
         if (id != null && e != null) {
-            if (!symbolTable.varExists((String) id)) {
+            if (!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
@@ -1115,7 +1115,7 @@ EXPRESION_ASIGNACION ::=
     :}|
     IDENTIFIER:id DIV_ASSIGN EXPRESIONES_LOGICAS:e {:
         if (id != null && e != null) {
-            if (!symbolTable.varExists((String) id)) {
+            if (!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
@@ -1134,7 +1134,7 @@ EXPRESION_ASIGNACION ::=
     :}|
     IDENTIFIER:id ASSIGN EXPRESIONES_LOGICAS:e {:
         if (id != null && e != null) {
-            if (!symbolTable.varExists((String) id)) {
+            if (!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
@@ -1153,7 +1153,7 @@ EXPRESION_ASIGNACION ::=
     :}|
     IDENTIFIER:id ASSIGN EXPRESION_ASIGNACION:e {:
         if (id != null && e != null) {
-            if(!symbolTable.varExists((String) id)) {
+            if(!symbolTable.varExists((String) id, currentFunction)) {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else {
