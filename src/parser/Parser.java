@@ -2343,9 +2343,37 @@ class CUP$Parser$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-4)).value;
+		int paramsleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int paramsright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object params = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		
+        System.out.println("Parametros: " + params);
         isGlobal = false;
         currentFunction = (String) id;
+
+        if (params instanceof List<?>) {
+            String c= "parameter";
+            try {
+                for (List<String> param : (List<List<String>>) params) {
+                    if (param.size() == 2) {
+                        String type = param.get(0);
+                        String identifier = param.get(1);
+
+                        RS nuevoSimbolo = new RS((String) identifier, (String) type);
+                        pilaSemanticaVar.push(nuevoSimbolo);
+
+                        RS simbolo = pilaSemanticaVar.pop();
+                        symbolTable.addVar(simbolo.getValue(), simbolo.getType(), c, ((Symbol) stack.peek()).left, "variable", currentFunction);
+                    } else {
+                        // Manejar el error de la lista de parámetros
+                        System.err.println("Error: param no es una lista de dos elementos.");
+                    }
+                }
+            } catch (ClassCastException e) {
+                // Manejar el error de casting
+                System.err.println("Error: params no es una lista de listas de cadenas.");
+            }
+        }
     
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("FUNCION",18, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -2388,9 +2416,36 @@ class CUP$Parser$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-4)).value;
-		 
+		int paramsleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int paramsright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object params = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		
+        System.out.println("Parametros: " + params); 
         isGlobal = false;
         currentFunction = (String) id;
+        if (params instanceof List<?>) {
+            String context= "parameter";
+            try {
+                for (List<String> param : (List<List<String>>) params) {
+                    if (param.size() == 2) {
+                        String type = param.get(0);
+                        String identifier = param.get(1);
+
+                        RS nuevoSimbolo = new RS((String) identifier, (String) type);
+                        pilaSemanticaVar.push(nuevoSimbolo);
+
+                        RS simbolo = pilaSemanticaVar.pop();
+                        symbolTable.addVar(simbolo.getValue(), simbolo.getType(), context, ((Symbol) stack.peek()).left, "variable", currentFunction);
+                    } else {
+                        // Manejar el error de la lista de parámetros
+                        System.err.println("Error: param no es una lista de dos elementos.");
+                    }
+                }
+            } catch (ClassCastException e) {
+                // Manejar el error de casting
+                System.err.println("Error: params no es una lista de listas de cadenas.");
+            }
+        }
     
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("FUNCION",18, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -2506,8 +2561,11 @@ class CUP$Parser$actions {
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-        List<String> params = new ArrayList<>();
-        params.add((String) id);
+        List<List<String>> params = new ArrayList<>();
+        List<String> param = new ArrayList<>();
+        param.add((String) type);
+        param.add((String) id);
+        params.add(param);
         RESULT = params;
     
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("PARAMETROS",19, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
@@ -2528,7 +2586,10 @@ class CUP$Parser$actions {
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-        ((List<String>) params).add((String) id);
+        List<String> param = new ArrayList<>();
+        param.add((String) type);
+        param.add((String) id);
+        ((List<List<String>>) params).add(param);
         RESULT = params;
     
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("PARAMETROS",19, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
@@ -4425,8 +4486,8 @@ class CUP$Parser$actions {
                 RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) + Integer.parseInt(((RS) e2).getValue())), "const");
             } else {
                 String newCode = "";
-                if (((RS) e1).getType() == "register") {
-                    newCode += "POP EAX\nMOV EBX, EAX\n";
+                if (((RS) e2).getType() == "register") {
+                    newCode += "POP EBX\n";
                 }
                 if (((RS) e1).getType() == "const") {
                     newCode += "MOV EAX, " + ((RS) e1).getValue();
@@ -4469,8 +4530,8 @@ class CUP$Parser$actions {
                 RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) - Integer.parseInt(((RS) e2).getValue())), "const");
             } else {
                 String newCode = "";
-                if (((RS) e1).getType() == "register") {
-                    newCode += "POP EAX\nMOV EBX, EAX\n";
+                if (((RS) e2).getType() == "register") {
+                    newCode += "POP EBX\n";
                 }
                 if (((RS) e1).getType() == "const") {
                     newCode += "MOV EAX, " + ((RS) e1).getValue();
@@ -4513,7 +4574,7 @@ class CUP$Parser$actions {
                 RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) * Integer.parseInt(((RS) e2).getValue())), "const");
             } else {
                 String newCode = "";
-                if (((RS) e1).getType() == "register") {
+                if (((RS) e2).getType() == "register") {
                     newCode += "POP EBX\n";
                 }
                 if (((RS) e1).getType() == "const") {
@@ -4557,7 +4618,7 @@ class CUP$Parser$actions {
                 RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) / Integer.parseInt(((RS) e2).getValue())), "const");
             } else {
                 String newCode = "";
-                if (((RS) e1).getType() == "register") {
+                if (((RS) e2).getType() == "register") {
                     newCode += "POP EBX\n";
                 }
                 if (((RS) e1).getType() == "const") {

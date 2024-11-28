@@ -640,8 +640,8 @@ EXPRESION_ARITMETICA ::=
                 RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) + Integer.parseInt(((RS) e2).getValue())), "const");
             } else {
                 String newCode = "";
-                if (((RS) e1).getType() == "register") {
-                    newCode += "POP EAX\nMOV EBX, EAX\n";
+                if (((RS) e2).getType() == "register") {
+                    newCode += "POP EBX\n";
                 }
                 if (((RS) e1).getType() == "const") {
                     newCode += "MOV EAX, " + ((RS) e1).getValue();
@@ -670,8 +670,8 @@ EXPRESION_ARITMETICA ::=
                 RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) - Integer.parseInt(((RS) e2).getValue())), "const");
             } else {
                 String newCode = "";
-                if (((RS) e1).getType() == "register") {
-                    newCode += "POP EAX\nMOV EBX, EAX\n";
+                if (((RS) e2).getType() == "register") {
+                    newCode += "POP EBX\n";
                 }
                 if (((RS) e1).getType() == "const") {
                     newCode += "MOV EAX, " + ((RS) e1).getValue();
@@ -700,7 +700,7 @@ EXPRESION_ARITMETICA ::=
                 RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) * Integer.parseInt(((RS) e2).getValue())), "const");
             } else {
                 String newCode = "";
-                if (((RS) e1).getType() == "register") {
+                if (((RS) e2).getType() == "register") {
                     newCode += "POP EBX\n";
                 }
                 if (((RS) e1).getType() == "const") {
@@ -730,7 +730,7 @@ EXPRESION_ARITMETICA ::=
                 RESULT = new RS(String.valueOf(Integer.parseInt(((RS) e1).getValue()) / Integer.parseInt(((RS) e2).getValue())), "const");
             } else {
                 String newCode = "";
-                if (((RS) e1).getType() == "register") {
+                if (((RS) e2).getType() == "register") {
                     newCode += "POP EBX\n";
                 }
                 if (((RS) e1).getType() == "const") {
