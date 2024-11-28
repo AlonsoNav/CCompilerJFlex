@@ -15,7 +15,6 @@ public class SymbolTable {
     public void addVar(String name, String type, String context, int line, String categoria, String funcion) {
         List<Var> variables = new ArrayList<>();
         if( funcion != null){
-            context = "local";
             if (varExists(name)) {
                 variables = getVar(name);
                 
