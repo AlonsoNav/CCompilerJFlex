@@ -13,46 +13,13 @@ public class SymbolTable {
 
     // Agrega una variable cuando esta se inicializa
     public void addVar(String name, String type, String context, int line, String categoria, String funcion) {
-        List<Var> variables = new ArrayList<>();
-        if( funcion != null){
-            context = "local";
-            if (varExists(name)) {
-                variables = getVar(name);
-                
-                if(variables.size() == 1){
-                    String contextoV = getVarContext(name);
-                    if(contextoV.equals("global")){
-                        symbolTable.add(0, new Var(name, type, context, line, categoria, funcion));
-                    }
-                    else{
-                        System.out.println("Error semántico en la linea "+ line + ": la variable local '" + name + "' ya existe.");
-                    }
-                }
-                else{
-                    for (Var var : variables) {
-                        
-                        
-                            if (var.getFuncion().equals(funcion)) {
-                                System.out.println("Error semántico en la linea "+ line + ": la variable local '" + name + "' ya existe.");
-                                break;
-                            }
-                            
-                    }
-                    symbolTable.add(0, new Var(name, type, context, line, categoria, funcion));
-                }
-                
-            } else {
-                symbolTable.add(0, new Var(name, type, context, line, categoria, funcion));
-            }
+        for (Var var : symbolTable) {
+            if (((var.getFuncion() != null && var.getFuncion().equals(funcion)) || (var.getFuncion() == null && funcion == null)) && var.getName().equals(name)) {
+                System.out.println("Error semántico en la linea "+ line + ": la variable local '" + name + "' ya existe.");
+                return;
+            }  
         }
-        else {
-            if (varExists(name)) {
-                System.out.println("Error semántico en la linea "+ line + ": la variable '" + name + "' ya existe.");
-            } else {
-                symbolTable.add(0, new Var(name, type, context, line, categoria, funcion));
-            }
-        }
-        
+        symbolTable.add(0, new Var(name, type, context, line, categoria, funcion));
     }
 
 
@@ -83,7 +50,7 @@ public class SymbolTable {
     public boolean varExists(String name) {
         
         for (Var var : symbolTable) {
-            if (var.getName().equals(name) && (var.getContext().equals("global") || var.getFuncion() == null)) {
+            if (var.getName().equals(name)) {
                 return true;
             }
         }
@@ -91,6 +58,18 @@ public class SymbolTable {
     }
 
     // Obtiene una variable de la tabla de símbolos
+    public String getVarName(String name){
+        for (Var var : symbolTable) {
+            if (var.getName().equals(name)) {
+                String newName = name;
+                if (var.getFuncion() != null) {
+                    newName = var.getFuncion() + "." + name;
+                }
+                return newName;
+            }
+        }
+        return null;
+    }
 
 
 
