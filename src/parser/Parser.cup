@@ -115,9 +115,10 @@ FUNCIONES ::= FUNCION |
 ;
 
 FUNCION ::= 
-    T_DATO IDENTIFIER:id LPAREN PARAMETROS:params {:
+    T_DATO:typeFunction IDENTIFIER:id LPAREN PARAMETROS:params {:
         isGlobal = false;
         currentFunction = (String) id;
+        symbolTable.addFunction((String) id, (String) typeFunction, "global", ((Symbol) stack.peek()).left, "function");
 
         if (params instanceof List<?>) {
             String c= "parameter";
@@ -143,18 +144,22 @@ FUNCION ::=
             }
         }
     :} RPAREN CUERPO_FUNCION |
-    T_DATO IDENTIFIER:id LPAREN  {: 
+    T_DATO:typeFunction IDENTIFIER:id LPAREN  {: 
         isGlobal = false;
         currentFunction = (String) id;
+        symbolTable.addFunction((String) id, (String) typeFunction, "global", ((Symbol) stack.peek()).left, "function");
+
     :} RPAREN CUERPO_FUNCION |
     VOID IDENTIFIER:id LPAREN  {: 
         isGlobal = false;
         currentFunction = (String) id;
+        symbolTable.addFunction((String) id, "void", "global", ((Symbol) stack.peek()).left, "function");
     :} RPAREN CUERPO_FUNCION |
     VOID IDENTIFIER:id LPAREN PARAMETROS:params  {:
         System.out.println("Parametros: " + params); 
         isGlobal = false;
         currentFunction = (String) id;
+        symbolTable.addFunction((String) id, "void", "global", ((Symbol) stack.peek()).left, "function");
         if (params instanceof List<?>) {
             String context= "parameter";
             try {

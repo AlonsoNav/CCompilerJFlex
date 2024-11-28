@@ -2345,6 +2345,9 @@ class CUP$Parser$actions {
           case 11: // NT$0 ::= 
             {
               Object RESULT =null;
+		int typeFunctionleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).left;
+		int typeFunctionright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).right;
+		Object typeFunction = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
 		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
@@ -2354,6 +2357,7 @@ class CUP$Parser$actions {
 
         isGlobal = false;
         currentFunction = (String) id;
+        symbolTable.addFunction((String) id, (String) typeFunction, "global", ((Symbol) stack.peek()).left, "function");
 
         if (params instanceof List<?>) {
             String c= "parameter";
@@ -2389,6 +2393,9 @@ class CUP$Parser$actions {
               Object RESULT =null;
               // propagate RESULT from NT$0
                 RESULT = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int typeFunctionleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-6)).left;
+		int typeFunctionright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-6)).right;
+		Object typeFunction = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-6)).value;
 		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-5)).value;
@@ -2404,12 +2411,17 @@ class CUP$Parser$actions {
           case 13: // NT$1 ::= 
             {
               Object RESULT =null;
+		int typeFunctionleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int typeFunctionright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		Object typeFunction = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
  
         isGlobal = false;
         currentFunction = (String) id;
+        symbolTable.addFunction((String) id, (String) typeFunction, "global", ((Symbol) stack.peek()).left, "function");
+
     
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("NT$1",48, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -2421,6 +2433,9 @@ class CUP$Parser$actions {
               Object RESULT =null;
               // propagate RESULT from NT$1
                 RESULT = (Object) ((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		int typeFunctionleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)).left;
+		int typeFunctionright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)).right;
+		Object typeFunction = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-5)).value;
 		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-4)).value;
@@ -2439,6 +2454,7 @@ class CUP$Parser$actions {
  
         isGlobal = false;
         currentFunction = (String) id;
+        symbolTable.addFunction((String) id, "void", "global", ((Symbol) stack.peek()).left, "function");
     
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("NT$2",49, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -2472,6 +2488,7 @@ class CUP$Parser$actions {
         System.out.println("Parametros: " + params); 
         isGlobal = false;
         currentFunction = (String) id;
+        symbolTable.addFunction((String) id, "void", "global", ((Symbol) stack.peek()).left, "function");
         if (params instanceof List<?>) {
             String context= "parameter";
             try {

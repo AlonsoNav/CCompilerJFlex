@@ -22,6 +22,16 @@ public class SymbolTable {
         symbolTable.add(0, new Var(name, type, context, line, categoria, funcion));
     }
 
+    public void addFunction(String name, String type, String context, int line, String categoria) {
+        for (Var var : symbolTable) {
+            if ((var.getFuncion() != null || (var.getFuncion() == null)) && var.getName().equals(name)) {
+                System.out.println("Error semántico en la linea "+ line + ": la función '" + name + "' ya existe.");
+                return;
+            }  
+        }
+        symbolTable.add(0, new Var(name, type, context, line, categoria, null));
+    }
+
 
     // da el contexto de la variable
     public String getVarContext(String name) {
@@ -75,10 +85,10 @@ public class SymbolTable {
 
     //Imprime todas las variables
     public void printTable() {
-
-        System.out.println("Tabla de símbolos:");
-        for (Var var : symbolTable) {
-            System.out.println("Identificador: " + var.getName() + ", Tipo: " + var.getType() + ", Categoria: "+ var.getCategoria()+ ", Contexto: " + var.getContext() + ", Línea: " + var.getLine() + ", Función: " + var.getFuncion());
+        System.out.println("Tabla de símbolos (orden inverso):");
+        for (int i = symbolTable.size() - 1; i >= 0; i--) {
+            Var var = symbolTable.get(i);
+            System.out.println("Identificador: " + var.getName() + ", Tipo: " + var.getType() + ", Categoria: " + var.getCategoria() + ", Contexto: " + var.getContext() + ", Línea: " + var.getLine() + ", Función: " + var.getFuncion());
         }
     }
 }
