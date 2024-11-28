@@ -1,10 +1,9 @@
 
-int x;
 int y;
 int a, b,c;
  
 int main(){
-
+	int x;
 	if (x > 4) { 
 		x= x - 2;
 	}

@@ -50,7 +50,7 @@ public class SymbolTable {
     public boolean varExists(String name) {
         
         for (Var var : symbolTable) {
-            if (var.getName().equals(name) && (var.getContext().equals("global") || var.getFuncion() == null)) {
+            if (var.getName().equals(name)) {
                 return true;
             }
         }
@@ -65,7 +65,7 @@ public class SymbolTable {
                 if (var.getFuncion() != null) {
                     newName = var.getFuncion() + "." + name;
                 }
-                return name;
+                return newName;
             }
         }
         return null;
