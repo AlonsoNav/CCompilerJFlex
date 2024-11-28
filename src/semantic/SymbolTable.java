@@ -81,7 +81,19 @@ public class SymbolTable {
         return null;
     }
 
-
+    public String getRestCode(){
+        String code = "section .data\n";
+        for (Var var : symbolTable) {
+            if (var.getCategoria().equals("variable")) {
+                if (var.getFuncion() != null) {
+                    code += var.getFuncion() + "." + var.getName() + " dd 0\n";
+                } else {
+                    code += var.getName() + " dd 0\n";
+                }
+            }
+        }
+        return code + "section .text\nglobal _start\n_start:\n";
+    }
 
     //Imprime todas las variables
     public void printTable() {

@@ -5589,7 +5589,7 @@ class CUP$Parser$actions {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
-                String newCode = "ADD [" + (String) id + "]";
+                String newCode = "ADD [" + symbolTable.getVarName((String) id) + "]";
                 if (((RS) e).getType() == "const") {
                     newCode += ", " + ((RS) e).getValue() + "\n";
                 } else if (((RS) e).getType() == "register") {
@@ -5622,7 +5622,7 @@ class CUP$Parser$actions {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
-                String newCode = "SUB [" + (String) id + "]";
+                String newCode = "SUB [" + symbolTable.getVarName((String) id) + "]";
                 if (((RS) e).getType() == "const") {
                     newCode += ", " + ((RS) e).getValue() + "\n";
                 } else if (((RS) e).getType() == "register") {
@@ -5655,7 +5655,7 @@ class CUP$Parser$actions {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
-                String newCode = "IMUL [" + (String) id + "]";
+                String newCode = "IMUL [" + symbolTable.getVarName((String) id) + "]";
                 if (((RS) e).getType() == "const") {
                     newCode += ", " + ((RS) e).getValue() + "\n";
                 } else if (((RS) e).getType() == "register") {
@@ -5688,7 +5688,7 @@ class CUP$Parser$actions {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
-                String newCode = "IDIV [" + (String) id + "]";
+                String newCode = "IDIV [" + symbolTable.getVarName((String) id) + "]";
                 if (((RS) e).getType() == "const") {
                     newCode += ", " + ((RS) e).getValue() + "\n";
                 } else if (((RS) e).getType() == "register") {
@@ -5721,7 +5721,7 @@ class CUP$Parser$actions {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else{
-                String newCode = "MOV [" + (String) id + "]";
+                String newCode = "MOV [" + symbolTable.getVarName((String) id) + "]";
                 if (((RS) e).getType() == "const") {
                     newCode += ", " + ((RS) e).getValue() + "\n";
                 } else if (((RS) e).getType() == "register") {
@@ -5754,7 +5754,7 @@ class CUP$Parser$actions {
                 System.out.println("Error semántico en la linea "+ ((Symbol) stack.peek()).left +": la variable '" + id + "' no ha sido declarada.");
             }
             else {
-                String newCode = "MOV [" + (String) id + "]";
+                String newCode = "MOV [" + symbolTable.getVarName((String) id) + "]";
                 if (((RS) e).getType() == "const") {
                     newCode += ", " + ((RS) e).getValue() + "\n";
                 } else if (((RS) e).getType() == "register") {
